@@ -28,6 +28,7 @@ const memberColumns: readonly DataTableColumn<MemberRow>[] = [
     header: 'Member',
     accessor: 'name',
     sortable: true,
+    filter: { type: 'text', placeholder: 'Search members…' },
     filterValue: (row) => `${row.name} ${row.email}`,
     cell: (row) => (
       <span className="member-cell">
@@ -39,12 +40,33 @@ const memberColumns: readonly DataTableColumn<MemberRow>[] = [
       </span>
     ),
   },
-  { id: 'role', header: 'Role', accessor: 'role', sortable: true },
+  {
+    id: 'role',
+    header: 'Role',
+    accessor: 'role',
+    sortable: true,
+    filter: {
+      type: 'select',
+      options: [
+        { value: 'Admin', label: 'Admin' },
+        { value: 'Designer', label: 'Designer' },
+        { value: 'Developer', label: 'Developer' },
+      ],
+    },
+  },
   {
     id: 'status',
     header: 'Status',
     accessor: 'status',
     sortable: true,
+    filter: {
+      type: 'select',
+      placeholder: 'All statuses',
+      options: [
+        { value: 'active', label: 'Active' },
+        { value: 'invited', label: 'Invited' },
+      ],
+    },
     cell: (row) => (
       <Badge tone={row.status === 'active' ? 'success' : 'warning'}>
         {row.status}
@@ -66,7 +88,6 @@ const memberColumns: readonly DataTableColumn<MemberRow>[] = [
         View
       </Button>
     ),
-    filterable: false,
     required: false,
     align: 'end',
   },
@@ -79,7 +100,6 @@ function MemberDataTable(): JSX.Element {
       data={members}
       getRowId={(row) => row.id}
       caption="Organization members"
-      filterPlaceholder="Search members…"
       initialSort={{ columnId: 'member', direction: 'asc' }}
     />
   )

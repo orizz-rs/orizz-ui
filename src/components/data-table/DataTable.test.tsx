@@ -17,13 +17,26 @@ const people: readonly PersonRow[] = [
 ]
 
 const columns: readonly DataTableColumn<PersonRow>[] = [
-  { id: 'name', header: 'Member', accessor: 'name', sortable: true },
+  {
+    id: 'name',
+    header: 'Member',
+    accessor: 'name',
+    sortable: true,
+    filter: { type: 'text', placeholder: 'Search members…' },
+  },
   { id: 'age', header: 'Age', accessor: 'age', sortable: true },
   {
     id: 'status',
     header: 'Status',
     cell: (row) => (row.active ? 'Active member' : 'Inactive member'),
     filterValue: (row) => (row.active ? 'active' : 'inactive'),
+    filter: {
+      type: 'select',
+      options: [
+        { value: 'active', label: 'Active' },
+        { value: 'inactive', label: 'Inactive' },
+      ],
+    },
   },
 ]
 
@@ -35,15 +48,42 @@ describe('DataTable', () => {
     expect(screen.getByText('Active member')).toBeVisible()
   })
 
-  it('filters rows across filterable columns', async () => {
+  it('filters text within its header column', async () => {
     const user = userEvent.setup()
     render(<DataTable columns={columns} data={people} getRowId={(row) => row.id} />)
 
-    await user.type(screen.getByRole('searchbox', { name: 'Filter table' }), 'inactive')
+    await user.type(screen.getByRole('searchbox', { name: 'Filter Member' }), 'alice')
+
+    expect(screen.getByText('Alice')).toBeVisible()
+    expect(screen.queryByText('Bob')).not.toBeInTheDocument()
+    expect(screen.getByText('1 of 2 rows')).toBeVisible()
+  })
+
+  it('filters limited status values from a header select', async () => {
+    const user = userEvent.setup()
+    render(<DataTable columns={columns} data={people} getRowId={(row) => row.id} />)
+
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Filter Status' }),
+      'inactive',
+    )
 
     expect(screen.getByText('Bob')).toBeVisible()
     expect(screen.queryByText('Alice')).not.toBeInTheDocument()
-    expect(screen.getByText('1 of 2 rows')).toBeVisible()
+  })
+
+  it('combines filters from multiple columns', async () => {
+    const user = userEvent.setup()
+    render(<DataTable columns={columns} data={people} getRowId={(row) => row.id} />)
+
+    await user.type(screen.getByRole('searchbox', { name: 'Filter Member' }), 'bob')
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Filter Status' }),
+      'active',
+    )
+
+    expect(screen.getByText('No matching data found.')).toBeVisible()
+    expect(screen.getByText('0 of 2 rows')).toBeVisible()
   })
 
   it('sorts rows in ascending and descending order', async () => {
@@ -92,6 +132,26 @@ describe('DataTable', () => {
     )
 
     expect(screen.getByRole('alert')).toHaveTextContent('Row ID "p1" is duplicated.')
+    expect(screen.queryByRole('table')).not.toBeInTheDocument()
+  })
+
+  it('validates select filter options before rendering', () => {
+    const invalidColumns: readonly DataTableColumn<PersonRow>[] = [
+      {
+        id: 'status',
+        header: 'Status',
+        accessor: 'active',
+        filter: { type: 'select', options: [] },
+      },
+    ]
+
+    render(
+      <DataTable columns={invalidColumns} data={people} getRowId={(row) => row.id} />,
+    )
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Select filter for column "status" needs at least one option.',
+    )
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
   })
 })

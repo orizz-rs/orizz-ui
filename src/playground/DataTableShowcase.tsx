@@ -35,6 +35,7 @@ const columns: readonly DataTableColumn<ProjectRow>[] = [
     header: 'Project & owner',
     accessor: 'project',
     sortable: true,
+    filter: { type: 'text', placeholder: 'Search project or owner…' },
     filterValue: (row) => `${row.project} ${row.owner}`,
     cell: (row) => (
       <span className="data-table-member">
@@ -51,6 +52,15 @@ const columns: readonly DataTableColumn<ProjectRow>[] = [
     header: 'Health',
     accessor: 'status',
     sortable: true,
+    filter: {
+      type: 'select',
+      placeholder: 'All health',
+      options: [
+        { value: 'healthy', label: 'Healthy' },
+        { value: 'at-risk', label: 'At risk' },
+        { value: 'draft', label: 'Draft' },
+      ],
+    },
     cell: (row) => <Badge tone={statusTone[row.status]}>{row.status}</Badge>,
   },
   {
@@ -74,7 +84,6 @@ const columns: readonly DataTableColumn<ProjectRow>[] = [
         Open
       </Button>
     ),
-    filterable: false,
     required: false,
     align: 'end',
   },
@@ -98,7 +107,6 @@ export function DataTableShowcase(): JSX.Element {
         data={projects}
         getRowId={(row) => row.id}
         caption="Organization projects"
-        filterPlaceholder="Search projects or owners…"
         initialSort={{ columnId: 'updated', direction: 'desc' }}
       />
     </section>

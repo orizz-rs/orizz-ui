@@ -39,7 +39,8 @@ bun run build
 The Vite app is a lightweight playground. Storybook is the component catalog.
 The foundation currently includes 15 public components across actions, forms,
 feedback, content, navigation, and data display. `DataTable<T>` provides typed
-columns, runtime validation, filtering, sorting, and custom cell rendering.
+columns, runtime validation, per-column text/select filters, sorting, and custom
+cell rendering.
 
 ## Install and use
 

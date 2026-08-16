@@ -226,12 +226,21 @@ const columns: readonly DataTableColumn<MemberRow>[] = [
     header: 'Member',
     accessor: 'name',
     sortable: true,
+    filter: { type: 'text', placeholder: 'Search members…' },
     filterValue: (row) => `${row.name} ${row.email ?? ''}`,
   },
   {
     id: 'status',
     header: 'Status',
     accessor: 'status',
+    filter: {
+      type: 'select',
+      placeholder: 'All statuses',
+      options: [
+        { value: 'active', label: 'Active' },
+        { value: 'invited', label: 'Invited' },
+      ],
+    },
     cell: (row) => <Badge tone="success">{row.status}</Badge>,
   },
 ]
@@ -256,15 +265,21 @@ Column API ที่สำคัญ:
 | `sortable` | เปิด sort asc/desc/clear |
 | `compare` | Custom row comparator |
 | `sortValue` | ค่าที่ใช้ sort เมื่อค่าที่แสดงไม่ใช่ accessor โดยตรง |
-| `filterable` | เปิดหรือปิด global filter สำหรับ column |
-| `filterValue` | รวมค่าหลาย field หรือสร้างข้อความสำหรับค้นหา |
+| `filter` | แสดง filter ใต้ header โดยใช้ `{ type: 'text' }` หรือ `{ type: 'select', options }` |
+| `filterValue` | กำหนดค่าที่ใช้กรอง เมื่อค่าจริงไม่ได้มาจาก accessor หรือต้องรวมหลาย field |
 | `align` | จัดตำแหน่ง `start`, `center` หรือ `end` |
+
+Text filter ใช้การค้นหาแบบ contains โดยไม่แยกตัวพิมพ์เล็ก/ใหญ่ ส่วน select filter
+เหมาะกับ enum หรือ status ที่มีค่าจำกัดและเปรียบเทียบค่าแบบ exact เมื่อผู้ใช้กรอง
+หลาย column พร้อมกัน ตารางจะรวมเงื่อนไขแบบ AND
 
 Runtime validation ตรวจสอบ:
 
 - Column ID ซ้ำ
 - Header ไม่ครบ
 - Column ไม่มีทั้ง `accessor` และ `cell`
+- Column ที่เปิด filter ไม่มีทั้ง `accessor` และ `filterValue`
+- Select filter ไม่มี options, option ว่าง หรือมี value ซ้ำกัน
 - Row ID ว่างหรือซ้ำ
 - Required value เป็น `null`, `undefined` หรือข้อความว่าง
 
