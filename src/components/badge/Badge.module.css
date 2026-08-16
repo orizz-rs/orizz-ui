@@ -1,0 +1,36 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 1.5rem;
+  padding-inline: var(--orizz-space-2);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.brand {
+  color: var(--orizz-color-brand);
+  background: var(--orizz-color-brand-subtle);
+}
+
+.neutral {
+  color: var(--orizz-color-text-muted);
+  background: var(--orizz-color-surface-muted);
+}
+
+.success {
+  color: var(--orizz-color-success);
+  background: var(--orizz-color-success-subtle);
+}
+
+.warning {
+  color: var(--orizz-color-warning);
+  background: var(--orizz-color-warning-subtle);
+}
+
+.danger {
+  color: var(--orizz-color-danger);
+  background: var(--orizz-color-danger-subtle);
+}

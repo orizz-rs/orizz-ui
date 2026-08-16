@@ -1,0 +1,19 @@
+.member-cell {
+  display: inline-flex;
+  gap: var(--orizz-space-3);
+  align-items: center;
+}
+
+.member-cell > span {
+  display: grid;
+  gap: var(--orizz-space-1);
+}
+
+.member-cell strong {
+  font-size: 0.8125rem;
+}
+
+.member-cell small {
+  color: var(--orizz-color-text-muted);
+  font-size: 0.6875rem;
+}

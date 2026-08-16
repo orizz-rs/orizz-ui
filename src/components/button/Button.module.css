@@ -1,0 +1,127 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--orizz-space-2);
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: var(--orizz-radius-md);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease;
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--orizz-color-focus);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.primary {
+  color: var(--orizz-color-on-brand);
+  background: var(--orizz-color-brand);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--orizz-color-brand-hover);
+}
+
+.secondary {
+  color: var(--orizz-color-text);
+  background: var(--orizz-color-surface);
+  border-color: var(--orizz-color-border);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--orizz-color-surface-hover);
+}
+
+.ghost {
+  color: var(--orizz-color-brand);
+  background: transparent;
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--orizz-color-brand-subtle);
+}
+
+.danger {
+  color: var(--orizz-color-on-danger);
+  background: var(--orizz-color-danger);
+}
+
+.danger:hover:not(:disabled) {
+  background: var(--orizz-color-danger-hover);
+}
+
+.sm {
+  min-height: 2rem;
+  padding-inline: var(--orizz-space-3);
+  font-size: 0.8125rem;
+}
+
+.md {
+  min-height: 2.5rem;
+  padding-inline: var(--orizz-space-4);
+  font-size: 0.875rem;
+}
+
+.lg {
+  min-height: 3rem;
+  padding-inline: var(--orizz-space-5);
+  font-size: 1rem;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--orizz-space-2);
+  white-space: nowrap;
+}
+
+.spinner {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: orizz-button-spin 700ms linear infinite;
+}
+
+.hiddenLabel {
+  visibility: hidden;
+}
+
+@keyframes orizz-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+
+  .spinner {
+    animation-duration: 1400ms;
+  }
+}

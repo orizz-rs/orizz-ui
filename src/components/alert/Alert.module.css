@@ -1,0 +1,95 @@
+.alert {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--orizz-space-3);
+  align-items: start;
+  padding: var(--orizz-space-4);
+  border: 1px solid currentColor;
+  border-radius: var(--orizz-radius-md);
+  font-size: 0.875rem;
+}
+
+.info {
+  color: var(--orizz-color-info);
+  background: var(--orizz-color-info-subtle);
+}
+
+.success {
+  color: var(--orizz-color-success);
+  background: var(--orizz-color-success-subtle);
+}
+
+.warning {
+  color: var(--orizz-color-warning);
+  background: var(--orizz-color-warning-subtle);
+}
+
+.danger {
+  color: var(--orizz-color-danger);
+  background: var(--orizz-color-danger-subtle);
+}
+
+.icon {
+  display: grid;
+  width: 1.25rem;
+  height: 1.25rem;
+  place-items: center;
+}
+
+.icon svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  stroke-width: 1.75;
+}
+
+.content {
+  display: grid;
+  gap: var(--orizz-space-1);
+  min-width: 0;
+}
+
+.title {
+  color: currentColor;
+  line-height: 1.4;
+}
+
+.description {
+  color: var(--orizz-color-text);
+  line-height: 1.55;
+}
+
+.action {
+  margin-top: var(--orizz-space-2);
+}
+
+.dismiss {
+  display: grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: -0.25rem;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: var(--orizz-radius-sm);
+  color: currentColor;
+  background: transparent;
+  cursor: pointer;
+}
+
+.dismiss:hover {
+  background: rgb(127 127 127 / 12%);
+}
+
+.dismiss:focus-visible {
+  outline: 3px solid var(--orizz-color-focus);
+  outline-offset: 1px;
+}
+
+.dismiss svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 1.5;
+}
