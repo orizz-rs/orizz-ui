@@ -331,6 +331,36 @@
   font-size: 0.8125rem;
 }
 
+.data-table-examples,
+.data-table-example {
+  display: grid;
+  gap: var(--orizz-space-4);
+}
+
+.data-table-examples {
+  gap: var(--orizz-space-8);
+}
+
+.data-table-example h3,
+.data-table-example p {
+  margin: 0;
+}
+
+.data-table-example p {
+  color: var(--orizz-color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.data-table-member {
+  display: inline-flex;
+  gap: var(--orizz-space-3);
+  align-items: center;
+}
+
+.data-table-member strong {
+  font-size: 0.8125rem;
+}
+
 .showcase-card {
   padding: var(--orizz-space-6);
   border: 1px solid var(--orizz-color-border);

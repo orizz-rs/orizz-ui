@@ -38,4 +38,23 @@ describe('DataTable automatic mode', () => {
     const rows = within(screen.getByRole('table')).getAllByRole('row').slice(1)
     expect(rows[0]).toHaveTextContent('Gamma')
   })
+
+  it('renders React components as data without inferring invalid operations', () => {
+    const componentRows = [
+      {
+        id: 'ui1',
+        member: <strong>Alice</strong>,
+        action: <button type="button">Open profile</button>,
+      },
+    ]
+
+    render(<DataTable data={componentRows} />)
+
+    expect(screen.getByText('Alice')).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Open profile' })).toBeVisible()
+    expect(screen.queryByRole('button', { name: 'Sort Member ascending' }))
+      .not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Open filter for Member' }))
+      .not.toBeInTheDocument()
+  })
 })

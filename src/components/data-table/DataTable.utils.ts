@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { isValidElement, type ReactNode } from 'react'
 import type {
   DataTableColumn,
   DataTableSortState,
@@ -19,6 +19,7 @@ export function getDataTableValue<T extends object>(
 
 export function formatDataTableValue(value: unknown): ReactNode {
   if (value === null || value === undefined || value === '') return '—'
+  if (isValidElement(value)) return value
   if (typeof value === 'boolean') return value ? 'Yes' : 'No'
   if (value instanceof Date) return value.toLocaleDateString()
   if (typeof value === 'string' || typeof value === 'number') return value

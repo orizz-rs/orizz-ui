@@ -32,6 +32,13 @@ function serializeFilterValue(value: unknown): string {
   return ''
 }
 
+function supportsDataOperations(value: unknown): boolean {
+  return (
+    value instanceof Date ||
+    ['string', 'number', 'boolean', 'bigint'].includes(typeof value)
+  )
+}
+
 function createOptions(values: readonly unknown[]): readonly DataTableFilterOption[] {
   const options = new Map<string, string>()
   values.forEach((value) => {
@@ -53,11 +60,7 @@ function inferFilter(
     (value) => value !== null && value !== undefined,
   )
   if (scalarValues.length === 0) return undefined
-  const isScalar = scalarValues.every(
-    (value) =>
-      value instanceof Date ||
-      ['string', 'number', 'boolean', 'bigint'].includes(typeof value),
-  )
+  const isScalar = scalarValues.every(supportsDataOperations)
   if (!isScalar) return undefined
 
   const options = createOptions(scalarValues)
@@ -96,6 +99,12 @@ export function createDataTableColumns<T extends object>(
 
   return [...keys].map((key) => {
     const values = data.map((row) => readValue(row, key))
+    const presentValues = values.filter(
+      (value) => value !== null && value !== undefined,
+    )
+    const isOperable = presentValues.length > 0 && presentValues.every(
+      supportsDataOperations,
+    )
     const filter = inferFilter(key, values)
     return {
       id: key,
@@ -103,8 +112,8 @@ export function createDataTableColumns<T extends object>(
       cell: (row) => formatDataTableValue(readValue(row, key)),
       align: isNumericColumn(values) ? 'end' : 'start',
       required: false,
-      sortable: true,
-      sortValue: (row) => readValue(row, key),
+      sortable: isOperable,
+      sortValue: isOperable ? (row) => readValue(row, key) : undefined,
       filter,
       filterValue: filter
         ? (row) => serializeFilterValue(readValue(row, key))

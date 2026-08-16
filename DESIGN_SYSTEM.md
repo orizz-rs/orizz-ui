@@ -226,6 +226,27 @@ const members = [
 เช่น field ชื่อ status, state, type, role, category และ priority จะใช้ select เมื่อ
 มีตัวเลือกไม่เกิน 8 ค่า
 
+สามารถส่ง React UI เป็นค่าของ row ได้โดยตรง ระบบจะ render component และไม่สร้าง
+sort/filter ให้ field นั้น ส่วน primitive fields ใน row เดียวกันยังทำงานอัตโนมัติ
+
+```tsx
+const rows = [
+  {
+    id: 'm1',
+    member: <Avatar alt="Anan" fallback="AN" />,
+    status: <Badge tone="success">Active</Badge>,
+    projects: 12,
+    action: <Button>View</Button>,
+  },
+]
+
+<DataTable data={rows} />
+```
+
+React elements ไม่สามารถมากับ JSON API โดยตรง จึงควรประกอบ UI values หลัง fetch
+ข้อมูลแล้ว หากต้องการแยก data กับ presentation ชัดเจน ให้ใช้ advanced `cell` renderer
+แทนได้
+
 เมื่อต้องการ custom cell ให้ส่ง `columns` และ `getRowId` แบบ advanced
 `DataTable<T>` จะตรวจ `accessor` ด้วย `keyof T` ตั้งแต่ compile time และตรวจข้อมูล
 จาก API ซ้ำอีกครั้งใน runtime
