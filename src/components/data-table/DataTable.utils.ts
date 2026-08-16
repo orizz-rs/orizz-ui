@@ -27,6 +27,25 @@ export function formatDataTableValue(value: unknown): ReactNode {
   return String(value)
 }
 
+export function extractDataTableText(value: unknown): string {
+  if (value === null || value === undefined || typeof value === 'boolean') return ''
+  if (
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'bigint'
+  ) return String(value)
+  if (Array.isArray(value)) {
+    return value.map(extractDataTableText).filter(Boolean).join(' ')
+  }
+  if (isValidElement(value)) {
+    const props: unknown = value.props
+    if (typeof props === 'object' && props !== null && 'children' in props) {
+      return extractDataTableText(props.children)
+    }
+  }
+  return ''
+}
+
 export function filterDataTableRows<T extends object>(
   rows: readonly T[],
   columns: readonly DataTableColumn<T>[],

@@ -39,22 +39,45 @@ describe('DataTable automatic mode', () => {
     expect(rows[0]).toHaveTextContent('Gamma')
   })
 
-  it('renders React components as data without inferring invalid operations', () => {
+  it('infers filters from React component text and skips action columns', async () => {
+    const user = userEvent.setup()
     const componentRows = [
       {
         id: 'ui1',
         member: <strong>Alice</strong>,
-        action: <button type="button">Open profile</button>,
+        status: <span>Active</span>,
+        action: <button type="button">Open Alice</button>,
+      },
+      {
+        id: 'ui2',
+        member: <strong>Bob</strong>,
+        status: <span>Invited</span>,
+        action: <button type="button">Open Bob</button>,
       },
     ]
 
     render(<DataTable data={componentRows} />)
 
     expect(screen.getByText('Alice')).toBeVisible()
-    expect(screen.getByRole('button', { name: 'Open profile' })).toBeVisible()
-    expect(screen.queryByRole('button', { name: 'Sort Member ascending' }))
+    expect(screen.getByRole('button', { name: 'Open Alice' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Open filter for Member' }))
+      .toBeVisible()
+    expect(screen.getByRole('button', { name: 'Open filter for Status' }))
+      .toBeVisible()
+    expect(screen.queryByRole('button', { name: 'Open filter for Action' }))
       .not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Open filter for Member' }))
-      .not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Open filter for Member' }))
+    await user.type(screen.getByRole('searchbox', { name: 'Filter Member' }), 'alice')
+    expect(screen.queryByText('Bob')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Clear filter for Member' }))
+    await user.click(screen.getByRole('button', { name: 'Open filter for Status' }))
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Filter Status' }),
+      'Invited',
+    )
+    expect(screen.getByText('Bob')).toBeVisible()
+    expect(screen.queryByText('Alice')).not.toBeInTheDocument()
   })
 })

@@ -55,7 +55,9 @@ describe('DataTable', () => {
     expect(screen.queryByRole('searchbox', { name: 'Filter Member' }))
       .not.toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Open filter for Member' }))
-    expect(screen.getByRole('group', { name: 'Filter Member' })).toBeVisible()
+    const filterPopover = screen.getByRole('group', { name: 'Filter Member' })
+    expect(filterPopover).toBeVisible()
+    expect(screen.getByRole('table')).not.toContainElement(filterPopover)
     await user.type(screen.getByRole('searchbox', { name: 'Filter Member' }), 'alice')
 
     expect(screen.getByText('Alice')).toBeVisible()

@@ -146,12 +146,10 @@
 }
 
 .filterPopover {
-  position: absolute;
-  z-index: 3;
-  top: calc(100% - var(--orizz-space-1));
-  left: var(--orizz-space-2);
+  position: fixed;
+  z-index: 1000;
   box-sizing: border-box;
-  width: max(15rem, calc(100% - var(--orizz-space-4)));
+  width: min(15rem, calc(100vw - var(--orizz-space-8)));
   padding: var(--orizz-space-3);
   border: 1px solid var(--orizz-color-border);
   border-radius: var(--orizz-radius-md);
@@ -161,11 +159,11 @@
   font-weight: 500;
   letter-spacing: normal;
   text-align: left;
+  visibility: hidden;
 }
 
-.table th[data-align='end'] .filterPopover {
-  right: var(--orizz-space-2);
-  left: auto;
+.filterPopover[data-ready='true'] {
+  visibility: visible;
 }
 
 .filterPopoverHeader {

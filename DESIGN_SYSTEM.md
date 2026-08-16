@@ -226,8 +226,9 @@ const members = [
 เช่น field ชื่อ status, state, type, role, category และ priority จะใช้ select เมื่อ
 มีตัวเลือกไม่เกิน 8 ค่า
 
-สามารถส่ง React UI เป็นค่าของ row ได้โดยตรง ระบบจะ render component และไม่สร้าง
-sort/filter ให้ field นั้น ส่วน primitive fields ใน row เดียวกันยังทำงานอัตโนมัติ
+สามารถส่ง React UI เป็นค่าของ row ได้โดยตรง ระบบจะ render component และอ่านข้อความ
+จาก `children` เพื่อสร้าง sort/filter เช่น Member ใช้ text filter และ Status ที่เป็น
+Badge ใช้ select filter ส่วน field ชื่อ `action`/`actions` จะไม่สร้าง operation เหล่านี้
 
 ```tsx
 const rows = [
@@ -311,8 +312,8 @@ Column API ที่สำคัญ:
 Text filter ใช้การค้นหาแบบ contains โดยไม่แยกตัวพิมพ์เล็ก/ใหญ่ ส่วน select filter
 เหมาะกับ enum หรือ status ที่มีค่าจำกัดและเปรียบเทียบค่าแบบ exact เมื่อผู้ใช้กรอง
 หลาย column พร้อมกัน ตารางจะรวมเงื่อนไขแบบ AND ใช้ปุ่ม filter ที่หัว column เพื่อ
-เปิด popover โดยไม่เพิ่มความสูงของ header และใช้ปุ่ม × เพื่อล้างค่าเฉพาะ column นั้น
-คลิกด้านนอกหรือกด Escape เพื่อปิด popover ได้
+เปิด popover ผ่าน portal จึงไม่เพิ่มความสูงและไม่ถูกตัดด้วยขอบ/scrollbar ของตาราง
+ใช้ปุ่ม × เพื่อล้างค่าเฉพาะ column นั้น และคลิกด้านนอกหรือกด Escape เพื่อปิดได้
 
 Runtime validation ตรวจสอบ:
 

@@ -9,7 +9,9 @@ import type {
   DataTableColumn,
   DataTableSortState,
 } from './DataTable.types'
-import { ColumnFilter, FilterActions } from './DataTableFilterControls'
+import { FilterActions } from './DataTableFilterControls'
+import { DataTableFilterPopover } from './DataTableFilterPopover'
+import { useDataTablePopoverPosition } from './useDataTablePopoverPosition'
 import styles from './DataTable.module.css'
 
 interface DataTableColumnHeaderProps<T extends object> {
@@ -54,6 +56,16 @@ function getSortIndicator<T extends object>(
   return sort.direction === 'asc' ? '↑' : '↓'
 }
 
+function findPortalRoot(element: HTMLElement | null): HTMLElement | null {
+  if (typeof document === 'undefined') return null
+  let current = element?.parentElement ?? null
+  while (current) {
+    if (current.dataset.theme) return current
+    current = current.parentElement
+  }
+  return document.body
+}
+
 export function DataTableColumnHeader<T extends object>({
   column,
   filterIdPrefix,
@@ -64,16 +76,28 @@ export function DataTableColumnHeader<T extends object>({
   onSort,
 }: DataTableColumnHeaderProps<T>): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null)
   const headerRef = useRef<HTMLTableCellElement>(null)
   const toggleRef = useRef<HTMLButtonElement>(null)
+  const popoverRef = useRef<HTMLDivElement>(null)
   const label = column.filter?.label ?? getHeaderText(column.header, column.id)
   const popoverId = `${filterIdPrefix}-${column.id}-popover`
   const isActive = filterValue !== ''
+  const { positionStyle } = useDataTablePopoverPosition(
+    isOpen,
+    column.align ?? 'start',
+    toggleRef,
+    popoverRef,
+  )
 
   useEffect(() => {
     if (!isOpen) return undefined
     const handlePointerDown = (event: PointerEvent): void => {
-      if (event.target instanceof Node && !headerRef.current?.contains(event.target)) {
+      if (
+        event.target instanceof Node &&
+        !headerRef.current?.contains(event.target) &&
+        !popoverRef.current?.contains(event.target)
+      ) {
         setIsOpen(false)
       }
     }
@@ -90,6 +114,11 @@ export function DataTableColumnHeader<T extends object>({
       document.removeEventListener('keydown', handleKeyDown)
     }
   }, [isOpen])
+
+  const handleToggle = (): void => {
+    if (!isOpen) setPortalRoot(findPortalRoot(headerRef.current))
+    setIsOpen((current) => !current)
+  }
 
   return (
     <th
@@ -122,38 +151,25 @@ export function DataTableColumnHeader<T extends object>({
               isOpen={isOpen}
               label={label}
               onClear={() => onFilterChange(column.id, '')}
-              onToggle={() => setIsOpen((current) => !current)}
+              onToggle={handleToggle}
             />
           ) : null}
         </div>
         {showFilters && column.filter && isOpen ? (
-          <div
+          <DataTableFilterPopover
+            column={column}
             id={popoverId}
-            className={styles.filterPopover}
-            role="group"
-            aria-label={`Filter ${label}`}
-          >
-            <div className={styles.filterPopoverHeader}>
-              <strong>Filter {label}</strong>
-              <button
-                type="button"
-                aria-label={`Dismiss filter popup for ${label}`}
-                onClick={() => {
-                  setIsOpen(false)
-                  toggleRef.current?.focus()
-                }}
-              >
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <ColumnFilter
-              column={column}
-              id={`${popoverId}-control`}
-              label={label}
-              value={filterValue}
-              onChange={onFilterChange}
-            />
-          </div>
+            label={label}
+            portalRoot={portalRoot}
+            popoverRef={popoverRef}
+            positionStyle={positionStyle}
+            value={filterValue}
+            onChange={onFilterChange}
+            onDismiss={() => {
+              setIsOpen(false)
+              toggleRef.current?.focus()
+            }}
+          />
         ) : null}
       </div>
     </th>

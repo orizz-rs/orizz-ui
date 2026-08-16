@@ -3,10 +3,14 @@ import type {
   DataTableColumnFilter,
   DataTableFilterOption,
 } from './DataTable.types'
-import { formatDataTableValue } from './DataTable.utils'
+import {
+  extractDataTableText,
+  formatDataTableValue,
+} from './DataTable.utils'
 
 const hiddenKeys = new Set(['id', '_id'])
 const categoricalKeyPattern = /(^|\s)(status|state|type|role|category|priority)$/i
+const actionKeyPattern = /(^|\s)actions?$/i
 
 function readValue(row: object, key: string): unknown {
   return Reflect.get(row, key)
@@ -29,13 +33,14 @@ function serializeFilterValue(value: unknown): string {
     typeof value === 'boolean' ||
     typeof value === 'bigint'
   ) return String(value)
-  return ''
+  return extractDataTableText(value).trim()
 }
 
 function supportsDataOperations(value: unknown): boolean {
   return (
     value instanceof Date ||
-    ['string', 'number', 'boolean', 'bigint'].includes(typeof value)
+    ['string', 'number', 'boolean', 'bigint'].includes(typeof value) ||
+    extractDataTableText(value).trim() !== ''
   )
 }
 
@@ -65,7 +70,9 @@ function inferFilter(
 
   const options = createOptions(scalarValues)
   const isBoolean = scalarValues.every((value) => typeof value === 'boolean')
-  const isTextual = scalarValues.every((value) => typeof value === 'string')
+  const isTextual = scalarValues.every(
+    (value) => typeof value === 'string' || extractDataTableText(value) !== '',
+  )
   const isCategoricalKey = categoricalKeyPattern.test(humanize(key))
   const hasRepeatedValues = options.length < scalarValues.length
   if (
@@ -102,10 +109,10 @@ export function createDataTableColumns<T extends object>(
     const presentValues = values.filter(
       (value) => value !== null && value !== undefined,
     )
-    const isOperable = presentValues.length > 0 && presentValues.every(
-      supportsDataOperations,
-    )
-    const filter = inferFilter(key, values)
+    const isActionColumn = actionKeyPattern.test(humanize(key))
+    const isOperable = !isActionColumn && presentValues.length > 0 &&
+      presentValues.every(supportsDataOperations)
+    const filter = isActionColumn ? undefined : inferFilter(key, values)
     return {
       id: key,
       header: humanize(key),
@@ -113,7 +120,9 @@ export function createDataTableColumns<T extends object>(
       align: isNumericColumn(values) ? 'end' : 'start',
       required: false,
       sortable: isOperable,
-      sortValue: isOperable ? (row) => readValue(row, key) : undefined,
+      sortValue: isOperable
+        ? (row) => serializeFilterValue(readValue(row, key))
+        : undefined,
       filter,
       filterValue: filter
         ? (row) => serializeFilterValue(readValue(row, key))
