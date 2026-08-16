@@ -75,8 +75,16 @@
   display: flex;
   gap: var(--orizz-space-1);
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   min-height: 1.75rem;
+}
+
+.table th[data-align='center'] .headerTop {
+  justify-content: center;
+}
+
+.table th[data-align='end'] .headerTop {
+  justify-content: flex-end;
 }
 
 .headerLabel {
