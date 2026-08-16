@@ -21,6 +21,7 @@ import {
   validateDataTable,
 } from './DataTable.validation'
 import { DataTableHeader } from './DataTableHeader'
+import { useDataTableSetup } from './useDataTableSetup'
 import styles from './DataTable.module.css'
 
 function getNextSort(
@@ -58,15 +59,20 @@ export function DataTable<T extends object>({
   const filterIdPrefix = useId()
   const [filters, setFilters] = useState<Readonly<Record<string, string>>>({})
   const [sort, setSort] = useState<DataTableSortState | null>(initialSort ?? null)
+  const { resolvedColumns, resolveRowId } = useDataTableSetup(
+    columns,
+    data,
+    getRowId,
+  )
   const issues = useMemo(
-    () => (validate ? validateDataTable(columns, data, getRowId) : []),
-    [columns, data, getRowId, validate],
+    () => (validate ? validateDataTable(resolvedColumns, data, resolveRowId) : []),
+    [data, resolveRowId, resolvedColumns, validate],
   )
   const isBlocked = hasBlockingValidationIssue(issues)
   const visibleRows = useMemo(() => {
-    const filteredRows = filterDataTableRows(data, columns, filters)
-    return sortDataTableRows(filteredRows, columns, sort)
-  }, [columns, data, filters, sort])
+    const filteredRows = filterDataTableRows(data, resolvedColumns, filters)
+    return sortDataTableRows(filteredRows, resolvedColumns, sort)
+  }, [data, filters, resolvedColumns, sort])
 
   const handleFilterChange = (columnId: string, value: string): void => {
     setFilters((current) => ({ ...current, [columnId]: value }))
@@ -100,7 +106,7 @@ export function DataTable<T extends object>({
           <table className={styles.table}>
             <caption className={styles.visuallyHidden}>{caption}</caption>
             <DataTableHeader
-              columns={columns}
+              columns={resolvedColumns}
               filterIdPrefix={filterIdPrefix}
               filters={filters}
               showFilters={showFilters}
@@ -110,8 +116,8 @@ export function DataTable<T extends object>({
             />
             <tbody>
               {visibleRows.length > 0 ? visibleRows.map((row) => (
-                <tr key={getRowId(row)}>
-                  {columns.map((column) => (
+                <tr key={resolveRowId(row)}>
+                  {resolvedColumns.map((column) => (
                     <td key={column.id} data-align={column.align ?? 'start'}>
                       {renderCell(row, column)}
                     </td>
@@ -119,7 +125,10 @@ export function DataTable<T extends object>({
                 </tr>
               )) : (
                 <tr>
-                  <td className={styles.empty} colSpan={Math.max(columns.length, 1)}>
+                  <td
+                    className={styles.empty}
+                    colSpan={Math.max(resolvedColumns.length, 1)}
+                  >
                     {emptyMessage}
                   </td>
                 </tr>

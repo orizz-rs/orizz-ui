@@ -39,8 +39,8 @@ bun run build
 The Vite app is a lightweight playground. Storybook is the component catalog.
 The foundation currently includes 15 public components across actions, forms,
 feedback, content, navigation, and data display. `DataTable<T>` provides typed
-columns, runtime validation, per-column text/select filters, sorting, and custom
-cell rendering.
+columns, automatic schema inference, runtime validation, per-column text/select
+filters, sorting, and custom cell rendering.
 
 ## Install and use
 
@@ -55,11 +55,19 @@ Import the package stylesheet once near the application entry point:
 
 ```tsx
 import '@orizz/ui/styles.css'
-import { Button } from '@orizz/ui'
+import { Button, DataTable } from '@orizz/ui'
 
 export function SaveAction() {
   return <Button variant="primary">Save</Button>
 }
+```
+
+For a standard data screen, pass rows directly. `DataTable` infers headers,
+stable row keys, sorting, and text/select filters; provide `columns` only for
+advanced cell customization.
+
+```tsx
+<DataTable data={projects} />
 ```
 
 ## Themes and color usage

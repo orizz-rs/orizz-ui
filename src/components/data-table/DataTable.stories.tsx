@@ -105,6 +105,15 @@ function MemberDataTable(): JSX.Element {
   )
 }
 
+function AutomaticDataTable(): JSX.Element {
+  return (
+    <DataTable
+      data={members}
+      caption="Automatically configured organization members"
+    />
+  )
+}
+
 function InvalidDataTable(): JSX.Element {
   interface InvalidRow {
     readonly id: string
@@ -133,15 +142,19 @@ function InvalidDataTable(): JSX.Element {
 
 const meta = {
   title: 'Data Display/DataTable',
-  component: MemberDataTable,
+  component: AutomaticDataTable,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
-} satisfies Meta<typeof MemberDataTable>
+} satisfies Meta<typeof AutomaticDataTable>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
+
+export const AdvancedCustomization: Story = {
+  render: () => <MemberDataTable />,
+}
 
 export const ValidationErrors: Story = {
   render: () => <InvalidDataTable />,

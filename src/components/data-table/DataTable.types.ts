@@ -64,9 +64,9 @@ export interface DataTableValidationIssue {
 
 export interface DataTableProps<T extends object>
   extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
-  readonly columns: readonly DataTableColumn<T>[]
+  readonly columns?: readonly DataTableColumn<T>[]
   readonly data: readonly T[]
-  readonly getRowId: (row: T) => string
+  readonly getRowId?: (row: T) => string
   readonly caption?: string
   readonly emptyMessage?: string
   readonly showFilters?: boolean

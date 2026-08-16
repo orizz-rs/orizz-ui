@@ -331,26 +331,6 @@
   font-size: 0.8125rem;
 }
 
-.data-table-member {
-  display: inline-flex;
-  gap: var(--orizz-space-3);
-  align-items: center;
-}
-
-.data-table-member > span {
-  display: grid;
-  gap: var(--orizz-space-1);
-}
-
-.data-table-member strong {
-  font-size: 0.8125rem;
-}
-
-.data-table-member small {
-  color: var(--orizz-color-text-muted);
-  font-size: 0.6875rem;
-}
-
 .showcase-card {
   padding: var(--orizz-space-6);
   border: 1px solid var(--orizz-color-border);

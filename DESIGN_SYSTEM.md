@@ -209,8 +209,26 @@ Component ทั้งหมดใช้ native HTML semantics เป็นฐ�
 
 ### DataTable contract
 
-`DataTable<T>` รับ generic row type ทำให้ `accessor` ตรวจด้วย `keyof T`
-ตั้งแต่ compile time และตรวจข้อมูลจาก API ซ้ำอีกครั้งใน runtime
+โหมดพื้นฐานรับแค่ `data` แล้วระบบจะสร้าง header, row key, sort และ filter ให้เอง
+เหมาะกับหน้ารายการทั่วไปที่ไม่ต้อง custom cell
+
+```tsx
+const members = [
+  { id: 'm1', name: 'Anan', status: 'active', projects: 12 },
+  { id: 'm2', name: 'Mali', status: 'invited', projects: 8 },
+]
+
+<DataTable data={members} />
+```
+
+ระบบซ่อน `id`/`_id`, แปลง camelCase หรือ snake_case เป็น header ที่อ่านง่าย,
+จัดตัวเลขชิดขวา, เปิด sort และเลือก text หรือ select filter จากชนิด/จำนวนค่าที่พบ
+เช่น field ชื่อ status, state, type, role, category และ priority จะใช้ select เมื่อ
+มีตัวเลือกไม่เกิน 8 ค่า
+
+เมื่อต้องการ custom cell ให้ส่ง `columns` และ `getRowId` แบบ advanced
+`DataTable<T>` จะตรวจ `accessor` ด้วย `keyof T` ตั้งแต่ compile time และตรวจข้อมูล
+จาก API ซ้ำอีกครั้งใน runtime
 
 ```tsx
 interface MemberRow {
