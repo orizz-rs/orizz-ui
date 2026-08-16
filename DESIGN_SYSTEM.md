@@ -1,0 +1,278 @@
+# Orizz Design System
+
+เอกสารนี้เป็นแนวทางกลางสำหรับการออกแบบและพัฒนา UI ของผลิตภัณฑ์ Orizz
+เพื่อให้ทุกทีมสร้างประสบการณ์ที่สม่ำเสมอ เข้าถึงได้ และรองรับทั้ง Light และ
+Dark theme
+
+## 1. Design principles
+
+### Clear by design
+
+UI ต้องสื่อสารลำดับความสำคัญได้ชัดเจน ผู้ใช้ควรเข้าใจว่าอะไรคือข้อมูลหลัก
+อะไรสามารถกดได้ และขั้นตอนถัดไปคืออะไร โดยไม่ต้องพึ่งคำอธิบายมากเกินไป
+
+### Green by purpose
+
+สีเขียวเป็นสีแบรนด์และใช้เพื่อดึงความสนใจไปยัง action หรือสถานะสำคัญ
+ไม่ควรใช้สีเขียวครอบคลุมทุกส่วนของหน้าจอ เพราะจะทำให้ลำดับความสำคัญหายไป
+
+### Accessible by default
+
+Component ต้องรองรับ keyboard, focus state, screen reader, browser zoom,
+การตั้งค่าขนาดตัวอักษรของผู้ใช้ และ `prefers-reduced-motion`
+
+### Built from tokens
+
+Component ต้องใช้ semantic token แทนการระบุค่าสีหรือ spacing แบบ hard-coded
+เพื่อให้เปลี่ยน theme และปรับภาพรวมของระบบได้จากจุดเดียว
+
+## 2. Color system: 60 / 30 / 10
+
+ระบบสีใช้กฎ 60/30/10 เพื่อรักษาสมดุลและลำดับความสำคัญของหน้าจอ
+
+| สัดส่วน | บทบาท | ตัวอย่างการใช้งาน |
+|---|---|---|
+| 60% | Background | พื้นหลังหน้า, พื้นที่ว่าง, application shell |
+| 30% | Surface | Card, panel, navigation, form container |
+| 10% | Brand accent | Primary action, link, focus, highlight สำคัญ |
+
+กฎนี้เป็นแนวทางระดับ composition ไม่จำเป็นต้องวัดจำนวน pixel ให้ตรงสัดส่วน
+ทุกหน้า แต่ควรรักษาความรู้สึกโดยรวมไม่ให้ brand color แย่งความสนใจจากเนื้อหา
+
+### Primary green palette
+
+| Token | Light-theme value | หน้าที่หลัก |
+|---|---:|---|
+| `--orizz-green-50` | `#effcf3` | พื้นหลังเขียวอ่อนมาก |
+| `--orizz-green-100` | `#d9f7e2` | Brand subtle |
+| `--orizz-green-400` | `#48c879` | Brand หลักสำหรับ Dark theme |
+| `--orizz-green-700` | `#106b39` | Brand หลักสำหรับ Light theme |
+| `--orizz-green-800` | `#105530` | Hover บน Light theme |
+| `--orizz-green-950` | `#062817` | สีข้อความบนเขียวสว่าง |
+
+Primitive palette ใช้อ้างอิงในการสร้าง token เท่านั้น Component ควรใช้
+semantic token เช่น `--orizz-color-brand` แทน `--orizz-green-700` โดยตรง
+
+## 3. Themes
+
+Design System รองรับ `light` และ `dark` ผ่าน `data-theme`
+
+```tsx
+<div data-theme="light">
+  <App />
+</div>
+```
+
+```tsx
+<div data-theme="dark">
+  <App />
+</div>
+```
+
+หากไม่ได้ระบุ `data-theme` ระบบจะใช้ค่าจาก `prefers-color-scheme`
+ของระบบปฏิบัติการ
+
+### Semantic theme tokens
+
+| Token | หน้าที่ |
+|---|---|
+| `--orizz-color-background` | พื้นหลังหลักตามสัดส่วน 60% |
+| `--orizz-color-background-subtle` | พื้นหลังรอง |
+| `--orizz-color-surface` | พื้นผิว content ตามสัดส่วน 30% |
+| `--orizz-color-surface-raised` | Card หรือ content ที่ยกขึ้นมา |
+| `--orizz-color-surface-muted` | Surface ที่ลดความสำคัญ |
+| `--orizz-color-brand` | สีแบรนด์และ action ตามสัดส่วน 10% |
+| `--orizz-color-brand-hover` | Hover ของ brand action |
+| `--orizz-color-brand-subtle` | Brand background ที่ไม่เด่นเกินไป |
+| `--orizz-color-text` | ข้อความหลัก |
+| `--orizz-color-text-muted` | ข้อความรอง |
+| `--orizz-color-border` | เส้นแบ่งและ border ทั่วไป |
+| `--orizz-color-focus` | Focus ring |
+
+Component ไม่ควรกำหนดค่าสีแยกตาม theme เอง ตัวอย่างที่ควรใช้:
+
+```css
+.button {
+  color: var(--orizz-color-on-brand);
+  background: var(--orizz-color-brand);
+}
+
+.button:hover {
+  background: var(--orizz-color-brand-hover);
+}
+```
+
+## 4. Typography
+
+Font หลักใช้ **Bai Jamjuree** ซึ่งรองรับทั้งภาษาไทยและ Latin โดย self-host
+ผ่าน Fontsource เพื่อให้หน้า application, Storybook และ package ใช้ไฟล์เดียวกัน
+โดยไม่ต้องเชื่อมต่อ font CDN ขณะใช้งาน
+
+```css
+font-family: var(--orizz-font-sans);
+```
+
+น้ำหนักที่ bundle ไว้คือ `400`, `500`, `600` และ `700` เฉพาะ normal style
+ควรเลือกจากน้ำหนักเหล่านี้เพื่อหลีกเลี่ยง browser สร้าง synthetic weight
+
+ใช้ monospace token สำหรับ code, token name หรือข้อมูลเชิงเทคนิค
+
+```css
+font-family: var(--orizz-font-mono);
+```
+
+แนวทาง typography:
+
+- Body text ควรมี line height ประมาณ `1.5–1.7`
+- ข้อความทั่วไปไม่ควรเล็กกว่า `0.875rem`
+- Supporting text สามารถใช้ `0.75rem` ได้เมื่อ contrast เพียงพอ
+- Heading ใช้น้ำหนักและขนาดเพื่อสร้างลำดับชั้น ไม่ใช้สีเพียงอย่างเดียว
+- หลีกเลี่ยงการใช้ตัวพิมพ์ใหญ่กับข้อความยาว
+
+## 5. Sizing and units
+
+ใช้ `rem` เป็นหน่วยหลักสำหรับ typography, spacing, radius และขนาด component
+เพื่อให้ UI ปรับตาม root font size ของผู้ใช้
+
+| งาน | Unit ที่แนะนำ |
+|---|---|
+| Font size | `rem` |
+| Spacing และ control height | `rem` |
+| Border radius | `rem` |
+| Icon ที่ต้องโตตามข้อความ | `em` |
+| Border บางคงที่ | `1px` |
+| Page layout | `%`, `fr`, `minmax()` |
+| Responsive typography | `clamp()` ร่วมกับ `rem` และ `vw` |
+
+ตัวอย่าง:
+
+```css
+.control {
+  min-height: 2.5rem;
+  padding-inline: var(--orizz-space-4);
+  border: 1px solid var(--orizz-color-border);
+  border-radius: var(--orizz-radius-md);
+  font-size: 0.875rem;
+}
+```
+
+ไม่ควรตั้ง `html { font-size: 62.5%; }` เพราะจะ override ขนาดตัวอักษรเริ่มต้น
+ที่ผู้ใช้กำหนดไว้
+
+## 6. Spacing
+
+Spacing ใช้ระบบฐาน 4 โดยเลือกจาก token ที่กำหนดไว้
+
+| Token | Value |
+|---|---:|
+| `--orizz-space-1` | `0.25rem` |
+| `--orizz-space-2` | `0.5rem` |
+| `--orizz-space-3` | `0.75rem` |
+| `--orizz-space-4` | `1rem` |
+| `--orizz-space-6` | `1.5rem` |
+| `--orizz-space-8` | `2rem` |
+| `--orizz-space-12` | `3rem` |
+| `--orizz-space-16` | `4rem` |
+
+ไม่ควรเพิ่มค่าระหว่างกลางโดยไม่มีเหตุผล เช่น `0.6875rem` สำหรับ spacing
+เพราะจะทำให้ rhythm ของหน้าจอไม่สม่ำเสมอ
+
+## 7. Shape and elevation
+
+| Token | การใช้งาน |
+|---|---|
+| `--orizz-radius-sm` | Badge, element ขนาดเล็ก |
+| `--orizz-radius-md` | Button, input |
+| `--orizz-radius-lg` | Card และ panel |
+| `--orizz-radius-xl` | Feature card หรือ container ขนาดใหญ่ |
+| `--orizz-shadow-sm` | Surface ที่ต้องแยกจากพื้นหลังเล็กน้อย |
+| `--orizz-shadow-md` | Modal หรือ feature card สำคัญ |
+
+ใช้ elevation เท่าที่จำเป็น ควรใช้ background, border และ spacing
+สร้าง hierarchy ก่อนเพิ่ม shadow
+
+## 8. Components
+
+Foundation package ปัจจุบันมี 14 components:
+
+| กลุ่ม | Components |
+|---|---|
+| Actions | `Button` |
+| Forms | `TextField`, `Textarea`, `Select`, `Checkbox`, `Radio`, `Switch` |
+| Feedback | `Alert`, `Badge`, `Spinner` |
+| Content | `Card`, `Avatar`, `Divider` |
+| Navigation | `Tabs` |
+
+Component ทั้งหมดใช้ native HTML semantics เป็นฐาน รองรับ Light/Dark theme
+และรับค่าจาก semantic tokens ชุดเดียวกัน
+
+### Component folder convention
+
+```text
+src/components/component-name/
+├── ComponentName.tsx
+├── ComponentName.module.css
+├── ComponentName.test.tsx
+├── ComponentName.stories.tsx
+└── index.ts
+```
+
+ทุก Component ต้องมี:
+
+1. Props ที่ระบุ type ชัดเจนและไม่ใช้ `any`
+2. Style ที่ใช้ semantic token
+3. Keyboard และ focus behavior ที่เหมาะสม
+4. Unit tests สำหรับ behavior สำคัญ
+5. Storybook stories ครอบคลุม variant และ state
+6. Public export ผ่าน `src/components/index.ts`
+
+## 9. Accessibility checklist
+
+ก่อนเพิ่ม Component หรือ publish package ให้ตรวจสอบว่า:
+
+- ใช้ semantic HTML ก่อนเพิ่ม ARIA
+- ทุก interactive element ใช้งานผ่าน keyboard ได้
+- มี `:focus-visible` ที่เห็นได้ชัดในทั้งสอง theme
+- Input ทุกตัวมี label
+- Error ไม่สื่อสารด้วยสีเพียงอย่างเดียว
+- Loading และ disabled state มี accessible state ที่เหมาะสม
+- สีข้อความและ control มี contrast เพียงพอ
+- Animation รองรับ `prefers-reduced-motion`
+- UI ยังใช้งานได้เมื่อ zoom ถึง 200%
+- Light และ Dark theme แสดงผลได้ครบทุก state
+
+## 10. Package usage
+
+ติดตั้ง package และ import stylesheet หนึ่งครั้งที่ application entry:
+
+```tsx
+import '@orizz/ui/styles.css'
+import { Alert, Badge, Button, TextField } from '@orizz/ui'
+
+export function Example() {
+  return (
+    <div data-theme="light">
+      <Badge tone="success">Active</Badge>
+      <Alert title="Ready" tone="success">Workspace created.</Alert>
+      <TextField label="Project name" />
+      <Button>Save project</Button>
+    </div>
+  )
+}
+```
+
+## 11. Definition of done
+
+ก่อน merge หรือ publish การเปลี่ยนแปลงของ Design System ต้องผ่าน:
+
+```bash
+bun run lint
+bun run typecheck
+bun run test
+bun run build
+bun run build-storybook
+```
+
+Source of truth ของ token อยู่ที่ `src/styles/tokens.css` และหน้า Vite
+playground ใช้สำหรับตรวจภาพรวมของระบบ ส่วน Storybook ใช้ตรวจ Component
+แต่ละตัวในทุก state และ theme

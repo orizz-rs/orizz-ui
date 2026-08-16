@@ -1,0 +1,83 @@
+.tabs {
+  color: var(--orizz-color-text);
+}
+
+.list {
+  display: flex;
+  gap: var(--orizz-space-1);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--orizz-color-border);
+}
+
+.tab {
+  position: relative;
+  min-height: 2.75rem;
+  padding: 0 var(--orizz-space-4);
+  border: 0;
+  color: var(--orizz-color-text-muted);
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab::after {
+  position: absolute;
+  right: var(--orizz-space-3);
+  bottom: -1px;
+  left: var(--orizz-space-3);
+  height: 0.125rem;
+  border-radius: 999px 999px 0 0;
+  background: var(--orizz-color-brand);
+  content: '';
+  opacity: 0;
+  transform: scaleX(0.7);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.tab:hover:not(:disabled) {
+  color: var(--orizz-color-text);
+  background: var(--orizz-color-surface-hover);
+}
+
+.tab[aria-selected='true'] {
+  color: var(--orizz-color-brand);
+}
+
+.tab[aria-selected='true']::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.tab:focus-visible {
+  z-index: 1;
+  border-radius: var(--orizz-radius-sm);
+  outline: 3px solid var(--orizz-color-focus);
+  outline-offset: -3px;
+}
+
+.tab:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.panel {
+  padding: var(--orizz-space-6) 0;
+  line-height: 1.6;
+}
+
+.panel:focus-visible {
+  border-radius: var(--orizz-radius-sm);
+  outline: 3px solid var(--orizz-color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab::after {
+    transition: none;
+  }
+}

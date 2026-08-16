@@ -1,121 +1,93 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { useState, type JSX } from 'react'
+import { Badge, Button } from './index'
+import { ComponentShowcase } from './playground/ComponentShowcase'
+import { FoundationCatalog } from './playground/FoundationCatalog'
+import { RatioFoundation } from './playground/RatioFoundation'
+import { ThemeIcon } from './playground/ThemeIcon'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+type ThemeName = 'light' | 'dark'
+
+function App(): JSX.Element {
+  const [theme, setTheme] = useState<ThemeName>('light')
+
+  const toggleTheme = (): void => {
+    setTheme((currentTheme) =>
+      currentTheme === 'light' ? 'dark' : 'light',
+    )
+  }
+
+  const nextTheme = theme === 'light' ? 'dark' : 'light'
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="design-system" data-theme={theme}>
+      <nav className="topbar" aria-label="Design system navigation">
+        <a className="brand-lockup" href="#top" aria-label="Orizz home">
+          <span className="brand-mark">O</span>
+          <span>Orizz UI</span>
+        </a>
+        <div className="topbar__actions">
+          <Badge tone="success">Light + Dark</Badge>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${nextTheme} theme`}
+          >
+            <span className="theme-icon">
+              <ThemeIcon theme={theme} />
+            </span>
+            {theme === 'light' ? 'Light' : 'Dark'}
+          </Button>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </nav>
 
-      <div className="ticks"></div>
+      <main id="top" className="playground">
+        <header className="hero">
+          <div className="hero__content">
+            <Badge tone="brand">Design system · 01</Badge>
+            <h1>
+              Green by purpose,
+              <br />
+              clear by design.
+            </h1>
+            <p>
+              A calm, accessible foundation for Orizz products—balanced with
+              the 60/30/10 color rule and ready for light and dark experiences.
+            </p>
+            <div className="hero__actions">
+              <Button size="lg">Explore components</Button>
+              <Button size="lg" variant="ghost">
+                View tokens →
+              </Button>
+            </div>
+          </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+          <aside className="principle-card" aria-label="Design principles">
+            <span className="principle-card__number">60—30—10</span>
+            <h2>
+              One system.
+              <br />
+              Two themes.
+            </h2>
+            <p>Every decision maps back to a shared semantic token.</p>
+            <div className="principle-card__footer">
+              <span>Primary</span>
+              <strong>Emerald green</strong>
+            </div>
+          </aside>
+        </header>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        <RatioFoundation />
+        <ComponentShowcase />
+        <FoundationCatalog />
+      </main>
+
+      <footer className="footer">
+        <span>Orizz Design System</span>
+        <span>Accessible · Themeable · Package-ready</span>
+      </footer>
+    </div>
   )
 }
 

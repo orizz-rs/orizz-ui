@@ -1,75 +1,101 @@
-# React + TypeScript + Vite
+# @orizz/ui
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Shared React components for Orizz products. The package provides typed component
+APIs, isolated styles, design tokens, unit tests, and Storybook documentation.
 
-Currently, two official plugins are available:
+อ่านหลักการสี Theme, Token, Sizing และ Component standards ได้ที่
+[`DESIGN_SYSTEM.md`](./DESIGN_SYSTEM.md)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Structure
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```text
+src/
+├── components/
+│   ├── badge/
+│   ├── button/
+│   ├── text-field/
+│   └── index.ts
+├── playground/             # Vite design-system showcase
+├── styles/
+│   └── tokens.css
+├── test/
+│   └── setup.ts
+└── index.ts                 # public package API
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Each component owns its implementation, styles, tests, stories, and local
+exports. Only exports reachable from `src/index.ts` become public package APIs.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Development
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+bun install
+bun run dev
+bun run test
+bun run storybook
+bun run build
 ```
+
+The Vite app is a lightweight playground. Storybook is the component catalog.
+The foundation currently includes 14 public components across actions, forms,
+feedback, content, and navigation.
+
+## Install and use
+
+Publish the package to the registry used by your organization, then install it
+in a React application:
+
+```bash
+bun add @orizz/ui
+```
+
+Import the package stylesheet once near the application entry point:
+
+```tsx
+import '@orizz/ui/styles.css'
+import { Button } from '@orizz/ui'
+
+export function SaveAction() {
+  return <Button variant="primary">Save</Button>
+}
+```
+
+## Themes and color usage
+
+The semantic color system follows the 60/30/10 rule:
+
+- 60% background tokens create the page foundation.
+- 30% surface tokens create content hierarchy and containers.
+- 10% green brand tokens draw attention to actions and key states.
+
+Set `data-theme` on a parent element to choose an explicit theme. Without the
+attribute, tokens follow the operating-system preference.
+
+```tsx
+<div data-theme="dark">
+  <Button>Continue</Button>
+</div>
+```
+
+Components consume semantic tokens such as `--orizz-color-brand` instead of
+theme-specific color values, so the same component CSS works in both themes.
+
+## Add another component
+
+1. Copy the `src/components/button` convention into a new lowercase folder.
+2. Export its component and public types from the folder's `index.ts`.
+3. Re-export that folder from `src/components/index.ts`.
+4. Add or reuse semantic tokens from `src/styles/tokens.css`.
+5. Run lint, tests, Storybook build, and the package build before publishing.
+
+## Publishing
+
+Change `@orizz/ui` to the real organization scope if needed. Authenticate with
+your npm-compatible registry, choose the intended public/private access policy,
+and publish:
+
+```bash
+bun publish
+```
+
+The `prepublishOnly` script validates lint, tests, and package output first.

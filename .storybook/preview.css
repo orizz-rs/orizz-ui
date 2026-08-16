@@ -1,0 +1,8 @@
+.story-theme {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 2rem;
+  color: var(--orizz-color-text);
+  background: var(--orizz-color-background);
+  font-family: var(--orizz-font-sans);
+}

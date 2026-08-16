@@ -1,0 +1,160 @@
+@import './fonts.css';
+
+/*
+ * Orizz design tokens
+ * 60% background / 30% surface / 10% brand accent
+ */
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+
+  /* Primitive palette */
+  --orizz-green-50: #effcf3;
+  --orizz-green-100: #d9f7e2;
+  --orizz-green-200: #b5edc7;
+  --orizz-green-300: #80dda0;
+  --orizz-green-400: #48c879;
+  --orizz-green-500: #22a95b;
+  --orizz-green-600: #128544;
+  --orizz-green-700: #106b39;
+  --orizz-green-800: #105530;
+  --orizz-green-900: #0e4629;
+  --orizz-green-950: #062817;
+
+  /* 60 — page foundation */
+  --orizz-color-background: #f3f7f4;
+  --orizz-color-background-subtle: #e9f0eb;
+
+  /* 30 — content surfaces */
+  --orizz-color-surface: #ffffff;
+  --orizz-color-surface-raised: #ffffff;
+  --orizz-color-surface-muted: #e3ece6;
+  --orizz-color-surface-hover: #edf4ef;
+
+  /* 10 — brand and actions */
+  --orizz-color-brand: var(--orizz-green-700);
+  --orizz-color-brand-hover: var(--orizz-green-800);
+  --orizz-color-brand-active: var(--orizz-green-900);
+  --orizz-color-brand-subtle: var(--orizz-green-100);
+  --orizz-color-on-brand: #ffffff;
+
+  /* Semantic colors */
+  --orizz-color-text: #17221b;
+  --orizz-color-text-muted: #5e6c63;
+  --orizz-color-text-subtle: #7d8a81;
+  --orizz-color-border: #cedbd2;
+  --orizz-color-border-strong: #9caf9f;
+  --orizz-color-focus: rgb(18 133 68 / 32%);
+  --orizz-color-success: #16713e;
+  --orizz-color-success-subtle: #d9f7e2;
+  --orizz-color-info: #176b87;
+  --orizz-color-info-subtle: #dff4fa;
+  --orizz-color-warning: #865b00;
+  --orizz-color-warning-subtle: #fff0c2;
+  --orizz-color-danger: #b43b3b;
+  --orizz-color-danger-hover: #912d2d;
+  --orizz-color-danger-subtle: #ffe2e0;
+  --orizz-color-on-danger: #ffffff;
+
+  /* Typography */
+  --orizz-font-sans: 'Bai Jamjuree', ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --orizz-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+  /* Spacing */
+  --orizz-space-1: 0.25rem;
+  --orizz-space-2: 0.5rem;
+  --orizz-space-3: 0.75rem;
+  --orizz-space-4: 1rem;
+  --orizz-space-5: 1.25rem;
+  --orizz-space-6: 1.5rem;
+  --orizz-space-8: 2rem;
+  --orizz-space-10: 2.5rem;
+  --orizz-space-12: 3rem;
+  --orizz-space-16: 4rem;
+
+  /* Shape and elevation */
+  --orizz-radius-sm: 0.375rem;
+  --orizz-radius-md: 0.625rem;
+  --orizz-radius-lg: 1rem;
+  --orizz-radius-xl: 1.5rem;
+  --orizz-shadow-sm: 0 1px 2px rgb(18 50 30 / 8%);
+  --orizz-shadow-md: 0 1rem 2.5rem rgb(18 50 30 / 10%);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* 60 — page foundation */
+  --orizz-color-background: #0b1510;
+  --orizz-color-background-subtle: #101c15;
+
+  /* 30 — content surfaces */
+  --orizz-color-surface: #14221a;
+  --orizz-color-surface-raised: #192a20;
+  --orizz-color-surface-muted: #22372a;
+  --orizz-color-surface-hover: #253b2d;
+
+  /* 10 — brand and actions */
+  --orizz-color-brand: var(--orizz-green-400);
+  --orizz-color-brand-hover: var(--orizz-green-300);
+  --orizz-color-brand-active: var(--orizz-green-200);
+  --orizz-color-brand-subtle: #183b26;
+  --orizz-color-on-brand: #062817;
+
+  /* Semantic colors */
+  --orizz-color-text: #edf7f0;
+  --orizz-color-text-muted: #adbbb0;
+  --orizz-color-text-subtle: #829388;
+  --orizz-color-border: #30493a;
+  --orizz-color-border-strong: #54725f;
+  --orizz-color-focus: rgb(72 200 121 / 36%);
+  --orizz-color-success: #75dfa0;
+  --orizz-color-success-subtle: #173b25;
+  --orizz-color-info: #72d3ed;
+  --orizz-color-info-subtle: #143844;
+  --orizz-color-warning: #f2c66d;
+  --orizz-color-warning-subtle: #493714;
+  --orizz-color-danger: #ef7770;
+  --orizz-color-danger-hover: #ff918b;
+  --orizz-color-danger-subtle: #4c2424;
+  --orizz-color-on-danger: #2b0a0a;
+
+  --orizz-shadow-sm: 0 1px 2px rgb(0 0 0 / 28%);
+  --orizz-shadow-md: 0 1rem 2.5rem rgb(0 0 0 / 24%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --orizz-color-background: #0b1510;
+    --orizz-color-background-subtle: #101c15;
+    --orizz-color-surface: #14221a;
+    --orizz-color-surface-raised: #192a20;
+    --orizz-color-surface-muted: #22372a;
+    --orizz-color-surface-hover: #253b2d;
+    --orizz-color-brand: var(--orizz-green-400);
+    --orizz-color-brand-hover: var(--orizz-green-300);
+    --orizz-color-brand-active: var(--orizz-green-200);
+    --orizz-color-brand-subtle: #183b26;
+    --orizz-color-on-brand: #062817;
+    --orizz-color-text: #edf7f0;
+    --orizz-color-text-muted: #adbbb0;
+    --orizz-color-text-subtle: #829388;
+    --orizz-color-border: #30493a;
+    --orizz-color-border-strong: #54725f;
+    --orizz-color-focus: rgb(72 200 121 / 36%);
+    --orizz-color-success: #75dfa0;
+    --orizz-color-success-subtle: #173b25;
+    --orizz-color-info: #72d3ed;
+    --orizz-color-info-subtle: #143844;
+    --orizz-color-warning: #f2c66d;
+    --orizz-color-warning-subtle: #493714;
+    --orizz-color-danger: #ef7770;
+    --orizz-color-danger-hover: #ff918b;
+    --orizz-color-danger-subtle: #4c2424;
+    --orizz-color-on-danger: #2b0a0a;
+    --orizz-shadow-sm: 0 1px 2px rgb(0 0 0 / 28%);
+    --orizz-shadow-md: 0 1rem 2.5rem rgb(0 0 0 / 24%);
+  }
+}

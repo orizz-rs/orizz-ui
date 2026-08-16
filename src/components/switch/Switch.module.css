@@ -1,0 +1,86 @@
+.group {
+  position: relative;
+  display: inline-flex;
+  gap: var(--orizz-space-4);
+  align-items: center;
+  justify-content: space-between;
+  color: var(--orizz-color-text);
+  cursor: pointer;
+}
+
+.content {
+  display: grid;
+  gap: var(--orizz-space-1);
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.description {
+  color: var(--orizz-color-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.track {
+  display: flex;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 2.5rem;
+  height: 1.5rem;
+  align-items: center;
+  padding: 0.125rem;
+  border: 1px solid var(--orizz-color-border-strong);
+  border-radius: 999px;
+  background: var(--orizz-color-surface-muted);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.thumb {
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background: var(--orizz-color-surface-raised);
+  box-shadow: var(--orizz-shadow-sm);
+  transition: transform 160ms ease;
+}
+
+.input:checked + .track {
+  border-color: var(--orizz-color-brand);
+  background: var(--orizz-color-brand);
+}
+
+.input:checked + .track .thumb {
+  transform: translateX(1rem);
+}
+
+.input:focus-visible + .track {
+  outline: 3px solid var(--orizz-color-focus);
+  outline-offset: 2px;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .thumb {
+    transition: none;
+  }
+}
