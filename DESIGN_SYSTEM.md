@@ -193,7 +193,7 @@ Spacing ใช้ระบบฐาน 4 โดยเลือกจาก token
 
 ## 8. Components
 
-Foundation package ปัจจุบันมี 14 components:
+Foundation package ปัจจุบันมี 15 components:
 
 | กลุ่ม | Components |
 |---|---|
@@ -202,9 +202,76 @@ Foundation package ปัจจุบันมี 14 components:
 | Feedback | `Alert`, `Badge`, `Spinner` |
 | Content | `Card`, `Avatar`, `Divider` |
 | Navigation | `Tabs` |
+| Data display | `DataTable` |
 
 Component ทั้งหมดใช้ native HTML semantics เป็นฐาน รองรับ Light/Dark theme
 และรับค่าจาก semantic tokens ชุดเดียวกัน
+
+### DataTable contract
+
+`DataTable<T>` รับ generic row type ทำให้ `accessor` ตรวจด้วย `keyof T`
+ตั้งแต่ compile time และตรวจข้อมูลจาก API ซ้ำอีกครั้งใน runtime
+
+```tsx
+interface MemberRow {
+  readonly id: string
+  readonly name: string
+  readonly email?: string
+  readonly status: 'active' | 'invited'
+}
+
+const columns: readonly DataTableColumn<MemberRow>[] = [
+  {
+    id: 'member',
+    header: 'Member',
+    accessor: 'name',
+    sortable: true,
+    filterValue: (row) => `${row.name} ${row.email ?? ''}`,
+  },
+  {
+    id: 'status',
+    header: 'Status',
+    accessor: 'status',
+    cell: (row) => <Badge tone="success">{row.status}</Badge>,
+  },
+]
+
+<DataTable
+  columns={columns}
+  data={members}
+  getRowId={(row) => row.id}
+  caption="Organization members"
+/>
+```
+
+Column API ที่สำคัญ:
+
+| Property | หน้าที่ |
+|---|---|
+| `id` | Stable ID ของ column และต้องไม่ซ้ำ |
+| `header` | Header content รองรับ `ReactNode` |
+| `accessor` | Key ของ row สำหรับค่าพื้นฐานและ validation |
+| `cell` | Custom cell renderer |
+| `required` | กำหนดว่าค่าจาก accessor ต้องไม่ว่าง |
+| `sortable` | เปิด sort asc/desc/clear |
+| `compare` | Custom row comparator |
+| `sortValue` | ค่าที่ใช้ sort เมื่อค่าที่แสดงไม่ใช่ accessor โดยตรง |
+| `filterable` | เปิดหรือปิด global filter สำหรับ column |
+| `filterValue` | รวมค่าหลาย field หรือสร้างข้อความสำหรับค้นหา |
+| `align` | จัดตำแหน่ง `start`, `center` หรือ `end` |
+
+Runtime validation ตรวจสอบ:
+
+- Column ID ซ้ำ
+- Header ไม่ครบ
+- Column ไม่มีทั้ง `accessor` และ `cell`
+- Row ID ว่างหรือซ้ำ
+- Required value เป็น `null`, `undefined` หรือข้อความว่าง
+
+Schema และ row identity errors จะหยุด render table เพื่อป้องกัน React key หรือ
+column mapping ที่ผิด ส่วน required value จะแสดง validation summary และยัง render
+ข้อมูลที่เหลือโดยใช้ `—` แทนค่าที่ขาด สามารถเรียก `validateDataTable()` แยกก่อน
+render ได้เมื่อต้องการตรวจข้อมูลใน service หรือ adapter layer
 
 ### Component folder convention
 

@@ -1,6 +1,7 @@
 import { useState, type JSX } from 'react'
 import { Badge, Button } from './index'
 import { ComponentShowcase } from './playground/ComponentShowcase'
+import { DataTableShowcase } from './playground/DataTableShowcase'
 import { FoundationCatalog } from './playground/FoundationCatalog'
 import { RatioFoundation } from './playground/RatioFoundation'
 import { ThemeIcon } from './playground/ThemeIcon'
@@ -81,6 +82,7 @@ function App(): JSX.Element {
         <RatioFoundation />
         <ComponentShowcase />
         <FoundationCatalog />
+        <DataTableShowcase />
       </main>
 
       <footer className="footer">
