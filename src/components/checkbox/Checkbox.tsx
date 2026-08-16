@@ -1,3 +1,4 @@
+import { Check } from 'lucide-react'
 import {
   forwardRef,
   useId,
@@ -43,9 +44,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           aria-describedby={description ? descriptionId : undefined}
         />
         <span className={styles.control} aria-hidden="true">
-          <svg viewBox="0 0 16 16">
-            <path d="m3.5 8 3 3 6-6" />
-          </svg>
+          <Check />
         </span>
         <span className={styles.content}>
           <span id={labelId} className={styles.label}>

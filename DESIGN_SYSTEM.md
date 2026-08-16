@@ -159,6 +159,16 @@ font-family: var(--orizz-font-mono);
 ไม่ควรตั้ง `html { font-size: 62.5%; }` เพราะจะ override ขนาดตัวอักษรเริ่มต้น
 ที่ผู้ใช้กำหนดไว้
 
+### Iconography
+
+ใช้ icon จาก `lucide-react` เป็นชุดมาตรฐานเดียวกันทั้งระบบ โดย import เฉพาะ icon
+ที่ component ใช้งานเพื่อรองรับ tree-shaking กำหนดสีด้วย `currentColor` และกำหนดขนาด
+ผ่าน CSS ด้วย `rem` หรือ `em` แทนการส่งขนาดเป็น pixel ใน JSX
+
+Icon ที่ใช้ประกอบข้อความควรใส่ `aria-hidden="true"` และมีข้อความหรือ
+`aria-label` บน interactive element เป็น accessible name เสมอ หาก icon สื่อความหมาย
+โดยไม่มีข้อความประกอบ ต้องกำหนด accessible label ให้ชัดเจน
+
 ## 6. Spacing
 
 Spacing ใช้ระบบฐาน 4 โดยเลือกจาก token ที่กำหนดไว้
@@ -313,7 +323,7 @@ Text filter ใช้การค้นหาแบบ contains โดยไม�
 เหมาะกับ enum หรือ status ที่มีค่าจำกัดและเปรียบเทียบค่าแบบ exact เมื่อผู้ใช้กรอง
 หลาย column พร้อมกัน ตารางจะรวมเงื่อนไขแบบ AND ใช้ปุ่ม filter ที่หัว column เพื่อ
 เปิด popover ผ่าน portal จึงไม่เพิ่มความสูงและไม่ถูกตัดด้วยขอบ/scrollbar ของตาราง
-ใช้ปุ่ม × เพื่อล้างค่าเฉพาะ column นั้น และคลิกด้านนอกหรือกด Escape เพื่อปิดได้
+ใช้ปุ่ม Clear รูป X เพื่อล้างค่าเฉพาะ column นั้น และคลิกด้านนอกหรือกด Escape เพื่อปิดได้
 
 Runtime validation ตรวจสอบ:
 

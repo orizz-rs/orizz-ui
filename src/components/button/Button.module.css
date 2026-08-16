@@ -88,6 +88,14 @@
   width: 100%;
 }
 
+.content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--orizz-space-2);
+  white-space: nowrap;
+}
+
 .spinner {
   position: absolute;
   width: 1em;

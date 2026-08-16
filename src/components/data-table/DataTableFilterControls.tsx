@@ -1,3 +1,4 @@
+import { Filter, X } from 'lucide-react'
 import type { ChangeEvent, JSX, RefObject } from 'react'
 import type { DataTableColumn } from './DataTable.types'
 import styles from './DataTable.module.css'
@@ -79,9 +80,7 @@ export function FilterActions({
         title={toggleLabel}
         onClick={onToggle}
       >
-        <svg viewBox="0 0 20 20" aria-hidden="true">
-          <path d="M3 4h14l-5.5 6.2v4.3l-3 1.5v-5.8L3 4Z" />
-        </svg>
+        <Filter aria-hidden="true" />
       </button>
       {isActive ? (
         <button
@@ -91,7 +90,7 @@ export function FilterActions({
           title={`Clear filter for ${label}`}
           onClick={onClear}
         >
-          <span aria-hidden="true">×</span>
+          <X aria-hidden="true" />
         </button>
       ) : null}
     </span>

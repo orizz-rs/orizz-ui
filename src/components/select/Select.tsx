@@ -1,3 +1,4 @@
+import { ChevronDown } from 'lucide-react'
 import {
   useId,
   type JSX,
@@ -65,9 +66,7 @@ export function Select({
           ) : null}
           {children}
         </select>
-        <svg className={styles.icon} viewBox="0 0 16 16" aria-hidden="true">
-          <path d="m4 6 4 4 4-4" />
-        </svg>
+        <ChevronDown className={styles.icon} aria-hidden="true" />
       </div>
       {hasMessage ? (
         <span id={messageId} className={error ? styles.error : styles.hint}>

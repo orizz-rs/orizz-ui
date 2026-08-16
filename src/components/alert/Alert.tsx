@@ -1,3 +1,11 @@
+import {
+  CircleAlert,
+  CircleCheck,
+  Info,
+  TriangleAlert,
+  X,
+  type LucideIcon,
+} from 'lucide-react'
 import type { HTMLAttributes, JSX, ReactNode } from 'react'
 import styles from './Alert.module.css'
 
@@ -13,11 +21,11 @@ export interface AlertProps
   readonly dismissLabel?: string
 }
 
-const icons: Readonly<Record<AlertTone, string>> = {
-  info: 'i',
-  success: '✓',
-  warning: '!',
-  danger: '!',
+const icons: Readonly<Record<AlertTone, LucideIcon>> = {
+  info: Info,
+  success: CircleCheck,
+  warning: TriangleAlert,
+  danger: CircleAlert,
 }
 
 export function Alert({
@@ -30,6 +38,7 @@ export function Alert({
   className,
   ...divProps
 }: AlertProps): JSX.Element {
+  const ToneIcon = icons[tone]
   const classes = [styles.alert, styles[tone], className]
     .filter(Boolean)
     .join(' ')
@@ -37,7 +46,7 @@ export function Alert({
   return (
     <div {...divProps} className={classes}>
       <span className={styles.icon} aria-hidden="true">
-        {icons[tone]}
+        <ToneIcon />
       </span>
       <div className={styles.content}>
         <strong className={styles.title}>{title}</strong>
@@ -51,9 +60,7 @@ export function Alert({
           onClick={onDismiss}
           aria-label={dismissLabel}
         >
-          <svg viewBox="0 0 16 16" aria-hidden="true">
-            <path d="m4 4 8 8m0-8-8 8" />
-          </svg>
+          <X aria-hidden="true" />
         </button>
       ) : null}
     </div>

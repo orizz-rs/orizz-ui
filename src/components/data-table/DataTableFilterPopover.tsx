@@ -1,3 +1,4 @@
+import { X } from 'lucide-react'
 import type { CSSProperties, JSX, RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import type { DataTableColumn } from './DataTable.types'
@@ -45,7 +46,7 @@ export function DataTableFilterPopover<T extends object>({
           aria-label={`Dismiss filter popup for ${label}`}
           onClick={onDismiss}
         >
-          <span aria-hidden="true">×</span>
+          <X aria-hidden="true" />
         </button>
       </div>
       <ColumnFilter

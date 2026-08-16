@@ -1,3 +1,4 @@
+import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react'
 import {
   useEffect,
   useRef,
@@ -51,9 +52,9 @@ function getAriaSort<T extends object>(
 function getSortIndicator<T extends object>(
   column: DataTableColumn<T>,
   sort: DataTableSortState | null,
-): string {
-  if (sort?.columnId !== column.id) return '↕'
-  return sort.direction === 'asc' ? '↑' : '↓'
+): JSX.Element {
+  if (sort?.columnId !== column.id) return <ArrowUpDown />
+  return sort.direction === 'asc' ? <ArrowUp /> : <ArrowDown />
 }
 
 function findPortalRoot(element: HTMLElement | null): HTMLElement | null {

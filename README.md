@@ -42,6 +42,10 @@ feedback, content, navigation, and data display. `DataTable<T>` provides typed
 columns, automatic schema inference, runtime validation, per-column text/select
 filters, sorting, and custom cell rendering.
 
+Component icons use `lucide-react`. The package imports individual icons for
+tree-shaking and sizes them through the design-system CSS rather than fixed
+pixel values in JSX.
+
 ## Install and use
 
 Publish the package to the registry used by your organization, then install it

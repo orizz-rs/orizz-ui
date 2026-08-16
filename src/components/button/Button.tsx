@@ -58,7 +58,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {isLoading ? (
           <span className={styles.spinner} aria-hidden="true" />
         ) : null}
-        <span className={isLoading ? styles.hiddenLabel : undefined}>
+        <span
+          className={[
+            styles.content,
+            isLoading ? styles.hiddenLabel : undefined,
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
           {children}
         </span>
       </button>

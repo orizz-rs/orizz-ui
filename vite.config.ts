@@ -13,7 +13,7 @@ export default defineConfig({
       cssFileName: 'orizz-ui',
     },
     rolldownOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: ['lucide-react', 'react', 'react-dom', 'react/jsx-runtime'],
     },
     sourcemap: true,
   },

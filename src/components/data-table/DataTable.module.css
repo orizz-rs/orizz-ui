@@ -113,7 +113,8 @@
   cursor: pointer;
 }
 
-.filterToggle svg {
+.filterToggle svg,
+.filterClear svg {
   width: 0.875rem;
   height: 0.875rem;
   fill: none;
@@ -141,8 +142,6 @@
 
 .filterClear {
   color: var(--orizz-color-danger);
-  font-size: 1rem;
-  line-height: 1;
 }
 
 .filterPopover {
@@ -201,6 +200,12 @@
 .filterPopoverHeader button:focus-visible {
   outline: 3px solid var(--orizz-color-focus);
   outline-offset: -1px;
+}
+
+.filterPopoverHeader button svg {
+  width: 1rem;
+  height: 1rem;
+  stroke-width: 1.5;
 }
 
 .columnFilter {
@@ -277,8 +282,14 @@
 }
 
 .sortIcon {
+  display: inline-flex;
   color: var(--orizz-color-brand);
-  font-size: 0.875rem;
+}
+
+.sortIcon svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  stroke-width: 1.75;
 }
 
 .empty {
