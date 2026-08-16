@@ -48,21 +48,52 @@ describe('DataTable', () => {
     expect(screen.getByText('Active member')).toBeVisible()
   })
 
-  it('filters text within its header column', async () => {
+  it('opens, closes, and clears a text filter from its header', async () => {
     const user = userEvent.setup()
     render(<DataTable columns={columns} data={people} getRowId={(row) => row.id} />)
 
+    expect(screen.queryByRole('searchbox', { name: 'Filter Member' }))
+      .not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Open filter for Member' }))
+    expect(screen.getByRole('group', { name: 'Filter Member' })).toBeVisible()
     await user.type(screen.getByRole('searchbox', { name: 'Filter Member' }), 'alice')
 
     expect(screen.getByText('Alice')).toBeVisible()
     expect(screen.queryByText('Bob')).not.toBeInTheDocument()
     expect(screen.getByText('1 of 2 rows')).toBeVisible()
+
+    await user.click(screen.getByRole('button', { name: 'Close filter for Member' }))
+    expect(screen.queryByRole('searchbox', { name: 'Filter Member' }))
+      .not.toBeInTheDocument()
+    expect(screen.queryByText('Bob')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Clear filter for Member' }))
+    expect(screen.getByText('Bob')).toBeVisible()
+    expect(screen.getByText('2 of 2 rows')).toBeVisible()
+  })
+
+  it('dismisses a filter popup with Escape or an outside click', async () => {
+    const user = userEvent.setup()
+    render(<DataTable columns={columns} data={people} getRowId={(row) => row.id} />)
+
+    await user.click(screen.getByRole('button', { name: 'Open filter for Member' }))
+    await user.keyboard('{Escape}')
+    expect(screen.queryByRole('group', { name: 'Filter Member' }))
+      .not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Open filter for Member' }))
+      .toHaveFocus()
+
+    await user.click(screen.getByRole('button', { name: 'Open filter for Status' }))
+    await user.click(screen.getByText('2 of 2 rows'))
+    expect(screen.queryByRole('group', { name: 'Filter Status' }))
+      .not.toBeInTheDocument()
   })
 
   it('filters limited status values from a header select', async () => {
     const user = userEvent.setup()
     render(<DataTable columns={columns} data={people} getRowId={(row) => row.id} />)
 
+    await user.click(screen.getByRole('button', { name: 'Open filter for Status' }))
     await user.selectOptions(
       screen.getByRole('combobox', { name: 'Filter Status' }),
       'inactive',
@@ -76,7 +107,9 @@ describe('DataTable', () => {
     const user = userEvent.setup()
     render(<DataTable columns={columns} data={people} getRowId={(row) => row.id} />)
 
+    await user.click(screen.getByRole('button', { name: 'Open filter for Member' }))
     await user.type(screen.getByRole('searchbox', { name: 'Filter Member' }), 'bob')
+    await user.click(screen.getByRole('button', { name: 'Open filter for Status' }))
     await user.selectOptions(
       screen.getByRole('combobox', { name: 'Filter Status' }),
       'active',
