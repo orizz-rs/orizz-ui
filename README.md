@@ -112,6 +112,22 @@ contents locally:
 bun run pack:check
 ```
 
+For the first public release, complete these steps on npmjs.com:
+
+1. Create or confirm the `orizz-rs` npm organization.
+2. Add the publishing account as an owner or to a team with package write access.
+3. Create a granular access token with read/write access to the `orizz-rs`
+   scope. Enable bypass 2FA when the token is used for automation.
+4. Run the secure local publishing script. It prompts for the token without
+   echoing or saving it:
+
+```bash
+bun run publish:public
+```
+
+If the npm account requires interactive 2FA, the script uses legacy auth mode
+so the one-time password can be entered in the terminal.
+
 Create a GitHub Release using a tag matching the package version, such as
 `v0.1.1`. The
 `Publish package` workflow installs locked dependencies, runs the publish
