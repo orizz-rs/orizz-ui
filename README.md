@@ -42,9 +42,10 @@ feedback, content, navigation, and data display. `DataTable<T>` provides typed
 columns, automatic schema inference, runtime validation, per-column text/select
 filters, sorting, and custom cell rendering.
 
-Component icons use `lucide-react`. The package imports individual icons for
-tree-shaking and sizes them through the design-system CSS rather than fixed
-pixel values in JSX.
+Component icons use `lucide-react`. The package bundles only the selected icons
+and sizes them through the design-system CSS rather than fixed pixel values in
+JSX. React and React DOM remain peer dependencies so the consuming application
+provides one shared React instance.
 
 ## Install and use
 
@@ -56,16 +57,25 @@ configuration or authentication:
 bun add @orizz-rs/ui
 ```
 
-Import the package stylesheet once near the application entry point:
+Import a component and use it immediately. The package entry automatically
+loads the component styles, design tokens, light/dark themes, and Bai Jamjuree
+font, so the consuming application does not need a separate CSS import:
 
 ```tsx
-import '@orizz-rs/ui/styles.css'
 import { Button, DataTable } from '@orizz-rs/ui'
 
 export function SaveAction() {
   return <Button variant="primary">Save</Button>
 }
 ```
+
+The `@orizz-rs/ui/styles.css` export remains available as an explicit fallback
+for tools that do not process CSS imports from dependencies. Do not import it
+again in standard Vite or other CSS-aware application builds.
+
+Package conditions automatically use a CSS-free JavaScript entry in Node,
+SSR, and test runners, while browser bundlers use the styled entry. Both are
+selected through the same `@orizz-rs/ui` import.
 
 For a standard data screen, pass rows directly. `DataTable` infers headers,
 stable row keys, sorting, and text/select filters; provide `columns` only for
@@ -94,6 +104,39 @@ attribute, tokens follow the operating-system preference.
 
 Components consume semantic tokens such as `--orizz-color-brand` instead of
 theme-specific color values, so the same component CSS works in both themes.
+
+## Local package testing
+
+For the closest match to a real npm installation, create and install a tarball
+instead of adding the repository directory directly:
+
+```bash
+# Run in orizz-ui
+bun run pack:local
+
+# Run in the consuming application; use the generated absolute path
+bun add /path/to/orizz-ui/.local-pack/orizz-rs-ui-0.1.1.tgz
+```
+
+A direct `file:/path/to/orizz-ui` dependency is a development symlink. Vite can
+then resolve React from both projects and report an `Invalid hook call`. If a
+link is required, deduplicate React in the consuming application's
+`vite.config.ts`:
+
+```ts
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+  },
+})
+```
+
+This local-link setting is not required after installing the published npm
+package.
 
 ## Add another component
 

@@ -1,6 +1,7 @@
 .root {
   display: inline-flex;
   color: var(--orizz-color-brand);
+  font-family: var(--orizz-font-sans);
 }
 
 .indicator {

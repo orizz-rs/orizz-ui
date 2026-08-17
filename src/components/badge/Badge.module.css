@@ -5,6 +5,7 @@
   min-height: 1.5rem;
   padding-inline: var(--orizz-space-2);
   border-radius: 999px;
+  font-family: var(--orizz-font-sans);
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1;

@@ -377,10 +377,11 @@ src/components/component-name/
 
 ## 10. Package usage
 
-ติดตั้ง package และ import stylesheet หนึ่งครั้งที่ application entry:
+ติดตั้ง package แล้วเรียกใช้ Component ได้ทันที โดย main entry จะโหลด
+component styles, design tokens, light/dark theme และฟอนต์ Bai Jamjuree
+ให้อัตโนมัติ ไม่ต้อง import CSS เพิ่ม:
 
 ```tsx
-import '@orizz-rs/ui/styles.css'
 import { Alert, Badge, Button, TextField } from '@orizz-rs/ui'
 
 export function Example() {
@@ -394,6 +395,10 @@ export function Example() {
   )
 }
 ```
+
+ไฟล์ `@orizz-rs/ui/styles.css` ยังคง export ไว้เป็น fallback สำหรับ tooling
+ที่ไม่รองรับ CSS import จาก dependency แต่ application ทั่วไปไม่ควร import
+ซ้ำ เพราะ main entry จัดการให้แล้ว
 
 ## 11. Definition of done
 

@@ -17,12 +17,16 @@
     "LICENSE",
     "THIRD_PARTY_LICENSES.md"
   ],
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.server.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "node": {
+        "import": "./dist/index.server.js",
+        "require": "./dist/index.server.cjs"
+      },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
@@ -38,13 +42,15 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && tsc -p tsconfig.build.json",
+    "build": "vite build && vite build --config vite.server.config.ts && tsc -p tsconfig.build.json && bun run verify:dist",
     "lint": "eslint .",
     "typecheck": "tsc -b",
     "test": "vitest run",
     "test:watch": "vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "verify:dist": "node scripts/verify-package-build.mjs",
+    "pack:local": "mkdir -p .local-pack && bun pm pack --destination .local-pack",
     "pack:check": "bun pm pack --dry-run",
     "publish:public": "bash scripts/publish-public.sh",
     "prepack": "bun run build",
@@ -71,15 +77,14 @@
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
     "jsdom": "^30.0.1",
+    "lucide-react": "^1.31.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "storybook": "^10.5.8",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.65.0",
     "vite": "^8.2.0",
+    "vite-plugin-lib-inject-css": "^2.2.2",
     "vitest": "^4.1.10"
-  },
-  "dependencies": {
-    "lucide-react": "^1.31.0"
   }
 }

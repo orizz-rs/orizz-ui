@@ -1,18 +1,19 @@
 import { resolve } from 'node:path'
-import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { libInjectCss } from 'vite-plugin-lib-inject-css'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
-  plugins: [react(), libInjectCss()],
+  plugins: [react()],
   build: {
     copyPublicDir: false,
+    emptyOutDir: false,
     lib: {
       entry: {
         'orizz-ui': resolve(import.meta.dirname, 'src/build.ts'),
       },
       formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`,
+      fileName: (format) =>
+        `index.server.${format === 'es' ? 'js' : 'cjs'}`,
       cssFileName: 'orizz-ui',
     },
     rolldownOptions: {
