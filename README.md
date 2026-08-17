@@ -115,7 +115,7 @@ instead of adding the repository directory directly:
 bun run pack:local
 
 # Run in the consuming application; use the generated absolute path
-bun add /path/to/orizz-ui/.local-pack/orizz-rs-ui-0.1.1.tgz
+bun add /path/to/orizz-ui/.local-pack/orizz-rs-ui-0.1.2.tgz
 ```
 
 A direct `file:/path/to/orizz-ui` dependency is a development symlink. Vite can
@@ -172,7 +172,7 @@ If the npm account requires interactive 2FA, the script uses legacy auth mode
 so the one-time password can be entered in the terminal.
 
 Create a GitHub Release using a tag matching the package version, such as
-`v0.1.1`. The
+`v0.1.2`. The
 `Publish package` workflow installs locked dependencies, runs the publish
 checks, builds the package, and publishes it publicly to npm. It can also be
 started manually from the Actions tab when needed.
