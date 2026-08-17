@@ -48,15 +48,9 @@ pixel values in JSX.
 
 ## Install and use
 
-The package is configured for private publishing to GitHub Packages. Add the
-organization registry to the consuming project's `.npmrc`:
-
-```ini
-@orizz-rs:registry=https://npm.pkg.github.com
-```
-
-Authenticate with a GitHub token that can read packages, then install it in a
-React application:
+The package is configured for public publishing on npm. After the first public
+release, install it in a React application without additional registry
+configuration or authentication:
 
 ```bash
 bun add @orizz-rs/ui
@@ -111,19 +105,31 @@ theme-specific color values, so the same component CSS works in both themes.
 
 ## Publishing
 
-GitHub Packages uses the repository's `GITHUB_TOKEN`; no package token is stored
-in this repository. Before publishing, update `version` in `package.json` and
-verify the package contents locally:
+Before publishing, update `version` in `package.json` and verify the package
+contents locally:
 
 ```bash
 bun run pack:check
 ```
 
 Create a GitHub Release using a tag matching the package version, such as
-`v0.1.0`. The
+`v0.1.1`. The
 `Publish package` workflow installs locked dependencies, runs the publish
-checks, builds the package, and publishes it to GitHub Packages. It can also be
+checks, builds the package, and publishes it publicly to npm. It can also be
 started manually from the Actions tab when needed.
+
+The first npm publish requires a repository secret named `NPM_TOKEN` with
+permission to publish under the `orizz-rs` npm organization. After the package
+exists on npm, configure its Trusted Publisher with these values and remove the
+long-lived token:
+
+- GitHub organization: `orizz-rs`
+- Repository: `orizz-ui`
+- Workflow filename: `publish-package.yml`
+- Allowed action: `npm publish`
+
+The workflow grants only `contents: read` and `id-token: write`, allowing npm
+CLI to use short-lived OIDC credentials and automatically generate provenance.
 
 Every published version must be unique. The `prepublishOnly` lifecycle validates
 lint, types, and tests, while `prepack` creates the ESM, CommonJS, CSS, and type
