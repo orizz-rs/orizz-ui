@@ -1,7 +1,16 @@
 {
-  "name": "@orizz/ui",
+  "name": "@orizz-rs/ui",
   "version": "0.1.0",
   "description": "Reusable React components for Orizz products.",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orizz-rs/orizz-ui.git"
+  },
+  "homepage": "https://github.com/orizz-rs/orizz-ui#readme",
+  "bugs": {
+    "url": "https://github.com/orizz-rs/orizz-ui/issues"
+  },
   "type": "module",
   "files": [
     "dist",
@@ -21,6 +30,9 @@
   "sideEffects": [
     "**/*.css"
   ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc -p tsconfig.build.json",
@@ -30,7 +42,9 @@
     "test:watch": "vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepublishOnly": "bun run lint && bun run typecheck && bun run test && bun run build"
+    "pack:check": "bun pm pack --dry-run",
+    "prepack": "bun run build",
+    "prepublishOnly": "bun run lint && bun run typecheck && bun run test"
   },
   "peerDependencies": {
     "react": ">=18.2.0 <20",

@@ -380,8 +380,8 @@ src/components/component-name/
 ติดตั้ง package และ import stylesheet หนึ่งครั้งที่ application entry:
 
 ```tsx
-import '@orizz/ui/styles.css'
-import { Alert, Badge, Button, TextField } from '@orizz/ui'
+import '@orizz-rs/ui/styles.css'
+import { Alert, Badge, Button, TextField } from '@orizz-rs/ui'
 
 export function Example() {
   return (

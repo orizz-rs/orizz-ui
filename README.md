@@ -1,4 +1,4 @@
-# @orizz/ui
+# @orizz-rs/ui
 
 Shared React components for Orizz products. The package provides typed component
 APIs, isolated styles, design tokens, unit tests, and Storybook documentation.
@@ -48,18 +48,25 @@ pixel values in JSX.
 
 ## Install and use
 
-Publish the package to the registry used by your organization, then install it
-in a React application:
+The package is configured for private publishing to GitHub Packages. Add the
+organization registry to the consuming project's `.npmrc`:
+
+```ini
+@orizz-rs:registry=https://npm.pkg.github.com
+```
+
+Authenticate with a GitHub token that can read packages, then install it in a
+React application:
 
 ```bash
-bun add @orizz/ui
+bun add @orizz-rs/ui
 ```
 
 Import the package stylesheet once near the application entry point:
 
 ```tsx
-import '@orizz/ui/styles.css'
-import { Button, DataTable } from '@orizz/ui'
+import '@orizz-rs/ui/styles.css'
+import { Button, DataTable } from '@orizz-rs/ui'
 
 export function SaveAction() {
   return <Button variant="primary">Save</Button>
@@ -104,12 +111,20 @@ theme-specific color values, so the same component CSS works in both themes.
 
 ## Publishing
 
-Change `@orizz/ui` to the real organization scope if needed. Authenticate with
-your npm-compatible registry, choose the intended public/private access policy,
-and publish:
+GitHub Packages uses the repository's `GITHUB_TOKEN`; no package token is stored
+in this repository. Before publishing, update `version` in `package.json` and
+verify the package contents locally:
 
 ```bash
-bun publish
+bun run pack:check
 ```
 
-The `prepublishOnly` script validates lint, tests, and package output first.
+Create a GitHub Release using a tag matching the package version, such as
+`v0.1.0`. The
+`Publish package` workflow installs locked dependencies, runs the publish
+checks, builds the package, and publishes it to GitHub Packages. It can also be
+started manually from the Actions tab when needed.
+
+Every published version must be unique. The `prepublishOnly` lifecycle validates
+lint, types, and tests, while `prepack` creates the ESM, CommonJS, CSS, and type
+declaration outputs.

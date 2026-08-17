@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "@orizz/ui",
+      "name": "@orizz-rs/ui",
       "dependencies": {
         "lucide-react": "^1.31.0",
       },
