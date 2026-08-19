@@ -93,7 +93,16 @@ Definition of done สำหรับทุก component:
 DataTable ต้องรักษา stable row id และประกาศ `aria-sort`, selection state,
 caption และ keyboard behavior ให้ครบ
 
-## Milestone 3 — Navigation และ feedback
+## Milestone 3 — Navigation และ feedback (in progress)
+
+ชุดแรกเสร็จแล้วและมีตัวอย่างใน playground:
+
+- `Breadcrumb`
+- `Pagination`
+- `Toast`
+- `Skeleton`
+- `EmptyState`
+- `Progress`
 
 - `Breadcrumb`
 - `Pagination`

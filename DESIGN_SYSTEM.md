@@ -203,15 +203,15 @@ Spacing ใช้ระบบฐาน 4 โดยเลือกจาก token
 
 ## 8. Components
 
-Foundation package ปัจจุบันมี 21 components:
+Foundation package ปัจจุบันมี 27 components:
 
 | กลุ่ม | Components |
 |---|---|
 | Actions | `Button` |
 | Forms | `TextField`, `Textarea`, `Select`, `Checkbox`, `Radio`, `Switch`, `FormField`, `NumberInput`, `CurrencyInput`, `Combobox` |
-| Feedback | `Alert`, `Badge`, `Spinner` |
+| Feedback | `Alert`, `Badge`, `Spinner`, `Toast`, `Skeleton`, `EmptyState`, `Progress` |
 | Content | `Card`, `Avatar`, `Divider` |
-| Navigation | `Tabs` |
+| Navigation | `Tabs`, `Breadcrumb`, `Pagination` |
 | Overlay | `Dialog`, `Popover` |
 | Data display | `DataTable` |
 

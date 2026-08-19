@@ -1,0 +1,23 @@
+.emptyState {
+  display: grid;
+  justify-items: center;
+  padding: var(--orizz-space-10) var(--orizz-space-6);
+  color: var(--orizz-color-text);
+  text-align: center;
+}
+
+.icon {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: var(--orizz-space-4);
+  color: var(--orizz-color-brand);
+  background: var(--orizz-color-brand-subtle);
+  border-radius: 50%;
+  place-items: center;
+}
+
+.icon svg { width: 1.5rem; height: 1.5rem; }
+.emptyState h3 { margin: 0; font-size: 1rem; }
+.emptyState p { max-width: 28rem; margin: var(--orizz-space-2) 0 0; color: var(--orizz-color-text-muted); font-size: 0.8125rem; line-height: 1.5; }
+.action { margin-top: var(--orizz-space-5); }

@@ -1,0 +1,19 @@
+.skeleton {
+  display: block;
+  overflow: hidden;
+  background: linear-gradient(90deg, var(--orizz-color-surface-muted), var(--orizz-color-surface-hover), var(--orizz-color-surface-muted));
+  background-size: 200% 100%;
+  animation: orizz-skeleton 1.4s ease-in-out infinite;
+}
+
+.text { width: 100%; height: 0.875rem; border-radius: var(--orizz-radius-sm); }
+.rect { width: 100%; height: 8rem; border-radius: var(--orizz-radius-md); }
+.circle { width: 3rem; height: 3rem; border-radius: 50%; }
+.sm.text { max-width: 8rem; }
+.lg.text { max-width: 20rem; height: 1.125rem; }
+
+@keyframes orizz-skeleton { to { background-position: -200% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}

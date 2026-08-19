@@ -334,6 +334,29 @@
   font-weight: 600;
 }
 
+.erp-navigation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--orizz-space-5);
+}
+
+.erp-navigation-stack,
+.erp-skeleton-stack {
+  display: grid;
+  gap: var(--orizz-space-5);
+}
+
+.erp-navigation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--orizz-space-2);
+}
+
+.erp-navigation-caption {
+  color: var(--orizz-color-text-muted);
+  font-size: 0.75rem;
+}
+
 .showcase-native-input,
 .erp-showcase-select-label select {
   box-sizing: border-box;
@@ -476,6 +499,7 @@
   .component-grid,
   .foundation-grid,
   .erp-showcase-grid,
+  .erp-navigation-grid,
   .form-catalog {
     grid-template-columns: 1fr;
   }
