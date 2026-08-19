@@ -2,6 +2,10 @@
 
 All notable changes to `@orizz-rs/ui` are documented here.
 
+## [0.2.1] - 2026-08-19
+
+- Updated the npm package homepage to the Orizz RS documentation site.
+
 ## [0.1.2] - 2026-08-17
 
 - Published the shared Orizz React component package under the MIT license.

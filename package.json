@@ -1,13 +1,13 @@
 {
   "name": "@orizz-rs/ui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Reusable React components for Orizz products.",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/orizz-rs/orizz-ui.git"
   },
-  "homepage": "https://github.com/orizz-rs/orizz-ui#readme",
+  "homepage": "https://orizz-rs.github.io/docs/orizz-rs-ui",
   "bugs": {
     "url": "https://github.com/orizz-rs/orizz-ui/issues"
   },
