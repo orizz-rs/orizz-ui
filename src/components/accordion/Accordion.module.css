@@ -1,0 +1,10 @@
+.accordion { overflow: hidden; border: 1px solid var(--orizz-color-border); border-radius: var(--orizz-radius-lg); background: var(--orizz-color-background-elevated); }
+.item + .item { border-top: 1px solid var(--orizz-color-border); }
+.heading { margin: 0; }
+.trigger { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.125rem; border: 0; color: var(--orizz-color-text); background: transparent; font: inherit; font-weight: 700; text-align: left; cursor: pointer; }
+.trigger:hover { background: var(--orizz-color-background-subtle); }
+.trigger:focus-visible { outline: 2px solid var(--orizz-color-focus); outline-offset: -2px; }
+.trigger:disabled { cursor: not-allowed; opacity: 0.5; }
+.chevron { color: var(--orizz-color-brand); font-size: 1.25rem; font-weight: 400; }
+.trigger[aria-expanded='true'] .chevron { transform: rotate(45deg); }
+.panel { padding: 0 1.125rem 1rem; color: var(--orizz-color-text-muted); line-height: 1.6; }

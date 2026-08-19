@@ -371,8 +371,13 @@
 .erp-shell-demo__content { min-width: 0; padding: var(--orizz-space-2); }
 .erp-shell-demo__toolbar { margin-top: var(--orizz-space-8); padding-top: var(--orizz-space-4); border-top: 1px solid var(--orizz-color-border); }
 
+.erp-interactions-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--orizz-space-8); padding: var(--orizz-space-6); border: 1px solid var(--orizz-color-border); border-radius: var(--orizz-radius-xl); background: var(--orizz-color-background-subtle); }
+.erp-interactions-grid > div { display: grid; align-content: start; gap: var(--orizz-space-3); }
+.erp-accordion-action { justify-self: start; }
+
 @media (max-width: 52rem) {
   .erp-shell-demo { grid-template-columns: 1fr; }
+  .erp-interactions-grid { grid-template-columns: 1fr; }
 }
 
 .showcase-native-input,
