@@ -1,0 +1,97 @@
+.fullWidth {
+  width: 100%;
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--orizz-color-text);
+  background: var(--orizz-color-surface);
+  border: 1px solid var(--orizz-color-border-strong);
+  border-radius: var(--orizz-radius-md);
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.inputShell {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 2.5rem;
+  color: var(--orizz-color-text-muted);
+  background: var(--orizz-color-surface);
+  border: 1px solid var(--orizz-color-border-strong);
+  border-radius: var(--orizz-radius-md);
+  overflow: hidden;
+}
+
+.inputShell:focus-within {
+  outline: 2px solid var(--orizz-color-focus);
+  outline-offset: 2px;
+  border-color: var(--orizz-color-brand);
+}
+
+.inputShell.invalidShell {
+  border-color: var(--orizz-color-danger);
+}
+
+.inputShell.disabledShell {
+  cursor: not-allowed;
+  background: var(--orizz-color-surface-muted);
+}
+
+.inputShell .input {
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+}
+
+.inputShell .input:focus-visible {
+  outline: 0;
+}
+
+.adornment {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 0.75rem;
+  color: var(--orizz-color-text-muted);
+  background: var(--orizz-color-surface-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.input::placeholder {
+  color: var(--orizz-color-text-subtle);
+}
+
+.input:hover:not(:disabled) {
+  border-color: var(--orizz-color-brand);
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--orizz-color-focus);
+  outline-offset: 2px;
+  border-color: var(--orizz-color-brand);
+}
+
+.input:disabled {
+  cursor: not-allowed;
+  color: var(--orizz-color-text-muted);
+  background: var(--orizz-color-surface-muted);
+}
+
+.input.invalid {
+  border-color: var(--orizz-color-danger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .input {
+    transition: none;
+  }
+}

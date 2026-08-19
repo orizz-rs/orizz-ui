@@ -1,0 +1,39 @@
+.anchor {
+  display: inline-flex;
+}
+
+.popover {
+  position: fixed;
+  z-index: 1100;
+  box-sizing: border-box;
+  max-width: min(24rem, calc(100vw - 2rem));
+  padding: var(--orizz-space-4);
+  color: var(--orizz-color-text);
+  background: var(--orizz-color-surface-raised);
+  border: 1px solid var(--orizz-color-border);
+  border-radius: var(--orizz-radius-md);
+  box-shadow: var(--orizz-shadow-md);
+}
+
+.popover.start {
+  transform: translateX(0);
+}
+
+.popover.center {
+  transform: translateX(-50%);
+}
+
+.popover.end {
+  transform: translateX(-100%);
+}
+
+.title {
+  margin: 0 0 var(--orizz-space-3);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.content {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}

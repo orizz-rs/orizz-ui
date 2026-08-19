@@ -6,6 +6,9 @@ APIs, isolated styles, design tokens, unit tests, and Storybook documentation.
 อ่านหลักการสี Theme, Token, Sizing และ Component standards ได้ที่
 [`DESIGN_SYSTEM.md`](./DESIGN_SYSTEM.md)
 
+แผน component สำหรับ ERP และลำดับ milestone อยู่ที่
+[`ERP_COMPONENT_ROADMAP.md`](./ERP_COMPONENT_ROADMAP.md)
+
 ## Structure
 
 ```text
@@ -37,8 +40,8 @@ bun run build
 ```
 
 The Vite app is a lightweight playground. Storybook is the component catalog.
-The foundation currently includes 15 public components across actions, forms,
-feedback, content, navigation, and data display. `DataTable<T>` provides typed
+The foundation currently includes 21 public components across actions, forms,
+feedback, content, navigation, overlays, and data display. `DataTable<T>` provides typed
 columns, automatic schema inference, runtime validation, per-column text/select
 filters, sorting, and custom cell rendering.
 

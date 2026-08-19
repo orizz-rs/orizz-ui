@@ -46,7 +46,7 @@ export function FoundationCatalog(): JSX.Element {
           <span className="eyebrow">Foundation catalog</span>
           <h2 id="foundation-title">Everything for the first screen</h2>
         </div>
-        <Badge tone="success">15 components</Badge>
+        <Badge tone="success">21 components</Badge>
       </div>
 
       <div className="foundation-grid">

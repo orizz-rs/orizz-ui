@@ -296,6 +296,51 @@
   gap: var(--orizz-space-5);
 }
 
+.erp-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--orizz-space-5);
+}
+
+.erp-showcase-form {
+  display: grid;
+  gap: var(--orizz-space-5);
+}
+
+.erp-showcase-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--orizz-space-3);
+  align-items: center;
+}
+
+.erp-showcase-note {
+  color: var(--orizz-color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.showcase-native-input,
+.erp-showcase-select-label select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--orizz-color-text);
+  background: var(--orizz-color-surface);
+  border: 1px solid var(--orizz-color-border-strong);
+  border-radius: var(--orizz-radius-md);
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.erp-showcase-select-label {
+  display: grid;
+  gap: var(--orizz-space-2);
+  color: var(--orizz-color-text);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
 .catalog-card--wide {
   grid-column: 1 / -1;
 }
@@ -415,6 +460,7 @@
   .hero,
   .component-grid,
   .foundation-grid,
+  .erp-showcase-grid,
   .form-catalog {
     grid-template-columns: 1fr;
   }
