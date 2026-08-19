@@ -6,6 +6,10 @@ APIs, isolated styles, design tokens, unit tests, and Storybook documentation.
 อ่านหลักการสี Theme, Token, Sizing และ Component standards ได้ที่
 [`DESIGN_SYSTEM.md`](./DESIGN_SYSTEM.md)
 
+เอกสารสำหรับทำ documentation website อยู่ที่ [`docs/`](./docs/README.md)
+ประกอบด้วย getting started, component catalog, design system และ content สำหรับ
+เว็บไซต์ Orizz RS
+
 แผน component สำหรับ ERP และลำดับ milestone อยู่ที่
 [`ERP_COMPONENT_ROADMAP.md`](./ERP_COMPONENT_ROADMAP.md)
 
@@ -40,7 +44,7 @@ bun run build
 ```
 
 The Vite app is a lightweight playground. Storybook is the component catalog.
-The foundation currently includes 27 public components across actions, forms,
+The foundation currently includes 37 public components across actions, forms,
 feedback, content, navigation, overlays, and data display. `DataTable<T>` provides typed
 columns, automatic schema inference, runtime validation, per-column text/select
 filters, sorting, and custom cell rendering.
@@ -52,12 +56,18 @@ provides one shared React instance.
 
 ## Install and use
 
-The package is configured for public publishing on npm. After the first public
-release, install it in a React application without additional registry
-configuration or authentication:
+The package is published publicly to the npm registry. Install the current
+release in a React application without additional registry configuration:
 
 ```bash
-bun add @orizz-rs/ui
+bun add @orizz-rs/ui@0.2.0
+```
+
+To verify the package and registry before installing:
+
+```bash
+npm view @orizz-rs/ui version --registry=https://registry.npmjs.org
+npm view @orizz-rs/ui@0.2.0 dist.tarball --registry=https://registry.npmjs.org
 ```
 
 Import a component and use it immediately. The package entry automatically
@@ -118,7 +128,7 @@ instead of adding the repository directory directly:
 bun run pack:local
 
 # Run in the consuming application; use the generated absolute path
-bun add /path/to/orizz-ui/.local-pack/orizz-rs-ui-0.1.2.tgz
+bun add /path/to/orizz-ui/.local-pack/orizz-rs-ui-0.2.0.tgz
 ```
 
 A direct `file:/path/to/orizz-ui` dependency is a development symlink. Vite can
@@ -158,7 +168,8 @@ contents locally:
 bun run pack:check
 ```
 
-For the first public release, complete these steps on npmjs.com:
+For a public release, confirm the package scope and publishing permissions on
+npmjs.com:
 
 1. Create or confirm the `orizz-rs` npm organization.
 2. Add the publishing account as an owner or to a team with package write access.
@@ -175,7 +186,7 @@ If the npm account requires interactive 2FA, the script uses legacy auth mode
 so the one-time password can be entered in the terminal.
 
 Create a GitHub Release using a tag matching the package version, such as
-`v0.1.2`. The
+`v0.2.0`. The
 `Publish package` workflow installs locked dependencies, runs the publish
 checks, builds the package, and publishes it publicly to npm. It can also be
 started manually from the Actions tab when needed.
