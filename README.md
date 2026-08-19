@@ -6,6 +6,10 @@ APIs, isolated styles, design tokens, unit tests, and Storybook documentation.
 อ่านหลักการสี Theme, Token, Sizing และ Component standards ได้ที่
 [`DESIGN_SYSTEM.md`](./DESIGN_SYSTEM.md)
 
+เอกสารสำหรับทำ documentation website อยู่ที่ [`docs/`](./docs/README.md)
+ประกอบด้วย getting started, component catalog, design system และ content สำหรับ
+เว็บไซต์ Orizz RS
+
 แผน component สำหรับ ERP และลำดับ milestone อยู่ที่
 [`ERP_COMPONENT_ROADMAP.md`](./ERP_COMPONENT_ROADMAP.md)
 
@@ -40,7 +44,7 @@ bun run build
 ```
 
 The Vite app is a lightweight playground. Storybook is the component catalog.
-The foundation currently includes 27 public components across actions, forms,
+The foundation currently includes 37 public components across actions, forms,
 feedback, content, navigation, overlays, and data display. `DataTable<T>` provides typed
 columns, automatic schema inference, runtime validation, per-column text/select
 filters, sorting, and custom cell rendering.
