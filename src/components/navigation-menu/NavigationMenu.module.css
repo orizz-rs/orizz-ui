@@ -1,0 +1,7 @@
+.menu { display: block; }
+.list { display: flex; flex-wrap: wrap; gap: 0.25rem; margin: 0; padding: 0; list-style: none; }
+.item { display: inline-flex; align-items: center; padding: 0.55rem 0.75rem; border: 0; border-radius: var(--orizz-radius-md); color: var(--orizz-color-text-muted); background: transparent; font: inherit; font-size: 0.875rem; text-decoration: none; cursor: pointer; }
+.item:hover { color: var(--orizz-color-text); background: var(--orizz-color-background-subtle); }
+.item:focus-visible { outline: 2px solid var(--orizz-color-focus); outline-offset: 2px; }
+.item:disabled, .item[aria-disabled='true'] { cursor: not-allowed; opacity: 0.5; }
+.active { color: var(--orizz-color-brand); background: var(--orizz-color-brand-subtle); font-weight: 700; }

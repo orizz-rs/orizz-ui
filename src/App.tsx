@@ -2,6 +2,13 @@ import { useState, type JSX } from 'react'
 import { Badge, Button } from './index'
 import { ComponentShowcase } from './playground/ComponentShowcase'
 import { DataTableShowcase } from './playground/DataTableShowcase'
+import { ErpComponentShowcase } from './playground/ErpComponentShowcase'
+import { EnterpriseDataTableShowcase } from './playground/EnterpriseDataTableShowcase'
+import { ErpNavigationFeedbackShowcase } from './playground/ErpNavigationFeedbackShowcase'
+import { ErpNavigationShellShowcase } from './playground/ErpNavigationShellShowcase'
+import { ErpNavigationInteractionsShowcase } from './playground/ErpNavigationInteractionsShowcase'
+import { ErpLayoutWorkflowShowcase } from './playground/ErpLayoutWorkflowShowcase'
+import { ErpFeedbackWorkflowShowcase } from './playground/ErpFeedbackWorkflowShowcase'
 import { FoundationCatalog } from './playground/FoundationCatalog'
 import { RatioFoundation } from './playground/RatioFoundation'
 import { ThemeIcon } from './playground/ThemeIcon'
@@ -82,6 +89,13 @@ function App(): JSX.Element {
         <RatioFoundation />
         <ComponentShowcase />
         <FoundationCatalog />
+        <ErpComponentShowcase />
+        <EnterpriseDataTableShowcase />
+        <ErpNavigationFeedbackShowcase />
+        <ErpNavigationShellShowcase />
+        <ErpNavigationInteractionsShowcase />
+        <ErpLayoutWorkflowShowcase />
+        <ErpFeedbackWorkflowShowcase />
         <DataTableShowcase />
       </main>
 

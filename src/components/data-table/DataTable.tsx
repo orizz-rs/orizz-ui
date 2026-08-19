@@ -3,17 +3,10 @@ import {
   useMemo,
   useState,
   type JSX,
-  type ReactNode,
 } from 'react'
-import type {
-  DataTableColumn,
-  DataTableProps,
-  DataTableSortState,
-} from './DataTable.types'
+import type { DataTableProps, DataTableSortState } from './DataTable.types'
 import {
   filterDataTableRows,
-  formatDataTableValue,
-  getDataTableValue,
   sortDataTableRows,
 } from './DataTable.utils'
 import {
@@ -21,6 +14,9 @@ import {
   validateDataTable,
 } from './DataTable.validation'
 import { DataTableHeader } from './DataTableHeader'
+import { DataTableBody } from './DataTableBody'
+import { DataTablePagination } from './DataTablePagination'
+import { DataTableToolbar } from './DataTableToolbar'
 import { useDataTableSetup } from './useDataTableSetup'
 import styles from './DataTable.module.css'
 
@@ -37,12 +33,7 @@ function getNextSort(
   return null
 }
 
-function renderCell<T extends object>(
-  row: T,
-  column: DataTableColumn<T>,
-): ReactNode {
-  return column.cell?.(row) ?? formatDataTableValue(getDataTableValue(row, column))
-}
+const defaultPageSizeOptions: readonly number[] = [10, 25, 50]
 
 export function DataTable<T extends object>({
   columns,
@@ -53,12 +44,31 @@ export function DataTable<T extends object>({
   showFilters = true,
   validate = true,
   initialSort,
+  pageSize: requestedPageSize,
+  pageSizeOptions = defaultPageSizeOptions,
+  initialPage = 0,
+  selectable = false,
+  selectedRowIds,
+  onSelectionChange,
+  selectionActions,
+  loading = false,
+  error,
+  onRetry,
   className,
   ...divProps
 }: DataTableProps<T>): JSX.Element {
   const filterIdPrefix = useId()
   const [filters, setFilters] = useState<Readonly<Record<string, string>>>({})
   const [sort, setSort] = useState<DataTableSortState | null>(initialSort ?? null)
+  const [currentPage, setCurrentPage] = useState(initialPage)
+  const [internalPageSize, setInternalPageSize] = useState(
+    requestedPageSize ?? pageSizeOptions[0] ?? 10,
+  )
+  const [internalSelectedRowIds, setInternalSelectedRowIds] = useState<
+    readonly string[]
+  >(selectedRowIds ?? [])
+  const activePageSize = Math.max(1, requestedPageSize ?? internalPageSize)
+  const activeSelectedRowIds = selectedRowIds ?? internalSelectedRowIds
   const { resolvedColumns, resolveRowId } = useDataTableSetup(
     columns,
     data,
@@ -73,13 +83,53 @@ export function DataTable<T extends object>({
     const filteredRows = filterDataTableRows(data, resolvedColumns, filters)
     return sortDataTableRows(filteredRows, resolvedColumns, sort)
   }, [data, filters, resolvedColumns, sort])
-
+  const pageCount = Math.max(1, Math.ceil(visibleRows.length / activePageSize))
+  const pageIndex = Math.min(Math.max(currentPage, 0), pageCount - 1)
+  const pageRows = useMemo(
+    () =>
+      visibleRows.slice(
+        pageIndex * activePageSize,
+        (pageIndex + 1) * activePageSize,
+      ),
+    [activePageSize, pageIndex, visibleRows],
+  )
+  const visibleRowIds = pageRows.map((row) => resolveRowId(row))
+  const allVisibleRowsSelected =
+    selectable &&
+    visibleRowIds.length > 0 &&
+    visibleRowIds.every((rowId) => activeSelectedRowIds.includes(rowId))
   const handleFilterChange = (columnId: string, value: string): void => {
     setFilters((current) => ({ ...current, [columnId]: value }))
+    setCurrentPage(0)
   }
 
   const handleSort = (columnId: string): void => {
     setSort((current) => getNextSort(columnId, current))
+    setCurrentPage(0)
+  }
+
+  const updateSelection = (nextSelection: readonly string[]): void => {
+    if (selectedRowIds === undefined) setInternalSelectedRowIds(nextSelection)
+    onSelectionChange?.(nextSelection)
+  }
+
+  const handleSelectRow = (rowId: string, selected: boolean): void => {
+    const nextSelection = selected
+      ? Array.from(new Set([...activeSelectedRowIds, rowId]))
+      : activeSelectedRowIds.filter((selectedId) => selectedId !== rowId)
+    updateSelection(nextSelection)
+  }
+
+  const handleSelectAll = (selected: boolean): void => {
+    const nextSelection = selected
+      ? Array.from(new Set([...activeSelectedRowIds, ...visibleRowIds]))
+      : activeSelectedRowIds.filter((rowId) => !visibleRowIds.includes(rowId))
+    updateSelection(nextSelection)
+  }
+
+  const handlePageSizeChange = (nextPageSize: number): void => {
+    if (requestedPageSize === undefined) setInternalPageSize(nextPageSize)
+    setCurrentPage(0)
   }
 
   return (
@@ -94,11 +144,15 @@ export function DataTable<T extends object>({
       ) : null}
 
       {!isBlocked ? (
-        <div className={styles.toolbar}>
-          <span className={styles.count} aria-live="polite">
-            {visibleRows.length} of {data.length} rows
-          </span>
-        </div>
+        <DataTableToolbar
+          visibleRows={visibleRows.length}
+          totalRows={data.length}
+          selectable={selectable}
+          selectedRows={activeSelectedRowIds.length}
+          selectionActions={selectionActions}
+          error={error}
+          onRetry={onRetry}
+        />
       ) : null}
 
       {!isBlocked ? (
@@ -113,29 +167,33 @@ export function DataTable<T extends object>({
               sort={sort}
               onFilterChange={handleFilterChange}
               onSort={handleSort}
+              selectable={selectable}
+              allVisibleRowsSelected={allVisibleRowsSelected}
+              onSelectAll={handleSelectAll}
             />
-            <tbody>
-              {visibleRows.length > 0 ? visibleRows.map((row) => (
-                <tr key={resolveRowId(row)}>
-                  {resolvedColumns.map((column) => (
-                    <td key={column.id} data-align={column.align ?? 'start'}>
-                      {renderCell(row, column)}
-                    </td>
-                  ))}
-                </tr>
-              )) : (
-                <tr>
-                  <td
-                    className={styles.empty}
-                    colSpan={Math.max(resolvedColumns.length, 1)}
-                  >
-                    {emptyMessage}
-                  </td>
-                </tr>
-              )}
-            </tbody>
+            <DataTableBody
+              columns={resolvedColumns}
+              rows={pageRows}
+              resolveRowId={resolveRowId}
+              selectable={selectable}
+              selectedRowIds={activeSelectedRowIds}
+              loading={loading}
+              emptyMessage={emptyMessage}
+              onSelectRow={handleSelectRow}
+            />
           </table>
         </div>
+      ) : null}
+      {!isBlocked ? (
+        <DataTablePagination
+          pageIndex={pageIndex}
+          pageSize={activePageSize}
+          pageCount={pageCount}
+          totalRows={visibleRows.length}
+          pageSizeOptions={pageSizeOptions}
+          onPageChange={setCurrentPage}
+          onPageSizeChange={handlePageSizeChange}
+        />
       ) : null}
     </div>
   )

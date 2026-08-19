@@ -4,6 +4,7 @@
   gap: var(--orizz-space-3);
   align-items: flex-start;
   color: var(--orizz-color-text);
+  font-family: var(--orizz-font-sans);
   cursor: pointer;
 }
 

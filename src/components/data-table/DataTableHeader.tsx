@@ -4,6 +4,7 @@ import type {
   DataTableSortState,
 } from './DataTable.types'
 import { DataTableColumnHeader } from './DataTableColumnHeader'
+import styles from './DataTable.module.css'
 
 interface DataTableHeaderProps<T extends object> {
   readonly columns: readonly DataTableColumn<T>[]
@@ -13,6 +14,9 @@ interface DataTableHeaderProps<T extends object> {
   readonly sort: DataTableSortState | null
   readonly onFilterChange: (columnId: string, value: string) => void
   readonly onSort: (columnId: string) => void
+  readonly selectable: boolean
+  readonly allVisibleRowsSelected: boolean
+  readonly onSelectAll: (selected: boolean) => void
 }
 
 export function DataTableHeader<T extends object>({
@@ -23,10 +27,23 @@ export function DataTableHeader<T extends object>({
   sort,
   onFilterChange,
   onSort,
+  selectable,
+  allVisibleRowsSelected,
+  onSelectAll,
 }: DataTableHeaderProps<T>): JSX.Element {
   return (
     <thead>
       <tr>
+        {selectable ? (
+          <th className={styles.selectionHeader} scope="col">
+            <input
+              type="checkbox"
+              aria-label="Select all visible rows"
+              checked={allVisibleRowsSelected}
+              onChange={(event) => onSelectAll(event.target.checked)}
+            />
+          </th>
+        ) : null}
         {columns.map((column) => (
           <DataTableColumnHeader
             key={column.id}

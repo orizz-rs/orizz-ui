@@ -1,5 +1,6 @@
 .tabs {
   color: var(--orizz-color-text);
+  font-family: var(--orizz-font-sans);
 }
 
 .list {

@@ -27,6 +27,60 @@
   justify-content: flex-end;
 }
 
+.selectionSummary {
+  display: inline-flex;
+  gap: var(--orizz-space-3);
+  align-items: center;
+  margin-left: auto;
+}
+
+.selectionSummary > span {
+  color: var(--orizz-color-brand);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.error {
+  display: flex;
+  gap: var(--orizz-space-3);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--orizz-space-3) var(--orizz-space-4);
+  color: var(--orizz-color-danger);
+  background: var(--orizz-color-danger-subtle);
+  border: 1px solid var(--orizz-color-danger);
+  border-radius: var(--orizz-radius-md);
+  font-size: 0.8125rem;
+}
+
+.retryButton,
+.pageButton {
+  min-height: 2rem;
+  padding: 0.25rem 0.75rem;
+  color: var(--orizz-color-brand);
+  background: var(--orizz-color-surface);
+  border: 1px solid var(--orizz-color-border-strong);
+  border-radius: var(--orizz-radius-sm);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.retryButton:hover,
+.pageButton:hover:not(:disabled) {
+  background: var(--orizz-color-surface-hover);
+}
+
+.retryButton:focus-visible,
+.pageButton:focus-visible,
+.pageSizeLabel select:focus-visible,
+.selectionCell input:focus-visible,
+.selectionHeader input:focus-visible {
+  outline: 2px solid var(--orizz-color-focus);
+  outline-offset: 2px;
+}
+
 .count {
   color: var(--orizz-color-text-muted);
   font-size: 0.75rem;
@@ -52,6 +106,20 @@
   border-bottom: 1px solid var(--orizz-color-border);
   text-align: left;
   vertical-align: middle;
+}
+
+.selectionHeader,
+.selectionCell {
+  width: 1%;
+  padding-inline: var(--orizz-space-3) !important;
+  text-align: center !important;
+}
+
+.selectionHeader input,
+.selectionCell input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--orizz-color-brand);
 }
 
 .table th {
@@ -296,6 +364,48 @@
   padding: var(--orizz-space-10) !important;
   color: var(--orizz-color-text-muted);
   text-align: center !important;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--orizz-space-3);
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--orizz-color-text-muted);
+  font-size: 0.75rem;
+}
+
+.paginationSummary {
+  margin-right: auto;
+}
+
+.pageSizeLabel,
+.pageButtons {
+  display: inline-flex;
+  gap: var(--orizz-space-2);
+  align-items: center;
+}
+
+.pageSizeLabel select {
+  min-height: 2rem;
+  padding: 0 1.75rem 0 0.5rem;
+  color: var(--orizz-color-text);
+  background: var(--orizz-color-surface);
+  border: 1px solid var(--orizz-color-border);
+  border-radius: var(--orizz-radius-sm);
+  font: inherit;
+  font-size: 0.75rem;
+}
+
+.pageButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.pageIndicator {
+  min-width: 5rem;
+  text-align: center;
 }
 
 .visuallyHidden {

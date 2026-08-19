@@ -1,0 +1,6 @@
+.root { display: grid; gap: var(--orizz-space-2); color: var(--orizz-color-text); }
+.header { display: flex; justify-content: space-between; color: var(--orizz-color-text-muted); font-size: 0.75rem; font-weight: 600; }
+.root progress { width: 100%; height: 0.5rem; appearance: none; border: 0; border-radius: 999px; overflow: hidden; }
+.root progress::-webkit-progress-bar { background: var(--orizz-color-surface-muted); border-radius: inherit; }
+.root progress::-webkit-progress-value { background: var(--orizz-color-brand); border-radius: inherit; }
+.root progress::-moz-progress-bar { background: var(--orizz-color-brand); border-radius: inherit; }

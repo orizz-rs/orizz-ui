@@ -7,7 +7,7 @@
   box-sizing: border-box;
   border: 1px solid transparent;
   border-radius: var(--orizz-radius-md);
-  font: inherit;
+  font-family: var(--orizz-font-sans);
   font-weight: 600;
   line-height: 1;
   white-space: nowrap;

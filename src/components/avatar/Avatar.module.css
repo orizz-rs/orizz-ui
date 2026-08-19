@@ -6,6 +6,7 @@
   border-radius: 50%;
   color: var(--orizz-color-brand);
   background: var(--orizz-color-brand-subtle);
+  font-family: var(--orizz-font-sans);
   font-weight: 700;
   text-transform: uppercase;
 }

@@ -4,6 +4,7 @@
   border-radius: var(--orizz-radius-lg);
   color: var(--orizz-color-text);
   background: var(--orizz-color-surface-raised);
+  font-family: var(--orizz-font-sans);
 }
 
 .default {

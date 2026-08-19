@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { DataTable } from './DataTable'
 import type { DataTableColumn } from './DataTable.types'
 
@@ -132,6 +132,82 @@ describe('DataTable', () => {
     await user.click(screen.getByRole('button', { name: 'Sort Age descending' }))
     rows = within(screen.getByRole('table')).getAllByRole('row').slice(1)
     expect(rows[0]).toHaveTextContent('Alice')
+  })
+
+  it('paginates rows and resets to the first page after a page-size change', async () => {
+    const user = userEvent.setup()
+    render(
+      <DataTable
+        columns={columns}
+        data={people}
+        getRowId={(row) => row.id}
+        pageSizeOptions={[1, 10]}
+      />,
+    )
+
+    expect(screen.getByText('Alice')).toBeVisible()
+    expect(screen.queryByText('Bob')).not.toBeInTheDocument()
+    expect(screen.getByText('Showing 1–1 of 2')).toBeVisible()
+
+    await user.click(screen.getByRole('button', { name: 'Next' }))
+    expect(screen.getByText('Bob')).toBeVisible()
+    expect(screen.getByText('Page 2 of 2')).toBeVisible()
+
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Rows per page' }), '10')
+    expect(screen.getByText('Alice')).toBeVisible()
+    expect(screen.getByText('Bob')).toBeVisible()
+    expect(screen.getByRole('combobox', { name: 'Rows per page' })).toHaveValue('10')
+  })
+
+  it('selects visible rows and exposes a bulk action slot', async () => {
+    const user = userEvent.setup()
+    const onSelectionChange = vi.fn()
+    render(
+      <DataTable
+        columns={columns}
+        data={people}
+        getRowId={(row) => row.id}
+        selectable
+        onSelectionChange={onSelectionChange}
+        selectionActions={<button type="button">Archive selected</button>}
+      />,
+    )
+
+    await user.click(screen.getByRole('checkbox', { name: 'Select row p1' }))
+    expect(onSelectionChange).toHaveBeenLastCalledWith(['p1'])
+    expect(screen.getByText('1 selected')).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Archive selected' })).toBeVisible()
+
+    await user.click(screen.getByRole('checkbox', { name: 'Select all visible rows' }))
+    expect(onSelectionChange).toHaveBeenLastCalledWith(['p1', 'p2'])
+  })
+
+  it('renders loading and retryable error states', async () => {
+    const user = userEvent.setup()
+    const onRetry = vi.fn()
+    const { rerender } = render(
+      <DataTable
+        columns={columns}
+        data={people}
+        getRowId={(row) => row.id}
+        loading
+      />,
+    )
+
+    expect(screen.getByRole('status')).toHaveTextContent('Loading data…')
+    rerender(
+      <DataTable
+        columns={columns}
+        data={people}
+        getRowId={(row) => row.id}
+        error="Unable to load members."
+        onRetry={onRetry}
+      />,
+    )
+
+    expect(screen.getByRole('alert')).toHaveTextContent('Unable to load members.')
+    await user.click(screen.getByRole('button', { name: 'Retry' }))
+    expect(onRetry).toHaveBeenCalledOnce()
   })
 
   it('reports missing required data', () => {

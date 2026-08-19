@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: var(--orizz-space-2);
   min-width: 15rem;
+  font-family: var(--orizz-font-sans);
 }
 
 .fullWidth {
