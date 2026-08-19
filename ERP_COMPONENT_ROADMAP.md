@@ -118,9 +118,9 @@ caption และ keyboard behavior ให้ครบ
 - `Skeleton`
 - `Progress`
 - `EmptyState`
-- `ResultState`
-- `LoadingOverlay`
-- `Timeline`
+- `ResultState` (เสร็จแล้ว)
+- `LoadingOverlay` (เสร็จแล้ว)
+- `Timeline` (เสร็จแล้ว)
 
 ## Milestone 4 — ERP form controls
 
