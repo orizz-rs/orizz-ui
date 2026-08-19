@@ -3,6 +3,7 @@ import { Badge, Button } from './index'
 import { ComponentShowcase } from './playground/ComponentShowcase'
 import { DataTableShowcase } from './playground/DataTableShowcase'
 import { ErpComponentShowcase } from './playground/ErpComponentShowcase'
+import { EnterpriseDataTableShowcase } from './playground/EnterpriseDataTableShowcase'
 import { FoundationCatalog } from './playground/FoundationCatalog'
 import { RatioFoundation } from './playground/RatioFoundation'
 import { ThemeIcon } from './playground/ThemeIcon'
@@ -84,6 +85,7 @@ function App(): JSX.Element {
         <ComponentShowcase />
         <FoundationCatalog />
         <ErpComponentShowcase />
+        <EnterpriseDataTableShowcase />
         <DataTableShowcase />
       </main>
 

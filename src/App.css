@@ -319,6 +319,21 @@
   font-size: 0.8125rem;
 }
 
+.enterprise-table-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--orizz-space-2);
+  align-items: center;
+  margin-bottom: var(--orizz-space-5);
+}
+
+.enterprise-table-message {
+  margin-left: auto;
+  color: var(--orizz-color-success);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
 .showcase-native-input,
 .erp-showcase-select-label select {
   box-sizing: border-box;

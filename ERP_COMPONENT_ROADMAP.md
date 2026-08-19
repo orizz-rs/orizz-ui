@@ -76,14 +76,14 @@ Definition of done สำหรับทุก component:
 - `Dialog`: portal, modal semantics, Escape, backdrop close, focus restore
 - `Popover`: portal, alignment, click outside, Escape และ trigger state
 
-## Milestone 2 — Enterprise DataTable
+## Milestone 2 — Enterprise DataTable (in progress)
 
 ลำดับการทำงาน:
 
-1. Controlled sort, filter และ pagination state
-2. Client/server pagination contract
-3. Loading, error, empty และ retry state
-4. Row selection, select all และ bulk action toolbar
+1. Controlled sort, filter และ client pagination state — เสร็จ
+2. Loading, error, empty และ retry state — เสร็จ
+3. Row selection, select all และ bulk action toolbar — เสร็จ
+4. Client/server pagination contract
 5. Column visibility, ordering, sticky header และ sticky first column
 6. Expandable row และ editable cell
 7. Server-side filter/sort callbacks

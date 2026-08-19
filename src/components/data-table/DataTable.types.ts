@@ -8,6 +8,11 @@ export interface DataTableSortState {
   readonly direction: DataTableSortDirection
 }
 
+export interface DataTablePageState {
+  readonly pageIndex: number
+  readonly pageSize: number
+}
+
 export interface DataTableTextFilter {
   readonly type: 'text'
   readonly label?: string
@@ -72,4 +77,14 @@ export interface DataTableProps<T extends object>
   readonly showFilters?: boolean
   readonly validate?: boolean
   readonly initialSort?: DataTableSortState
+  readonly pageSize?: number
+  readonly pageSizeOptions?: readonly number[]
+  readonly initialPage?: number
+  readonly selectable?: boolean
+  readonly selectedRowIds?: readonly string[]
+  readonly onSelectionChange?: (rowIds: readonly string[]) => void
+  readonly selectionActions?: ReactNode
+  readonly loading?: boolean
+  readonly error?: ReactNode
+  readonly onRetry?: () => void
 }
