@@ -110,8 +110,8 @@ caption และ keyboard behavior ให้ครบ
 - `NavigationMenu` (เสร็จแล้ว)
 - `PageHeader` (เสร็จแล้ว)
 - `Toolbar` (เสร็จแล้ว)
-- `SplitPane`
-- `Stepper`
+- `SplitPane` (เสร็จแล้ว)
+- `Stepper` (เสร็จแล้ว)
 - `Accordion` (เสร็จแล้ว)
 - `Collapsible`
 - `Toast`

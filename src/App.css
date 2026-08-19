@@ -375,6 +375,10 @@
 .erp-interactions-grid > div { display: grid; align-content: start; gap: var(--orizz-space-3); }
 .erp-accordion-action { justify-self: start; }
 
+.erp-workflow-demo { display: grid; gap: var(--orizz-space-8); padding: var(--orizz-space-6); border: 1px solid var(--orizz-color-border); border-radius: var(--orizz-radius-xl); background: var(--orizz-color-background-subtle); }
+.erp-workflow-pane { display: grid; gap: var(--orizz-space-3); min-height: 8rem; align-content: start; padding: var(--orizz-space-5); border: 1px solid var(--orizz-color-border); border-radius: var(--orizz-radius-lg); background: var(--orizz-color-background-elevated); }
+.erp-workflow-pane h3, .erp-workflow-pane p { margin: 0; }
+
 @media (max-width: 52rem) {
   .erp-shell-demo { grid-template-columns: 1fr; }
   .erp-interactions-grid { grid-template-columns: 1fr; }

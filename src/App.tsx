@@ -7,6 +7,7 @@ import { EnterpriseDataTableShowcase } from './playground/EnterpriseDataTableSho
 import { ErpNavigationFeedbackShowcase } from './playground/ErpNavigationFeedbackShowcase'
 import { ErpNavigationShellShowcase } from './playground/ErpNavigationShellShowcase'
 import { ErpNavigationInteractionsShowcase } from './playground/ErpNavigationInteractionsShowcase'
+import { ErpLayoutWorkflowShowcase } from './playground/ErpLayoutWorkflowShowcase'
 import { FoundationCatalog } from './playground/FoundationCatalog'
 import { RatioFoundation } from './playground/RatioFoundation'
 import { ThemeIcon } from './playground/ThemeIcon'
@@ -92,6 +93,7 @@ function App(): JSX.Element {
         <ErpNavigationFeedbackShowcase />
         <ErpNavigationShellShowcase />
         <ErpNavigationInteractionsShowcase />
+        <ErpLayoutWorkflowShowcase />
         <DataTableShowcase />
       </main>
 
