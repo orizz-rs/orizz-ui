@@ -106,10 +106,10 @@ caption และ keyboard behavior ให้ครบ
 
 - `Breadcrumb`
 - `Pagination`
-- `Sidebar`
+- `Sidebar` (เสร็จแล้ว)
 - `NavigationMenu`
-- `PageHeader`
-- `Toolbar`
+- `PageHeader` (เสร็จแล้ว)
+- `Toolbar` (เสร็จแล้ว)
 - `SplitPane`
 - `Stepper`
 - `Accordion` และ `Collapsible`

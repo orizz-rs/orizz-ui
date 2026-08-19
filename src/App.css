@@ -357,6 +357,24 @@
   font-size: 0.75rem;
 }
 
+.erp-shell-demo {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--orizz-space-6);
+  align-items: start;
+  padding: var(--orizz-space-6);
+  border: 1px solid var(--orizz-color-border);
+  border-radius: var(--orizz-radius-xl);
+  background: var(--orizz-color-background-subtle);
+}
+
+.erp-shell-demo__content { min-width: 0; padding: var(--orizz-space-2); }
+.erp-shell-demo__toolbar { margin-top: var(--orizz-space-8); padding-top: var(--orizz-space-4); border-top: 1px solid var(--orizz-color-border); }
+
+@media (max-width: 52rem) {
+  .erp-shell-demo { grid-template-columns: 1fr; }
+}
+
 .showcase-native-input,
 .erp-showcase-select-label select {
   box-sizing: border-box;
