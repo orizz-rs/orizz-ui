@@ -9,7 +9,10 @@ import {
   FormField,
   MultiSelect,
   NumberInput,
+  PercentageInput,
   Popover,
+  QuantityInput,
+  TimeInput,
 } from '../index'
 
 const warehouseOptions = [
@@ -36,7 +39,7 @@ export function ErpComponentShowcase(): JSX.Element {
           <span className="eyebrow">ERP foundation</span>
           <h2 id="erp-components-title">New components for ERP workflows</h2>
         </div>
-        <Badge tone="brand">8 new components</Badge>
+        <Badge tone="brand">11 new components</Badge>
       </div>
 
       <div className="erp-showcase-grid">
@@ -68,6 +71,20 @@ export function ErpComponentShowcase(): JSX.Element {
               placeholder="Search warehouse…"
               fullWidth
             />
+          </div>
+        </article>
+
+        <article className="showcase-card">
+          <header className="showcase-card__header">
+            <div>
+              <span className="component-label">Transaction values</span>
+              <h3>Quantity, percentage, and time</h3>
+            </div>
+          </header>
+          <div className="erp-showcase-form">
+            <QuantityInput label="Ordered quantity" unit="kg" defaultValue={12.5} min={0} step={0.01} />
+            <PercentageInput label="Tax rate" defaultValue={7} min={0} max={100} step={0.01} />
+            <TimeInput label="Requested delivery time" defaultValue="09:30" />
           </div>
         </article>
 

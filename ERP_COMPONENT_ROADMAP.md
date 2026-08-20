@@ -127,9 +127,9 @@ caption และ keyboard behavior ให้ครบ
 - `DatePicker` (เสร็จแล้ว) และ `DateRangePicker`
 - `MultiSelect` (เสร็จแล้ว)
 - `AsyncCombobox`
-- `PercentageInput`
-- `QuantityInput`
-- `TimeInput`
+- `PercentageInput` (เสร็จแล้ว)
+- `QuantityInput` (เสร็จแล้ว)
+- `TimeInput` (เสร็จแล้ว)
 - `FileUpload`
 - `Form`, `Fieldset` และ validation message helpers
 

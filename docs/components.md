@@ -25,6 +25,9 @@
 | `Combobox` | ค้นหาและเลือก option พร้อม keyboard navigation |
 | `DatePicker` | เลือกวันที่ผ่าน native browser date picker |
 | `MultiSelect` | เลือกได้หลาย option พร้อม controlled/uncontrolled values |
+| `PercentageInput` | รับค่าเปอร์เซ็นต์พร้อม `%` suffix |
+| `QuantityInput` | รับจำนวนพร้อม unit เช่น kg หรือ pcs |
+| `TimeInput` | เลือกเวลาผ่าน native browser time picker |
 
 ## Feedback
 
