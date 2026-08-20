@@ -124,8 +124,8 @@ caption และ keyboard behavior ให้ครบ
 
 ## Milestone 4 — ERP form controls
 
-- `DatePicker` และ `DateRangePicker`
-- `MultiSelect`
+- `DatePicker` (เสร็จแล้ว) และ `DateRangePicker`
+- `MultiSelect` (เสร็จแล้ว)
 - `AsyncCombobox`
 - `PercentageInput`
 - `QuantityInput`

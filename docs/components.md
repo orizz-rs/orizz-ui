@@ -23,6 +23,8 @@
 | `NumberInput` | รับค่าตัวเลขพร้อม `onValueChange` |
 | `CurrencyInput` | รับจำนวนเงินพร้อม currency adornment |
 | `Combobox` | ค้นหาและเลือก option พร้อม keyboard navigation |
+| `DatePicker` | เลือกวันที่ผ่าน native browser date picker |
+| `MultiSelect` | เลือกได้หลาย option พร้อม controlled/uncontrolled values |
 
 ## Feedback
 
@@ -103,4 +105,3 @@
 
 เมื่อใช้ custom columns ให้ระบุ `id`, `header` และ `accessor` หรือ `cell` ให้ครบ
 และรักษา row id ให้ stable เสมอ
-

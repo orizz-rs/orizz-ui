@@ -4,8 +4,10 @@ import {
   Button,
   Combobox,
   CurrencyInput,
+  DatePicker,
   Dialog,
   FormField,
+  MultiSelect,
   NumberInput,
   Popover,
 } from '../index'
@@ -16,9 +18,16 @@ const warehouseOptions = [
   { value: 'hdy', label: 'Hat Yai warehouse', description: 'WH-HDY · 420 items' },
 ] as const
 
+const teamOptions = [
+  { value: 'finance', label: 'Finance', description: 'Invoices and reporting' },
+  { value: 'operations', label: 'Operations', description: 'Orders and fulfillment' },
+  { value: 'people', label: 'People', description: 'Team and permissions' },
+] as const
+
 export function ErpComponentShowcase(): JSX.Element {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [popoverOpen, setPopoverOpen] = useState(false)
+  const [teams, setTeams] = useState<readonly string[]>(['finance'])
 
   return (
     <section className="section" aria-labelledby="erp-components-title">
@@ -27,7 +36,7 @@ export function ErpComponentShowcase(): JSX.Element {
           <span className="eyebrow">ERP foundation</span>
           <h2 id="erp-components-title">New components for ERP workflows</h2>
         </div>
-        <Badge tone="brand">6 new components</Badge>
+        <Badge tone="brand">8 new components</Badge>
       </div>
 
       <div className="erp-showcase-grid">
@@ -82,6 +91,29 @@ export function ErpComponentShowcase(): JSX.Element {
               aria-describedby="erp-note-message"
             />
           </FormField>
+        </article>
+
+        <article className="showcase-card">
+          <header className="showcase-card__header">
+            <div>
+              <span className="component-label">ERP form controls</span>
+              <h3>Date and team selection</h3>
+            </div>
+          </header>
+          <div className="erp-showcase-form">
+            <DatePicker
+              label="Requested delivery"
+              defaultValue="2026-08-20"
+              hint="Uses the user's browser and locale date picker."
+            />
+            <MultiSelect
+              label="Responsible teams"
+              options={teamOptions}
+              value={teams}
+              onValueChange={setTeams}
+              fullWidth
+            />
+          </div>
         </article>
 
         <article className="showcase-card showcase-card--wide">
