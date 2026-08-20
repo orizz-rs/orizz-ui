@@ -203,12 +203,12 @@ Spacing ใช้ระบบฐาน 4 โดยเลือกจาก token
 
 ## 8. Components
 
-Foundation package ปัจจุบันมี 42 components:
+Foundation package ปัจจุบันมี 44 components:
 
 | กลุ่ม | Components |
 |---|---|
 | Actions | `Button` |
-| Forms | `TextField`, `Textarea`, `Select`, `Checkbox`, `Radio`, `Switch`, `FormField`, `NumberInput`, `CurrencyInput`, `Combobox`, `DatePicker`, `MultiSelect`, `PercentageInput`, `QuantityInput`, `TimeInput` |
+| Forms | `TextField`, `Textarea`, `Select`, `Checkbox`, `Radio`, `Switch`, `FormField`, `NumberInput`, `CurrencyInput`, `Combobox`, `DatePicker`, `MultiSelect`, `PercentageInput`, `QuantityInput`, `TimeInput`, `AsyncCombobox`, `FileUpload` |
 | Feedback | `Alert`, `Badge`, `Spinner`, `Toast`, `Skeleton`, `EmptyState`, `Progress` |
 | Content | `Card`, `Avatar`, `Divider` |
 | Navigation | `Tabs`, `Breadcrumb`, `Pagination` |

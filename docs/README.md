@@ -18,7 +18,7 @@ Docusaurus หรือระบบ docs อื่นได้โดยไม่
 - License: MIT
 - React support: `>=18.2.0 <20`
 - Themes: `light`, `dark` และ system preference
-- Component exports: 42
+- Component exports: 44
 
 ## เส้นทางแนะนำสำหรับเว็บ docs
 

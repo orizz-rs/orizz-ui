@@ -126,11 +126,11 @@ caption และ keyboard behavior ให้ครบ
 
 - `DatePicker` (เสร็จแล้ว) และ `DateRangePicker`
 - `MultiSelect` (เสร็จแล้ว)
-- `AsyncCombobox`
+- `AsyncCombobox` (เสร็จแล้ว)
 - `PercentageInput` (เสร็จแล้ว)
 - `QuantityInput` (เสร็จแล้ว)
 - `TimeInput` (เสร็จแล้ว)
-- `FileUpload`
+- `FileUpload` (เสร็จแล้ว)
 - `Form`, `Fieldset` และ validation message helpers
 
 การแสดงเงิน, ตัวเลข, วันที่ และเวลาให้ใช้ `Intl` และรับ locale/timezone จากแอป

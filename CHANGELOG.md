@@ -37,6 +37,8 @@ All notable changes to `@orizz-rs/ui` are documented here.
   tests, and public package exports.
 - Added `PercentageInput`, `QuantityInput`, and `TimeInput` form controls with
   Storybook stories, tests, and public package exports.
+- Added `AsyncCombobox` and `FileUpload` form controls with Storybook stories,
+  tests, and public package exports.
 - Added ERP foundation components on `feature/erp-component-foundation`:
   `FormField`, `NumberInput`, `CurrencyInput`, `Combobox`, `Dialog`, and
   `Popover`.

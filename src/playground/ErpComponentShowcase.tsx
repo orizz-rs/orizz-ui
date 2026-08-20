@@ -2,11 +2,13 @@ import { useState, type JSX } from 'react'
 import {
   Badge,
   Button,
+  AsyncCombobox,
   Combobox,
   CurrencyInput,
   DatePicker,
   Dialog,
   FormField,
+  FileUpload,
   MultiSelect,
   NumberInput,
   PercentageInput,
@@ -27,6 +29,18 @@ const teamOptions = [
   { value: 'people', label: 'People', description: 'Team and permissions' },
 ] as const
 
+const customerOptions = [
+  { value: 'acme', label: 'Acme Co.', description: 'CUS-001' },
+  { value: 'green-field', label: 'Green Field Ltd.', description: 'CUS-002' },
+  { value: 'northstar', label: 'Northstar Supply', description: 'CUS-003' },
+] as const
+
+async function loadCustomerOptions(query: string) {
+  return customerOptions.filter((customer) =>
+    customer.label.toLowerCase().includes(query.toLowerCase()),
+  )
+}
+
 export function ErpComponentShowcase(): JSX.Element {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [popoverOpen, setPopoverOpen] = useState(false)
@@ -39,7 +53,7 @@ export function ErpComponentShowcase(): JSX.Element {
           <span className="eyebrow">ERP foundation</span>
           <h2 id="erp-components-title">New components for ERP workflows</h2>
         </div>
-        <Badge tone="brand">11 new components</Badge>
+        <Badge tone="brand">13 new components</Badge>
       </div>
 
       <div className="erp-showcase-grid">
@@ -69,6 +83,31 @@ export function ErpComponentShowcase(): JSX.Element {
               label="Warehouse"
               options={warehouseOptions}
               placeholder="Search warehouse…"
+              fullWidth
+            />
+          </div>
+        </article>
+
+        <article className="showcase-card">
+          <header className="showcase-card__header">
+            <div>
+              <span className="component-label">Async and files</span>
+              <h3>Customer and attachments</h3>
+            </div>
+          </header>
+          <div className="erp-showcase-form">
+            <AsyncCombobox
+              label="Customer"
+              loadOptions={loadCustomerOptions}
+              hint="Loads options when the search query changes."
+              fullWidth
+            />
+            <FileUpload
+              label="Supporting documents"
+              accept=".pdf,.xlsx"
+              multiple
+              maxFiles={3}
+              hint="Add up to three invoices or spreadsheets."
               fullWidth
             />
           </div>

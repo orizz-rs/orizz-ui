@@ -28,6 +28,8 @@
 | `PercentageInput` | รับค่าเปอร์เซ็นต์พร้อม `%` suffix |
 | `QuantityInput` | รับจำนวนพร้อม unit เช่น kg หรือ pcs |
 | `TimeInput` | เลือกเวลาผ่าน native browser time picker |
+| `AsyncCombobox` | ค้นหา option จาก async data source พร้อม loading/error state |
+| `FileUpload` | เลือกและจัดการไฟล์แนบ พร้อม validation ของจำนวนและขนาดไฟล์ |
 
 ## Feedback
 
