@@ -9,12 +9,16 @@ import {
   Dialog,
   FormField,
   FileUpload,
+  Fieldset,
+  Form,
+  FormActions,
   MultiSelect,
   NumberInput,
   PercentageInput,
   Popover,
   QuantityInput,
   TimeInput,
+  TextField,
 } from '../index'
 
 const warehouseOptions = [
@@ -53,7 +57,7 @@ export function ErpComponentShowcase(): JSX.Element {
           <span className="eyebrow">ERP foundation</span>
           <h2 id="erp-components-title">New components for ERP workflows</h2>
         </div>
-        <Badge tone="brand">13 new components</Badge>
+        <Badge tone="brand">15 new components</Badge>
       </div>
 
       <div className="erp-showcase-grid">
@@ -86,6 +90,24 @@ export function ErpComponentShowcase(): JSX.Element {
               fullWidth
             />
           </div>
+        </article>
+
+        <article className="showcase-card">
+          <header className="showcase-card__header">
+            <div>
+              <span className="component-label">Form primitives</span>
+              <h3>Grouped transaction details</h3>
+            </div>
+          </header>
+          <Form aria-label="Purchase order details" onSubmit={(event) => event.preventDefault()}>
+            <Fieldset legend="Purchase order details" description="The details are shared with the approval workflow.">
+              <TextField label="Reference number" defaultValue="PO-2026-0084" fullWidth />
+            </Fieldset>
+            <FormActions align="between">
+              <Button variant="ghost">Save draft</Button>
+              <Button type="submit">Continue</Button>
+            </FormActions>
+          </Form>
         </article>
 
         <article className="showcase-card">

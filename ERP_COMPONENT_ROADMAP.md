@@ -131,7 +131,7 @@ caption และ keyboard behavior ให้ครบ
 - `QuantityInput` (เสร็จแล้ว)
 - `TimeInput` (เสร็จแล้ว)
 - `FileUpload` (เสร็จแล้ว)
-- `Form`, `Fieldset` และ validation message helpers
+- `Form`, `Fieldset` (เสร็จแล้ว) และ validation message helpers
 
 การแสดงเงิน, ตัวเลข, วันที่ และเวลาให้ใช้ `Intl` และรับ locale/timezone จากแอป
 ไม่ hard-code ภาษาไทยหรือรูปแบบวันที่ไว้ใน component

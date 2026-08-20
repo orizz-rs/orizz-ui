@@ -39,6 +39,8 @@ All notable changes to `@orizz-rs/ui` are documented here.
   Storybook stories, tests, and public package exports.
 - Added `AsyncCombobox` and `FileUpload` form controls with Storybook stories,
   tests, and public package exports.
+- Added `Form` and `Fieldset` primitives with Storybook stories, tests, and
+  public package exports.
 - Added ERP foundation components on `feature/erp-component-foundation`:
   `FormField`, `NumberInput`, `CurrencyInput`, `Combobox`, `Dialog`, and
   `Popover`.

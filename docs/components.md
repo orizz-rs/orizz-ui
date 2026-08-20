@@ -30,6 +30,8 @@
 | `TimeInput` | เลือกเวลาผ่าน native browser time picker |
 | `AsyncCombobox` | ค้นหา option จาก async data source พร้อม loading/error state |
 | `FileUpload` | เลือกและจัดการไฟล์แนบ พร้อม validation ของจำนวนและขนาดไฟล์ |
+| `Form` | form wrapper สำหรับ submit state, error summary และ action layout |
+| `Fieldset` | group ของ field ที่มี legend, description และ native disabled state |
 
 ## Feedback
 
