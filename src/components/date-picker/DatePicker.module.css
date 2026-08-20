@@ -1,0 +1,13 @@
+.field { display: inline-flex; flex-direction: column; gap: var(--orizz-space-2); min-width: 15rem; font-family: var(--orizz-font-sans); }
+.fullWidth { width: 100%; }
+.label { color: var(--orizz-color-text); font-size: .8125rem; font-weight: 700; }
+.control { position: relative; }
+.input { box-sizing: border-box; width: 100%; min-height: 2.75rem; padding: 0 var(--orizz-space-10) 0 var(--orizz-space-3); border: 1px solid var(--orizz-color-border); border-radius: var(--orizz-radius-md); color: var(--orizz-color-text); background: var(--orizz-color-surface); font: inherit; font-size: .875rem; transition: border-color 160ms ease, box-shadow 160ms ease; }
+.input:hover:not(:disabled) { border-color: var(--orizz-color-border-strong); }
+.input:focus-visible { border-color: var(--orizz-color-brand); outline: 3px solid var(--orizz-color-focus); outline-offset: 1px; }
+.input:disabled { cursor: not-allowed; opacity: .55; }
+.input::-webkit-calendar-picker-indicator { position: relative; z-index: 1; cursor: pointer; opacity: 0; }
+.invalid { border-color: var(--orizz-color-danger); }
+.icon { position: absolute; top: 50%; right: var(--orizz-space-3); width: 1rem; height: 1rem; pointer-events: none; stroke: var(--orizz-color-text-muted); stroke-width: 1.5; transform: translateY(-50%); }
+.hint, .error { font-size: .75rem; line-height: 1.4; }.hint { color: var(--orizz-color-text-muted); }.error { color: var(--orizz-color-danger); }
+@media (prefers-reduced-motion: reduce) { .input { transition: none; } }

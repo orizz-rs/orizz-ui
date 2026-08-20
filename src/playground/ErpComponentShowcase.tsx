@@ -2,12 +2,23 @@ import { useState, type JSX } from 'react'
 import {
   Badge,
   Button,
+  AsyncCombobox,
   Combobox,
   CurrencyInput,
+  DatePicker,
   Dialog,
   FormField,
+  FileUpload,
+  Fieldset,
+  Form,
+  FormActions,
+  MultiSelect,
   NumberInput,
+  PercentageInput,
   Popover,
+  QuantityInput,
+  TimeInput,
+  TextField,
 } from '../index'
 
 const warehouseOptions = [
@@ -16,9 +27,28 @@ const warehouseOptions = [
   { value: 'hdy', label: 'Hat Yai warehouse', description: 'WH-HDY · 420 items' },
 ] as const
 
+const teamOptions = [
+  { value: 'finance', label: 'Finance', description: 'Invoices and reporting' },
+  { value: 'operations', label: 'Operations', description: 'Orders and fulfillment' },
+  { value: 'people', label: 'People', description: 'Team and permissions' },
+] as const
+
+const customerOptions = [
+  { value: 'acme', label: 'Acme Co.', description: 'CUS-001' },
+  { value: 'green-field', label: 'Green Field Ltd.', description: 'CUS-002' },
+  { value: 'northstar', label: 'Northstar Supply', description: 'CUS-003' },
+] as const
+
+async function loadCustomerOptions(query: string) {
+  return customerOptions.filter((customer) =>
+    customer.label.toLowerCase().includes(query.toLowerCase()),
+  )
+}
+
 export function ErpComponentShowcase(): JSX.Element {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [popoverOpen, setPopoverOpen] = useState(false)
+  const [teams, setTeams] = useState<readonly string[]>(['finance'])
 
   return (
     <section className="section" aria-labelledby="erp-components-title">
@@ -27,7 +57,7 @@ export function ErpComponentShowcase(): JSX.Element {
           <span className="eyebrow">ERP foundation</span>
           <h2 id="erp-components-title">New components for ERP workflows</h2>
         </div>
-        <Badge tone="brand">6 new components</Badge>
+        <Badge tone="brand">15 new components</Badge>
       </div>
 
       <div className="erp-showcase-grid">
@@ -65,6 +95,63 @@ export function ErpComponentShowcase(): JSX.Element {
         <article className="showcase-card">
           <header className="showcase-card__header">
             <div>
+              <span className="component-label">Form primitives</span>
+              <h3>Grouped transaction details</h3>
+            </div>
+          </header>
+          <Form aria-label="Purchase order details" onSubmit={(event) => event.preventDefault()}>
+            <Fieldset legend="Purchase order details" description="The details are shared with the approval workflow.">
+              <TextField label="Reference number" defaultValue="PO-2026-0084" fullWidth />
+            </Fieldset>
+            <FormActions align="between">
+              <Button variant="ghost">Save draft</Button>
+              <Button type="submit">Continue</Button>
+            </FormActions>
+          </Form>
+        </article>
+
+        <article className="showcase-card">
+          <header className="showcase-card__header">
+            <div>
+              <span className="component-label">Async and files</span>
+              <h3>Customer and attachments</h3>
+            </div>
+          </header>
+          <div className="erp-showcase-form">
+            <AsyncCombobox
+              label="Customer"
+              loadOptions={loadCustomerOptions}
+              hint="Loads options when the search query changes."
+              fullWidth
+            />
+            <FileUpload
+              label="Supporting documents"
+              accept=".pdf,.xlsx"
+              multiple
+              maxFiles={3}
+              hint="Add up to three invoices or spreadsheets."
+              fullWidth
+            />
+          </div>
+        </article>
+
+        <article className="showcase-card">
+          <header className="showcase-card__header">
+            <div>
+              <span className="component-label">Transaction values</span>
+              <h3>Quantity, percentage, and time</h3>
+            </div>
+          </header>
+          <div className="erp-showcase-form">
+            <QuantityInput label="Ordered quantity" unit="kg" defaultValue={12.5} min={0} step={0.01} />
+            <PercentageInput label="Tax rate" defaultValue={7} min={0} max={100} step={0.01} />
+            <TimeInput label="Requested delivery time" defaultValue="09:30" />
+          </div>
+        </article>
+
+        <article className="showcase-card">
+          <header className="showcase-card__header">
+            <div>
               <span className="component-label">Field primitive</span>
               <h3>Shared form contract</h3>
             </div>
@@ -82,6 +169,29 @@ export function ErpComponentShowcase(): JSX.Element {
               aria-describedby="erp-note-message"
             />
           </FormField>
+        </article>
+
+        <article className="showcase-card">
+          <header className="showcase-card__header">
+            <div>
+              <span className="component-label">ERP form controls</span>
+              <h3>Date and team selection</h3>
+            </div>
+          </header>
+          <div className="erp-showcase-form">
+            <DatePicker
+              label="Requested delivery"
+              defaultValue="2026-08-20"
+              hint="Uses the user's browser and locale date picker."
+            />
+            <MultiSelect
+              label="Responsible teams"
+              options={teamOptions}
+              value={teams}
+              onValueChange={setTeams}
+              fullWidth
+            />
+          </div>
         </article>
 
         <article className="showcase-card showcase-card--wide">

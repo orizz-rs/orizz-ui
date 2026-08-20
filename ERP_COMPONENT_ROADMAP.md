@@ -124,14 +124,14 @@ caption และ keyboard behavior ให้ครบ
 
 ## Milestone 4 — ERP form controls
 
-- `DatePicker` และ `DateRangePicker`
-- `MultiSelect`
-- `AsyncCombobox`
-- `PercentageInput`
-- `QuantityInput`
-- `TimeInput`
-- `FileUpload`
-- `Form`, `Fieldset` และ validation message helpers
+- `DatePicker` (เสร็จแล้ว) และ `DateRangePicker`
+- `MultiSelect` (เสร็จแล้ว)
+- `AsyncCombobox` (เสร็จแล้ว)
+- `PercentageInput` (เสร็จแล้ว)
+- `QuantityInput` (เสร็จแล้ว)
+- `TimeInput` (เสร็จแล้ว)
+- `FileUpload` (เสร็จแล้ว)
+- `Form`, `Fieldset` (เสร็จแล้ว) และ validation message helpers
 
 การแสดงเงิน, ตัวเลข, วันที่ และเวลาให้ใช้ `Intl` และรับ locale/timezone จากแอป
 ไม่ hard-code ภาษาไทยหรือรูปแบบวันที่ไว้ใน component

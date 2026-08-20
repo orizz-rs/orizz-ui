@@ -23,6 +23,15 @@
 | `NumberInput` | รับค่าตัวเลขพร้อม `onValueChange` |
 | `CurrencyInput` | รับจำนวนเงินพร้อม currency adornment |
 | `Combobox` | ค้นหาและเลือก option พร้อม keyboard navigation |
+| `DatePicker` | เลือกวันที่ผ่าน native browser date picker |
+| `MultiSelect` | เลือกได้หลาย option พร้อม controlled/uncontrolled values |
+| `PercentageInput` | รับค่าเปอร์เซ็นต์พร้อม `%` suffix |
+| `QuantityInput` | รับจำนวนพร้อม unit เช่น kg หรือ pcs |
+| `TimeInput` | เลือกเวลาผ่าน native browser time picker |
+| `AsyncCombobox` | ค้นหา option จาก async data source พร้อม loading/error state |
+| `FileUpload` | เลือกและจัดการไฟล์แนบ พร้อม validation ของจำนวนและขนาดไฟล์ |
+| `Form` | form wrapper สำหรับ submit state, error summary และ action layout |
+| `Fieldset` | group ของ field ที่มี legend, description และ native disabled state |
 
 ## Feedback
 
@@ -103,4 +112,3 @@
 
 เมื่อใช้ custom columns ให้ระบุ `id`, `header` และ `accessor` หรือ `cell` ให้ครบ
 และรักษา row id ให้ stable เสมอ
-
