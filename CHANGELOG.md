@@ -2,6 +2,21 @@
 
 All notable changes to `@orizz-rs/ui` are documented here.
 
+## [0.2.4] - 2026-08-20
+
+### Added
+
+- Date and selection controls: `DatePicker`, `TimeInput`, and `MultiSelect`.
+- ERP value inputs: `PercentageInput` and `QuantityInput`.
+- Data-connected and document controls: `AsyncCombobox` and `FileUpload`.
+- Form composition primitives: `Form`, `FormActions`, and `Fieldset`.
+- Storybook stories, unit tests, public exports, and ERP playground examples
+  for all new components.
+
+### Changed
+
+- Updated the component catalog and ERP roadmap for 46 public components.
+
 ## [0.2.1] - 2026-08-19
 
 - Updated the npm package homepage to the Orizz RS documentation site.
@@ -33,14 +48,6 @@ All notable changes to `@orizz-rs/ui` are documented here.
 
 ## Unreleased
 
-- Added `DatePicker` and `MultiSelect` form controls with Storybook stories,
-  tests, and public package exports.
-- Added `PercentageInput`, `QuantityInput`, and `TimeInput` form controls with
-  Storybook stories, tests, and public package exports.
-- Added `AsyncCombobox` and `FileUpload` form controls with Storybook stories,
-  tests, and public package exports.
-- Added `Form` and `Fieldset` primitives with Storybook stories, tests, and
-  public package exports.
 - Added ERP foundation components on `feature/erp-component-foundation`:
   `FormField`, `NumberInput`, `CurrencyInput`, `Combobox`, `Dialog`, and
   `Popover`.
