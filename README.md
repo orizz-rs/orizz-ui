@@ -66,14 +66,14 @@ The package is published publicly to the npm registry. Install the current
 release in a React application without additional registry configuration:
 
 ```bash
-bun add @orizz-rs/ui@0.2.4
+bun add @orizz-rs/ui@0.2.5
 ```
 
 To verify the package and registry before installing:
 
 ```bash
 npm view @orizz-rs/ui version --registry=https://registry.npmjs.org
-npm view @orizz-rs/ui@0.2.4 dist.tarball --registry=https://registry.npmjs.org
+npm view @orizz-rs/ui@0.2.5 dist.tarball --registry=https://registry.npmjs.org
 ```
 
 Import a component and use it immediately. The package entry automatically
@@ -134,7 +134,7 @@ instead of adding the repository directory directly:
 bun run pack:local
 
 # Run in the consuming application; use the generated absolute path
-bun add /path/to/orizz-ui/.local-pack/orizz-rs-ui-0.2.4.tgz
+bun add /path/to/orizz-ui/.local-pack/orizz-rs-ui-0.2.5.tgz
 ```
 
 A direct `file:/path/to/orizz-ui` dependency is a development symlink. Vite can
@@ -192,7 +192,7 @@ If the npm account requires interactive 2FA, the script uses legacy auth mode
 so the one-time password can be entered in the terminal.
 
 Create a GitHub Release using a tag matching the package version, such as
-`v0.2.4`. The
+`v0.2.5`. The
 `Publish package` workflow installs locked dependencies, runs the publish
 checks, builds the package, and publishes it publicly to npm. It can also be
 started manually from the Actions tab when needed.
