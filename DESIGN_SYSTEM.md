@@ -359,7 +359,8 @@ src/components/component-name/
 3. Keyboard และ focus behavior ที่เหมาะสม
 4. Unit tests สำหรับ behavior สำคัญ
 5. Storybook stories ครอบคลุม variant และ state
-6. Public export ผ่าน `src/components/index.ts`
+6. Public export ผ่าน layer index (`src/components/index.ts` หรือ
+   `src/compositions/index.ts`) และ `src/index.ts`
 
 ## 9. Accessibility checklist
 

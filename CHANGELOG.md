@@ -2,6 +2,15 @@
 
 All notable changes to `@orizz-rs/ui` are documented here.
 
+## [0.2.5] - 2026-08-22
+
+### Changed
+
+- Reorganized the internal source structure into components, compositions,
+  foundations, hooks, and utilities.
+- Moved `DataTable` into the compositions layer without changing the package
+  root public API.
+
 ## [0.2.4] - 2026-08-20
 
 ### Added
