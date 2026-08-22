@@ -1,8 +1,8 @@
 import type { JSX } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Avatar } from '../avatar'
-import { Badge } from '../badge'
-import { Button } from '../button'
+import { Avatar } from '../../components/avatar'
+import { Badge } from '../../components/badge'
+import { Button } from '../../components/button'
 import { DataTable } from './DataTable'
 import './DataTable.stories.css'
 

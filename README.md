@@ -22,6 +22,12 @@ src/
 │   ├── button/
 │   ├── text-field/
 │   └── index.ts
+├── compositions/
+│   ├── data-table/
+│   └── index.ts
+├── foundations/             # tokens, typography, icon conventions
+├── hooks/                   # cross-component React hooks
+├── utils/                   # framework-independent helpers
 ├── playground/             # Vite design-system showcase
 ├── styles/
 │   └── tokens.css
@@ -153,9 +159,9 @@ package.
 
 ## Add another component
 
-1. Copy the `src/components/button` convention into a new lowercase folder.
+1. Add primitives to `src/components/` and compositions to `src/compositions/`.
 2. Export its component and public types from the folder's `index.ts`.
-3. Re-export that folder from `src/components/index.ts`.
+3. Re-export it from the matching layer index, then from `src/index.ts`.
 4. Add or reuse semantic tokens from `src/styles/tokens.css`.
 5. Run lint, tests, Storybook build, and the package build before publishing.
 
