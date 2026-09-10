@@ -2,6 +2,18 @@
 
 All notable changes to `@orizz-rs/ui` are documented here.
 
+## [Unreleased]
+
+### Added
+
+- `CodeEditor` composition with multi-language support: syntax highlighting,
+  line numbers, caret position, Tab indent, Enter auto-indent, language
+  picker, read-only state, and light/dark themes.
+- Language layer separated from the editor UI: `LanguageDefinition` data
+  contract, pure `tokenizeCode` engine, registry with `registerLanguage` and
+  file-extension detection, plus built-in definitions for TypeScript,
+  JavaScript, JSON, Python, Rust, SQL, and plain text.
+
 ## [0.2.5] - 2026-08-22
 
 ### Changed

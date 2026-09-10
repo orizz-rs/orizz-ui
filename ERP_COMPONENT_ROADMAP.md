@@ -155,6 +155,25 @@ Component ที่ควรอยู่ใน `@orizz-rs/erp-ui` หรือ p
 Component กลุ่มนี้ต้องรับ entity data, formatter, permission result และ callbacks
 จากแอป ไม่ควรเรียก backend โดยตรง
 
+## Milestone 6 — Code editor (in progress)
+
+`CodeEditor` อยู่ใน `compositions/code-editor` และแยกสองชั้นออกจากกันชัดเจน:
+
+- `languages/` — ชั้นข้อมูลและฟังก์ชันล้วน ห้าม import React หรือ DOM:
+  `types.ts` ประกาศ `LanguageDefinition` contract, `tokenizer.ts` เป็น pure
+  engine, `rules.ts` เป็น helper สร้างกฎ, `registry.ts` เก็บ
+  `getLanguage`/`listLanguages`/`detectLanguage`/`registerLanguage` และมีไฟล์
+  ข้อมูลรายภาษา เช่น `typescript.ts`, `python.ts`, `rust.ts`, `sql.ts`
+- ชั้น UI ประกอบจาก primitives: `CodeEditor.tsx`, `EditorHighlight.tsx`,
+  `EditorGutter.tsx`, `EditorStatusBar.tsx`, `useCodeEditor.ts` และ
+  `CodeEditor.utils.ts`
+
+แอปขยายภาษาได้สองทาง: `registerLanguage()` เพิ่มเข้า registry เพื่อให้เลือกใน
+picker ได้ หรือส่ง `LanguageDefinition` เข้า prop `language` ตรง ๆ
+
+ลำดับถัดไป: virtualized rendering สำหรับไฟล์ใหญ่, ค้นหา/แทนที่, bracket
+matching และ label ต้องรับจาก props ไม่ฝังภาษาของ UI ไว้ใน component
+
 ## Release plan
 
 - `0.2.0`: Dialog, Popover, FormField, NumberInput, CurrencyInput, Combobox
