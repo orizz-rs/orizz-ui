@@ -6,6 +6,9 @@ All notable changes to `@orizz-rs/ui` are documented here.
 
 ### Added
 
+- `TreeView` primitive with nested nodes, icons, controlled/uncontrolled
+  expansion, lazy `loadChildren`, WAI-ARIA tree keyboard navigation, disabled
+  nodes, and light/dark theme support.
 - `CodeEditor` composition with multi-language support: syntax highlighting,
   line numbers, caret position, Tab indent, Enter auto-indent, language
   picker, read-only state, and light/dark themes.
