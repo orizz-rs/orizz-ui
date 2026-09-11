@@ -6,6 +6,8 @@ interface DataTableToolbarProps {
   readonly totalRows: number
   readonly selectable: boolean
   readonly selectedRows: number
+  readonly serverMode?: boolean
+  readonly columnSettings?: ReactNode
   readonly selectionActions?: ReactNode
   readonly error?: ReactNode
   readonly onRetry?: () => void
@@ -16,6 +18,8 @@ export function DataTableToolbar({
   totalRows,
   selectable,
   selectedRows,
+  serverMode = false,
+  columnSettings,
   selectionActions,
   error,
   onRetry,
@@ -24,7 +28,7 @@ export function DataTableToolbar({
     <>
       <div className={styles.toolbar}>
         <span className={styles.count} aria-live="polite">
-          {visibleRows} of {totalRows} rows
+          {serverMode ? `${totalRows} rows` : `${visibleRows} of ${totalRows} rows`}
         </span>
         {selectable && selectedRows > 0 ? (
           <div className={styles.selectionSummary}>
@@ -32,6 +36,7 @@ export function DataTableToolbar({
             {selectionActions}
           </div>
         ) : null}
+        {columnSettings ? <div className={styles.settingsArea}>{columnSettings}</div> : null}
       </div>
       {error ? (
         <div className={styles.error} role="alert">

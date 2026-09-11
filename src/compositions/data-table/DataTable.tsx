@@ -13,6 +13,7 @@ import {
   hasBlockingValidationIssue,
   validateDataTable,
 } from './DataTable.validation'
+import { DataTableColumnSettings } from './DataTableColumnSettings'
 import { DataTableHeader } from './DataTableHeader'
 import { DataTableBody } from './DataTableBody'
 import { DataTablePagination } from './DataTablePagination'
@@ -54,12 +55,27 @@ export function DataTable<T extends object>({
   loading = false,
   error,
   onRetry,
+  density = 'regular',
+  stickyHeader = false,
+  maxHeight,
+  showRowNumbers = false,
+  stickyFirstColumn = false,
+  totalRows,
+  sort,
+  onSortChange,
+  pageIndex,
+  onPageChange,
+  filters,
+  onFiltersChange,
+  visibleColumnIds,
+  onVisibleColumnIdsChange,
   className,
   ...divProps
 }: DataTableProps<T>): JSX.Element {
   const filterIdPrefix = useId()
-  const [filters, setFilters] = useState<Readonly<Record<string, string>>>({})
-  const [sort, setSort] = useState<DataTableSortState | null>(initialSort ?? null)
+  const serverMode = totalRows !== undefined
+  const [internalFilters, setInternalFilters] = useState<Readonly<Record<string, string>>>({})
+  const [internalSort, setInternalSort] = useState<DataTableSortState | null>(initialSort ?? null)
   const [currentPage, setCurrentPage] = useState(initialPage)
   const [internalPageSize, setInternalPageSize] = useState(
     requestedPageSize ?? pageSizeOptions[0] ?? 10,
@@ -67,12 +83,27 @@ export function DataTable<T extends object>({
   const [internalSelectedRowIds, setInternalSelectedRowIds] = useState<
     readonly string[]
   >(selectedRowIds ?? [])
+  const [internalVisibleColumnIds, setInternalVisibleColumnIds] = useState<
+    readonly string[] | undefined
+  >(undefined)
   const activePageSize = Math.max(1, requestedPageSize ?? internalPageSize)
   const activeSelectedRowIds = selectedRowIds ?? internalSelectedRowIds
+  const activeFilters = filters ?? internalFilters
+  const activeSort = sort !== undefined ? sort : internalSort
   const { resolvedColumns, resolveRowId } = useDataTableSetup(
     columns,
     data,
     getRowId,
+  )
+  const defaultVisibleColumnIds = useMemo(
+    () => resolvedColumns.filter((column) => !column.hidden).map((column) => column.id),
+    [resolvedColumns],
+  )
+  const activeVisibleColumnIds =
+    visibleColumnIds ?? internalVisibleColumnIds ?? defaultVisibleColumnIds
+  const visibleColumns = useMemo(
+    () => resolvedColumns.filter((column) => activeVisibleColumnIds.includes(column.id)),
+    [activeVisibleColumnIds, resolvedColumns],
   )
   const issues = useMemo(
     () => (validate ? validateDataTable(resolvedColumns, data, resolveRowId) : []),
@@ -80,32 +111,41 @@ export function DataTable<T extends object>({
   )
   const isBlocked = hasBlockingValidationIssue(issues)
   const visibleRows = useMemo(() => {
-    const filteredRows = filterDataTableRows(data, resolvedColumns, filters)
-    return sortDataTableRows(filteredRows, resolvedColumns, sort)
-  }, [data, filters, resolvedColumns, sort])
-  const pageCount = Math.max(1, Math.ceil(visibleRows.length / activePageSize))
-  const pageIndex = Math.min(Math.max(currentPage, 0), pageCount - 1)
-  const pageRows = useMemo(
-    () =>
-      visibleRows.slice(
-        pageIndex * activePageSize,
-        (pageIndex + 1) * activePageSize,
-      ),
-    [activePageSize, pageIndex, visibleRows],
-  )
+    if (serverMode) return data
+    const filteredRows = filterDataTableRows(data, resolvedColumns, activeFilters)
+    return sortDataTableRows(filteredRows, resolvedColumns, activeSort)
+  }, [activeFilters, activeSort, data, resolvedColumns, serverMode])
+  const pageCount = serverMode
+    ? Math.max(1, Math.ceil(totalRows / activePageSize))
+    : Math.max(1, Math.ceil(visibleRows.length / activePageSize))
+  const requestedPageIndex = pageIndex !== undefined ? pageIndex : currentPage
+  const effectivePageIndex = Math.min(Math.max(requestedPageIndex, 0), pageCount - 1)
+  const pageRows = serverMode
+    ? data
+    : visibleRows.slice(
+        effectivePageIndex * activePageSize,
+        (effectivePageIndex + 1) * activePageSize,
+      )
+  const rowNumberStart = effectivePageIndex * activePageSize
   const visibleRowIds = pageRows.map((row) => resolveRowId(row))
   const allVisibleRowsSelected =
     selectable &&
     visibleRowIds.length > 0 &&
     visibleRowIds.every((rowId) => activeSelectedRowIds.includes(rowId))
+  const gridRowsTotal = serverMode ? totalRows : data.length
+
   const handleFilterChange = (columnId: string, value: string): void => {
-    setFilters((current) => ({ ...current, [columnId]: value }))
-    setCurrentPage(0)
+    const nextFilters = { ...activeFilters, [columnId]: value }
+    if (filters === undefined) setInternalFilters(nextFilters)
+    onFiltersChange?.(nextFilters)
+    if (pageIndex === undefined) setCurrentPage(0)
   }
 
   const handleSort = (columnId: string): void => {
-    setSort((current) => getNextSort(columnId, current))
-    setCurrentPage(0)
+    const nextSort = getNextSort(columnId, activeSort)
+    if (sort === undefined) setInternalSort(nextSort)
+    onSortChange?.(nextSort)
+    if (pageIndex === undefined) setCurrentPage(0)
   }
 
   const updateSelection = (nextSelection: readonly string[]): void => {
@@ -129,11 +169,23 @@ export function DataTable<T extends object>({
 
   const handlePageSizeChange = (nextPageSize: number): void => {
     if (requestedPageSize === undefined) setInternalPageSize(nextPageSize)
-    setCurrentPage(0)
+    if (pageIndex === undefined) setCurrentPage(0)
   }
 
+  const updateVisibleColumns = (nextColumnIds: readonly string[]): void => {
+    if (visibleColumnIds === undefined) setInternalVisibleColumnIds(nextColumnIds)
+    onVisibleColumnIdsChange?.(nextColumnIds)
+  }
+
+  const scrollerStyle =
+    maxHeight !== undefined ? { maxHeight } : undefined
+
   return (
-    <div {...divProps} className={[styles.root, className].filter(Boolean).join(' ')}>
+    <div
+      {...divProps}
+      className={[styles.root, className].filter(Boolean).join(' ')}
+      data-density={density}
+    >
       {issues.length > 0 ? (
         <div className={styles.validation} role="alert">
           <strong>Table data needs attention</strong>
@@ -145,26 +197,42 @@ export function DataTable<T extends object>({
 
       {!isBlocked ? (
         <DataTableToolbar
-          visibleRows={visibleRows.length}
-          totalRows={data.length}
+          visibleRows={serverMode ? pageRows.length : visibleRows.length}
+          totalRows={gridRowsTotal}
+          serverMode={serverMode}
           selectable={selectable}
           selectedRows={activeSelectedRowIds.length}
           selectionActions={selectionActions}
+          columnSettings={
+            resolvedColumns.length > 1 ? (
+              <DataTableColumnSettings
+                columns={resolvedColumns}
+                visibleColumnIds={activeVisibleColumnIds}
+                onChange={updateVisibleColumns}
+              />
+            ) : undefined
+          }
           error={error}
           onRetry={onRetry}
         />
       ) : null}
 
       {!isBlocked ? (
-        <div className={styles.scroller}>
-          <table className={styles.table}>
+        <div
+          className={styles.scroller}
+          data-sticky-header={stickyHeader || undefined}
+          data-scroll-y={stickyHeader || maxHeight !== undefined ? 'true' : undefined}
+          style={scrollerStyle}
+        >
+          <table className={styles.table} data-sticky-first={stickyFirstColumn || undefined}>
             <caption className={styles.visuallyHidden}>{caption}</caption>
             <DataTableHeader
-              columns={resolvedColumns}
+              columns={visibleColumns}
               filterIdPrefix={filterIdPrefix}
-              filters={filters}
+              filters={activeFilters}
               showFilters={showFilters}
-              sort={sort}
+              showRowNumbers={showRowNumbers}
+              sort={activeSort}
               onFilterChange={handleFilterChange}
               onSort={handleSort}
               selectable={selectable}
@@ -172,11 +240,13 @@ export function DataTable<T extends object>({
               onSelectAll={handleSelectAll}
             />
             <DataTableBody
-              columns={resolvedColumns}
+              columns={visibleColumns}
               rows={pageRows}
               resolveRowId={resolveRowId}
               selectable={selectable}
               selectedRowIds={activeSelectedRowIds}
+              showRowNumbers={showRowNumbers}
+              rowNumberStart={rowNumberStart}
               loading={loading}
               emptyMessage={emptyMessage}
               onSelectRow={handleSelectRow}
@@ -186,12 +256,12 @@ export function DataTable<T extends object>({
       ) : null}
       {!isBlocked ? (
         <DataTablePagination
-          pageIndex={pageIndex}
+          pageIndex={effectivePageIndex}
           pageSize={activePageSize}
           pageCount={pageCount}
-          totalRows={visibleRows.length}
+          totalRows={serverMode ? totalRows : visibleRows.length}
           pageSizeOptions={pageSizeOptions}
-          onPageChange={setCurrentPage}
+          onPageChange={onPageChange ?? setCurrentPage}
           onPageSizeChange={handlePageSizeChange}
         />
       ) : null}

@@ -1,4 +1,4 @@
-import type { JSX } from 'react'
+import { useState, type JSX } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Avatar } from '../../components/avatar'
 import { Badge } from '../../components/badge'
@@ -158,4 +158,76 @@ export const AdvancedCustomization: Story = {
 
 export const ValidationErrors: Story = {
   render: () => <InvalidDataTable />,
+}
+
+interface QueryRow {
+  readonly id: string
+  readonly table_name: string
+  readonly row_count: number
+  readonly size_bytes: number
+  readonly updated_at: string
+}
+
+const queryResultColumns: readonly DataTableColumn<QueryRow>[] = [
+  { id: 'table_name', header: 'table_name', accessor: 'table_name', minWidth: '12rem', sortable: true },
+  { id: 'row_count', header: 'row_count', accessor: 'row_count', numeric: true, width: 120, sortable: true },
+  { id: 'size_bytes', header: 'size_bytes', accessor: 'size_bytes', numeric: true, width: 140 },
+  { id: 'updated_at', header: 'updated_at', accessor: 'updated_at', hidden: true },
+]
+
+const queryRows: readonly QueryRow[] = [
+  { id: 't1', table_name: 'purchase_order', row_count: 128_450, size_bytes: 9_830_400, updated_at: '2026-09-10 08:12:44' },
+  { id: 't2', table_name: 'customer', row_count: 12_884, size_bytes: 1_572_864, updated_at: '2026-09-10 08:12:44' },
+  { id: 't3', table_name: 'invoice_line', row_count: 1_204_317, size_bytes: 83_886_080, updated_at: '2026-09-09 22:41:07' },
+  { id: 't4', table_name: 'product', row_count: 8_102, size_bytes: 1_048_576, updated_at: '2026-09-09 22:41:07' },
+  { id: 't5', table_name: 'warehouse_stock', row_count: 96_233, size_bytes: 7_340_032, updated_at: '2026-09-08 18:03:52' },
+  { id: 't6', table_name: 'approval_log', row_count: 44_011, size_bytes: 4_194_304, updated_at: '2026-09-08 18:03:52' },
+]
+
+/** Database-client style result grid: compact rows, sticky header and row numbers. */
+export function ResultsGrid(): JSX.Element {
+  return (
+    <DataTable
+      columns={queryResultColumns}
+      data={queryRows}
+      getRowId={(row) => row.id}
+      caption="Query result"
+      density="compact"
+      stickyHeader
+      stickyFirstColumn
+      showRowNumbers
+      maxHeight="18rem"
+      pageSize={5}
+    />
+  )
+}
+
+const serverDataset: readonly QueryRow[] = Array.from({ length: 12 }, (_, index) => ({
+  id: `s${index + 1}`,
+  table_name: `orizz_table_${index + 1}`,
+  row_count: (index + 1) * 137,
+  size_bytes: (index + 1) * 98_304,
+  updated_at: `2026-08-${String((index % 28) + 1).padStart(2, '0')} 10:00:00`,
+}))
+
+/** Server-side paging: the app slices the dataset and reports the total. */
+export function ServerSidePaging(): JSX.Element {
+  const [pageIndex, setPageIndex] = useState(0)
+  const pageSize = 4
+  const rows = serverDataset.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)
+  return (
+    <DataTable
+      columns={queryResultColumns}
+      data={rows}
+      getRowId={(row) => row.id}
+      caption="Server-side query result"
+      totalRows={serverDataset.length}
+      pageIndex={pageIndex}
+      onPageChange={setPageIndex}
+      density="compact"
+      showRowNumbers
+      stickyHeader
+      maxHeight="16rem"
+    />
+  )
 }

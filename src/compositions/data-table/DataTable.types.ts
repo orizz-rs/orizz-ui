@@ -2,6 +2,7 @@ import type { HTMLAttributes, ReactNode } from 'react'
 
 export type DataTableAlign = 'start' | 'center' | 'end'
 export type DataTableSortDirection = 'asc' | 'desc'
+export type DataTableDensity = 'compact' | 'regular' | 'comfortable'
 
 export interface DataTableSortState {
   readonly columnId: string
@@ -39,6 +40,14 @@ export interface DataTableColumn<T extends object> {
   readonly accessor?: keyof T
   readonly cell?: (row: T) => ReactNode
   readonly align?: DataTableAlign
+  /** Right-aligned monospace cell for numeric database values. */
+  readonly numeric?: boolean
+  /** Fixed column width; numbers are treated as pixels. */
+  readonly width?: number | string
+  /** Minimum column width, e.g. `'8rem'`. */
+  readonly minWidth?: string
+  /** Starts hidden; users can re-show it from the column settings. */
+  readonly hidden?: boolean
   readonly required?: boolean
   readonly sortable?: boolean
   readonly compare?: (left: T, right: T) => number
@@ -87,4 +96,29 @@ export interface DataTableProps<T extends object>
   readonly loading?: boolean
   readonly error?: ReactNode
   readonly onRetry?: () => void
+  /** Row height and cell padding; defaults to `'regular'`. */
+  readonly density?: DataTableDensity
+  /** Keeps the header row visible while the table body scrolls. */
+  readonly stickyHeader?: boolean
+  /** Scroll height of the table area; enables vertical scrolling. */
+  readonly maxHeight?: number | string
+  /** Leading column with the ordinal number of each row. */
+  readonly showRowNumbers?: boolean
+  /** Keeps the first leading cell visible during horizontal scrolling. */
+  readonly stickyFirstColumn?: boolean
+  /**
+   * Result count reported by the server. When provided, the table renders
+   * `data` as the current page and stops filtering, sorting and paginating
+   * on its own; wire `onSortChange`, `onPageChange` and `onFiltersChange`
+   * to refetch instead.
+   */
+  readonly totalRows?: number
+  readonly sort?: DataTableSortState | null
+  readonly onSortChange?: (sort: DataTableSortState | null) => void
+  readonly pageIndex?: number
+  readonly onPageChange?: (pageIndex: number) => void
+  readonly filters?: Readonly<Record<string, string>>
+  readonly onFiltersChange?: (filters: Readonly<Record<string, string>>) => void
+  readonly visibleColumnIds?: readonly string[]
+  readonly onVisibleColumnIdsChange?: (columnIds: readonly string[]) => void
 }

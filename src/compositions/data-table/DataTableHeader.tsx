@@ -11,6 +11,7 @@ interface DataTableHeaderProps<T extends object> {
   readonly filterIdPrefix: string
   readonly filters: Readonly<Record<string, string>>
   readonly showFilters: boolean
+  readonly showRowNumbers: boolean
   readonly sort: DataTableSortState | null
   readonly onFilterChange: (columnId: string, value: string) => void
   readonly onSort: (columnId: string) => void
@@ -24,6 +25,7 @@ export function DataTableHeader<T extends object>({
   filterIdPrefix,
   filters,
   showFilters,
+  showRowNumbers,
   sort,
   onFilterChange,
   onSort,
@@ -42,6 +44,11 @@ export function DataTableHeader<T extends object>({
               checked={allVisibleRowsSelected}
               onChange={(event) => onSelectAll(event.target.checked)}
             />
+          </th>
+        ) : null}
+        {showRowNumbers ? (
+          <th className={styles.rowNumberHeader} scope="col" aria-label="Row number">
+            #
           </th>
         ) : null}
         {columns.map((column) => (

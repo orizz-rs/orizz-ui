@@ -9,6 +9,8 @@ interface DataTableBodyProps<T extends object> {
   readonly resolveRowId: (row: T) => string
   readonly selectable: boolean
   readonly selectedRowIds: readonly string[]
+  readonly showRowNumbers: boolean
+  readonly rowNumberStart: number
   readonly loading: boolean
   readonly emptyMessage: string
   readonly onSelectRow: (rowId: string, selected: boolean) => void
@@ -27,11 +29,13 @@ export function DataTableBody<T extends object>({
   resolveRowId,
   selectable,
   selectedRowIds,
+  showRowNumbers,
+  rowNumberStart,
   loading,
   emptyMessage,
   onSelectRow,
 }: DataTableBodyProps<T>): JSX.Element {
-  const columnCount = columns.length + (selectable ? 1 : 0)
+  const columnCount = columns.length + (selectable ? 1 : 0) + (showRowNumbers ? 1 : 0)
 
   if (loading) {
     return (
@@ -59,7 +63,7 @@ export function DataTableBody<T extends object>({
 
   return (
     <tbody>
-      {rows.map((row) => {
+      {rows.map((row, rowIndex) => {
         const rowId = resolveRowId(row)
 
         return (
@@ -74,8 +78,15 @@ export function DataTableBody<T extends object>({
                 />
               </td>
             ) : null}
+            {showRowNumbers ? (
+              <td className={styles.rowNumberCell}>{rowNumberStart + rowIndex + 1}</td>
+            ) : null}
             {columns.map((column) => (
-              <td key={column.id} data-align={column.align ?? 'start'}>
+              <td
+                key={column.id}
+                data-align={column.align ?? (column.numeric ? 'end' : 'start')}
+                data-numeric={column.numeric || undefined}
+              >
                 {renderCell(row, column)}
               </td>
             ))}

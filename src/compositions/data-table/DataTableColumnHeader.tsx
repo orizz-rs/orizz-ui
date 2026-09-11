@@ -12,7 +12,10 @@ import type {
 } from './DataTable.types'
 import { FilterActions } from './DataTableFilterControls'
 import { DataTableFilterPopover } from './DataTableFilterPopover'
-import { useDataTablePopoverPosition } from './useDataTablePopoverPosition'
+import {
+  findDataTablePortalRoot,
+  useDataTablePopoverPosition,
+} from './useDataTablePopoverPosition'
 import styles from './DataTable.module.css'
 
 interface DataTableColumnHeaderProps<T extends object> {
@@ -55,16 +58,6 @@ function getSortIndicator<T extends object>(
 ): JSX.Element {
   if (sort?.columnId !== column.id) return <ArrowUpDown />
   return sort.direction === 'asc' ? <ArrowUp /> : <ArrowDown />
-}
-
-function findPortalRoot(element: HTMLElement | null): HTMLElement | null {
-  if (typeof document === 'undefined') return null
-  let current = element?.parentElement ?? null
-  while (current) {
-    if (current.dataset.theme) return current
-    current = current.parentElement
-  }
-  return document.body
 }
 
 export function DataTableColumnHeader<T extends object>({
@@ -117,7 +110,7 @@ export function DataTableColumnHeader<T extends object>({
   }, [isOpen])
 
   const handleToggle = (): void => {
-    if (!isOpen) setPortalRoot(findPortalRoot(headerRef.current))
+    if (!isOpen) setPortalRoot(findDataTablePortalRoot(headerRef.current))
     setIsOpen((current) => !current)
   }
 
@@ -126,8 +119,14 @@ export function DataTableColumnHeader<T extends object>({
       ref={headerRef}
       scope="col"
       data-align={column.align ?? 'start'}
+      data-numeric={column.numeric || undefined}
       data-filter-open={isOpen || undefined}
       aria-sort={getAriaSort(column, sort)}
+      style={
+        column.width !== undefined || column.minWidth !== undefined
+          ? { width: column.width, minWidth: column.minWidth }
+          : undefined
+      }
     >
       <div className={styles.headerContent}>
         <div className={styles.headerTop}>

@@ -15,6 +15,17 @@ interface PopoverPositionResult {
   readonly positionStyle: CSSProperties | undefined
 }
 
+/** Nearest themed ancestor to portal fixed-position popovers into. */
+export function findDataTablePortalRoot(element: HTMLElement | null): HTMLElement | null {
+  if (typeof document === 'undefined') return null
+  let current = element?.parentElement ?? null
+  while (current) {
+    if (current.dataset.theme) return current
+    current = current.parentElement
+  }
+  return document.body
+}
+
 function getRemSize(): number {
   const value = Number.parseFloat(
     window.getComputedStyle(document.documentElement).fontSize,

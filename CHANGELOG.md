@@ -13,6 +13,11 @@ All notable changes to `@orizz-rs/ui` are documented here.
   contract, pure `tokenizeCode` engine, registry with `registerLanguage` and
   file-extension detection, plus built-in definitions for TypeScript,
   JavaScript, JSON, Python, Rust, SQL, and plain text.
+- `DataTable` grid features for database-client result views: `density`,
+  `stickyHeader`, `stickyFirstColumn`, `maxHeight`, `showRowNumbers`, column
+  `width`/`minWidth`/`numeric`/`hidden`, a column settings popover, and a
+  server-mode contract (`totalRows` with controlled `sort`, `pageIndex`, and
+  `filters`).
 
 ## [0.2.5] - 2026-08-22
 

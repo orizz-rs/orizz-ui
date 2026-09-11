@@ -265,4 +265,108 @@ describe('DataTable', () => {
     )
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
   })
+
+  it('renders the requested density and sticky settings', () => {
+    const { container } = render(
+      <DataTable
+        columns={columns}
+        data={people}
+        getRowId={(row) => row.id}
+        density="compact"
+        stickyHeader
+        stickyFirstColumn
+        maxHeight="20rem"
+      />,
+    )
+
+    expect(container.firstElementChild).toHaveAttribute('data-density', 'compact')
+    expect(container.querySelector('[data-sticky-header]')).not.toBeNull()
+    expect(screen.getByRole('table')).toHaveAttribute('data-sticky-first')
+  })
+
+  it('shows row numbers continuing across pages', async () => {
+    const user = userEvent.setup()
+    const manyPeople: readonly PersonRow[] = Array.from({ length: 12 }, (_, index) => ({
+      id: `p${index + 1}`,
+      name: `Member ${index + 1}`,
+      age: 20 + index,
+      active: true,
+    }))
+    render(
+      <DataTable
+        columns={columns}
+        data={manyPeople}
+        getRowId={(row) => row.id}
+        showRowNumbers
+        pageSize={10}
+      />,
+    )
+
+    const table = screen.getByRole('table')
+    expect(within(table).getByText('1')).toBeInTheDocument()
+    expect(within(table).getByText('10')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Next' }))
+    expect(within(table).getByText('11')).toBeInTheDocument()
+    expect(within(table).queryByText('1')).not.toBeInTheDocument()
+  })
+
+  it('hides and re-shows columns from the column settings', async () => {
+    const user = userEvent.setup()
+    render(<DataTable columns={columns} data={people} getRowId={(row) => row.id} />)
+
+    await user.click(screen.getByRole('button', { name: 'Columns' }))
+    await user.click(screen.getByRole('checkbox', { name: 'Age' }))
+    expect(screen.queryByRole('columnheader', { name: /Age/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('columnheader', { name: /Member/ })).toBeVisible()
+
+    await user.click(screen.getByRole('checkbox', { name: 'Age' }))
+    expect(screen.getByRole('columnheader', { name: /Age/ })).toBeVisible()
+  })
+
+  it('reports controlled sort changes without reordering rows in server mode', async () => {
+    const user = userEvent.setup()
+    const onSortChange = vi.fn()
+    render(
+      <DataTable
+        columns={columns}
+        data={people}
+        getRowId={(row) => row.id}
+        totalRows={48}
+        pageSize={2}
+        sort={null}
+        onSortChange={onSortChange}
+      />,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Sort Member ascending' }))
+    expect(onSortChange).toHaveBeenCalledWith({ columnId: 'name', direction: 'asc' })
+    expect(screen.getByText('48 rows')).toBeInTheDocument()
+    expect(screen.getByText('Page 1 of 24')).toBeInTheDocument()
+    expect(screen.getByText('Alice')).toBeInTheDocument()
+  })
+
+  it('reports controlled page and filter changes in server mode', async () => {
+    const user = userEvent.setup()
+    const onPageChange = vi.fn()
+    const onFiltersChange = vi.fn()
+    render(
+      <DataTable
+        columns={columns}
+        data={people}
+        getRowId={(row) => row.id}
+        totalRows={48}
+        pageSize={2}
+        pageIndex={0}
+        onPageChange={onPageChange}
+        onFiltersChange={onFiltersChange}
+      />,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Next' }))
+    expect(onPageChange).toHaveBeenCalledWith(1)
+
+    await user.click(screen.getByRole('button', { name: 'Open filter for Member' }))
+    await user.type(screen.getByRole('searchbox', { name: 'Filter Member' }), 'Al')
+    expect(onFiltersChange).toHaveBeenLastCalledWith(expect.objectContaining({ name: 'Al' }))
+  })
 })
