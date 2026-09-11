@@ -174,6 +174,38 @@ picker ได้ หรือส่ง `LanguageDefinition` เข้า prop `l
 ลำดับถัดไป: virtualized rendering สำหรับไฟล์ใหญ่, ค้นหา/แทนที่, bracket
 matching และ label ต้องรับจาก props ไม่ฝังภาษาของ UI ไว้ใน component
 
+## Milestone 7 — Database client suite
+
+ชุด component สำหรับ UI ของ database client (schema browser, query editor,
+result grid, connection form) วางที่ `compositions/` ให้ generic ไม่ผูก business
+domain ตามหลัก roadmap และแยก data layer ออกจาก UI เหมือนแบบ `CodeEditor`
+
+`TreeView` primitive (เสร็จแล้ว) เป็นฐานสำหรับ schema browser: nested nodes,
+icon, controlled/uncontrolled expansion, lazy `loadChildren`, keyboard
+navigation ตาม WAI-ARIA tree pattern และ disabled nodes
+
+- `SchemaTree` สร้างบน `TreeView`: นิยาม `DbNode` (catalog/schema/table/
+  view/column) ใน `schema.types.ts` (data layer), lazy load ผ่าน callback,
+  icon ตามชนิด object
+- `QueryEditor` ครอบ `CodeEditor`: ปุ่ม Run/Cancel, Ctrl+Enter, แยก statement
+  ด้วย pure util `splitStatements()`, callback `onRun(sql)` + query history
+  (`onHistoryChange`); UI ไม่รู้จัก backend
+- `ResultsGrid` สร้างบน `DataTable`: `ResultColumn` (name, dbType, nullable)
+  → สร้าง column config อัตโนมัติ (numeric → `numeric: true`, null →
+  "NULL" จาง, วันที่ → ISO), เปิด row numbers + density compact + sticky
+  header เป็นค่า default, ปุ่ม export ผ่าน callback `onExport(format)`
+- `ConnectionForm` จาก `Dialog` + `Form`/`Fieldset`/`TextField`/`Select`:
+  fields (name, engine, host, port, database, user, password, ssl) +
+  callbacks `onTest`/`onConnect` (แอปเรียก backend เอง)
+- Playground: `DatabaseClientShowcase.tsx` ประกอบร่างจริง — Sidebar +
+  SchemaTree | Tabs(QueryEditor) + ResultsGrid + Toast "Query executed"
+  ด้วย SplitPane
+
+Definition of done เหมือน component อื่น: typed props, a11y (keyboard/aria),
+semantic tokens light/dark, loading/error/empty states, unit tests +
+Storybook stories, ผ่าน lint/typecheck/test/build, ไม่มี `any`/index key/
+static inline style
+
 ## Release plan
 
 - `0.2.0`: Dialog, Popover, FormField, NumberInput, CurrencyInput, Combobox
