@@ -5,6 +5,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type HTMLAttributes,
   type JSX,
   type KeyboardEvent,
@@ -23,6 +24,8 @@ export interface TreeNode {
   readonly label: ReactNode
   readonly icon?: ReactNode
   readonly children?: readonly TreeNode[]
+  /** Marks a lazy node as a branch before its children arrive. */
+  readonly hasChildren?: boolean
   readonly disabled?: boolean
 }
 
@@ -37,10 +40,36 @@ export interface TreeViewProps
   readonly ariaLabel?: string
 }
 
-const LOADING_ID = '__loading__'
+type TreeLevelStyle = CSSProperties & { readonly '--tree-level': number }
 
 function collectInitialExpandedIds(nodes: readonly TreeNode[]): string[] {
   return nodes.filter((node) => node.children?.length).map((node) => node.id)
+}
+
+function findTreeNode(
+  nodes: readonly TreeNode[],
+  id: string,
+): TreeNode | undefined {
+  for (const node of nodes) {
+    if (node.id === id) return node
+    if (node.children !== undefined) {
+      const match = findTreeNode(node.children, id)
+      if (match !== undefined) return match
+    }
+  }
+  return undefined
+}
+
+function collectAllNodeIds(nodes: readonly TreeNode[]): Set<string> {
+  const ids = new Set<string>()
+  const walk = (entries: readonly TreeNode[]): void => {
+    for (const node of entries) {
+      ids.add(node.id)
+      if (node.children !== undefined) walk(node.children)
+    }
+  }
+  walk(nodes)
+  return ids
 }
 
 /**
@@ -75,6 +104,7 @@ export function TreeView({
   const [loadingIds, setLoadingIds] = useState<ReadonlySet<string>>(new Set())
   const [focusId, setFocusId] = useState<string | null>(null)
   const itemRefs = useRef(new Map<string, HTMLElement>())
+  const attemptedLoadsRef = useRef(new Set<string>())
   const activeExpandedIds = expandedIds ?? internalExpandedIds
 
   const visibleNodes = useMemo(
@@ -91,6 +121,8 @@ export function TreeView({
       ? focusId
       : (visibleNodes.find((entry) => !entry.node.disabled)?.node.id ?? null)
 
+  const allStaticIds = useMemo(() => collectAllNodeIds(items), [items])
+
   useEffect(() => {
     itemRefs.current
       .get(focusTargetId ?? '')
@@ -105,18 +137,18 @@ export function TreeView({
     [expandedIds, onExpandedChange],
   )
 
-  const expandNode = useCallback(
+  const requestChildren = useCallback(
     (node: TreeNode): void => {
-      const alreadyLoaded =
-        loadedChildren[node.id] !== undefined || (node.children?.length ?? 0) > 0
-      updateExpandedIds([...new Set([...activeExpandedIds, node.id])])
-      if (alreadyLoaded || loadChildren === undefined) return
+      if (loadChildren === undefined) return
+      if (attemptedLoadsRef.current.has(node.id)) return
+      attemptedLoadsRef.current.add(node.id)
       setLoadingIds((current) => new Set([...current, node.id]))
       loadChildren(node)
         .then((children) => {
           setLoadedChildren((current) => ({ ...current, [node.id]: children }))
         })
         .catch(() => {
+          attemptedLoadsRef.current.delete(node.id)
           updateExpandedIds(activeExpandedIds.filter((id) => id !== node.id))
         })
         .finally(() => {
@@ -127,7 +159,38 @@ export function TreeView({
           })
         })
     },
-    [activeExpandedIds, loadChildren, loadedChildren, updateExpandedIds],
+    [activeExpandedIds, loadChildren, updateExpandedIds],
+  )
+
+  useEffect(() => {
+    if (loadChildren === undefined) return
+    const toLoad = activeExpandedIds.filter((id) => {
+      if (!allStaticIds.has(id)) return false
+      if (loadedChildren[id] !== undefined) return false
+      const node = findTreeNode(items, id)
+      return node !== undefined && (node.children?.length ?? 0) === 0
+    })
+    if (toLoad.length === 0) return
+    queueMicrotask(() => {
+      for (const id of toLoad) {
+        const node = findTreeNode(items, id)
+        if (node !== undefined) requestChildren(node)
+      }
+    })
+  }, [activeExpandedIds, allStaticIds, items, loadChildren, loadedChildren, requestChildren])
+
+  const expandNode = useCallback(
+    (node: TreeNode): void => {
+      updateExpandedIds([...new Set([...activeExpandedIds, node.id])])
+      if (
+        loadedChildren[node.id] !== undefined ||
+        (node.children?.length ?? 0) > 0
+      ) {
+        return
+      }
+      requestChildren(node)
+    },
+    [activeExpandedIds, loadedChildren, requestChildren, updateExpandedIds],
   )
 
   const toggleNode = useCallback(
@@ -253,6 +316,7 @@ export function TreeView({
         const isLoading = loadingIds.has(node.id)
         const branch = isBranch(node, loadedChildren, loadChildren) || isLoading
         const itemId = `${treeId}-${node.id}`
+        const levelStyle: TreeLevelStyle = { '--tree-level': level - 1 }
         return (
           <div
             key={node.id}
@@ -273,7 +337,7 @@ export function TreeView({
             ]
               .filter(Boolean)
               .join(' ')}
-            style={{ '--tree-level': level - 1 } as React.CSSProperties}
+            style={levelStyle}
             onClick={() => handleNodeClick(entry)}
             onFocus={() => setFocusId(node.id)}
           >
@@ -301,10 +365,9 @@ export function TreeView({
           Loading…
         </div>
       ) : null}
-      {visibleNodes.length === 0 ? <div className={styles.empty}>No items</div> : null}
-      <span id={`${treeId}-${LOADING_ID}`} hidden>
-        {loadingNodes.map((node) => node.label).join(', ')}
-      </span>
+      {visibleNodes.length === 0 ? (
+        <div className={styles.empty}>No items</div>
+      ) : null}
     </div>
   )
 }

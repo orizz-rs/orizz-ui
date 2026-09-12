@@ -8,9 +8,9 @@ export interface VisibleTreeNode {
 }
 
 /**
- * Flattens the tree into the visible row order: children of collapsed nodes
- * are skipped. Loaded children (lazy loading) take precedence over the
- * static `children` array.
+ * Flattens the tree into visible row order: children of collapsed nodes are
+ * skipped. Children loaded through `loadChildren` (lazy) take precedence
+ * over the static `children` array.
  */
 export function flattenVisibleTree(
   nodes: readonly TreeNode[],
@@ -22,7 +22,8 @@ export function flattenVisibleTree(
   const visit = (items: readonly TreeNode[], level: number): void => {
     for (const node of items) {
       const children = loadedChildren[node.id] ?? node.children ?? []
-      visible.push({ node, level, hasChildren: children.length > 0 })
+      const hasChildren = children.length > 0 || node.hasChildren === true
+      visible.push({ node, level, hasChildren })
       if (children.length > 0 && expandedIds.has(node.id)) {
         visit(children, level + 1)
       }
@@ -33,7 +34,7 @@ export function flattenVisibleTree(
   return visible
 }
 
-/** All descendant node ids of `id`, used to skip focus into removed rows. */
+/** All descendant node ids of `id`, used to prune expanded ids when a branch collapses. */
 export function getDescendantIds(
   nodes: readonly TreeNode[],
   id: string,
