@@ -93,7 +93,7 @@ export function useCodeEditor(params: UseCodeEditorParams): UseCodeEditorResult 
         return
       }
 
-      if (event.key === 'Enter' && selectionStart === selectionEnd) {
+      if (event.key === 'Enter' && !event.ctrlKey && !event.metaKey && selectionStart === selectionEnd) {
         event.preventDefault()
         const indent = getEnterIndent(value, selectionStart, language)
         applyEdit(

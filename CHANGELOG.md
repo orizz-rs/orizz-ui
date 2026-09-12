@@ -21,6 +21,18 @@ All notable changes to `@orizz-rs/ui` are documented here.
   `width`/`minWidth`/`numeric`/`hidden`, a column settings popover, and a
   server-mode contract (`totalRows` with controlled `sort`, `pageIndex`, and
   `filters`).
+- Database client compositions built on the primitives above:
+  - `SchemaTree` renders a catalog/schema/table/view/column tree with lazy
+    children and per-object-type icons; `DbNode` stays in the data layer.
+  - `QueryEditor` wraps `CodeEditor` with Run/Cancel actions, Ctrl+Enter to
+    run, comment-aware statement splitting via a pure `splitStatements`
+    helper, and query history reporting.
+  - `ResultsGrid` turns typed `ResultColumn` metadata into a configured
+    `DataTable` (numeric alignment, dimmed `NULL` cells, ISO dates, row
+    numbers, compact density, sticky header) with an Export menu.
+  - `ConnectionForm` collects connection details in a themed dialog with
+    engine-aware default ports, per-field validation, SSL toggle, and
+    `onTest`/`onConnect` callbacks.
 
 ## [0.2.5] - 2026-08-22
 

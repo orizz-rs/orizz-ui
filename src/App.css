@@ -515,6 +515,21 @@
   align-items: flex-start;
 }
 
+.db-client-sidebar {
+  min-width: 0;
+  overflow: auto;
+  padding: var(--orizz-space-2);
+  border: 1px solid var(--orizz-color-border);
+  border-radius: var(--orizz-radius-md);
+  background: var(--orizz-color-surface);
+}
+
+.db-client-main {
+  display: grid;
+  gap: var(--orizz-space-4);
+  min-width: 0;
+}
+
 .footer {
   display: flex;
   justify-content: space-between;

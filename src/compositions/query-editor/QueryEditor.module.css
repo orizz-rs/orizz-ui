@@ -1,0 +1,12 @@
+.queryEditor { min-width: 0; }
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--orizz-space-2);
+}
+
+.hint {
+  color: var(--orizz-color-text-muted);
+  font-size: 0.75rem;
+}

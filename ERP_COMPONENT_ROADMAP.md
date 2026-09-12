@@ -201,6 +201,10 @@ navigation ตาม WAI-ARIA tree pattern และ disabled nodes
   SchemaTree | Tabs(QueryEditor) + ResultsGrid + Toast "Query executed"
   ด้วย SplitPane
 
+**สถานะ: เสร็จทุกข้อ** — `SchemaTree`, `QueryEditor`, `ResultsGrid`,
+`ConnectionForm` และ playground อยู่ใน `compositions/` + `playground/` แล้ว
+พร้อม Storybook stories, unit tests และผ่าน lint/typecheck/test/build
+
 Definition of done เหมือน component อื่น: typed props, a11y (keyboard/aria),
 semantic tokens light/dark, loading/error/empty states, unit tests +
 Storybook stories, ผ่าน lint/typecheck/test/build, ไม่มี `any`/index key/

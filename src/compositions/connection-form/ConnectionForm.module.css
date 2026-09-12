@@ -1,0 +1,4 @@
+.submitActions {
+  display: inline-flex;
+  gap: var(--orizz-space-2);
+}

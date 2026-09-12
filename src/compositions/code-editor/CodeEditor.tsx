@@ -4,6 +4,7 @@ import {
   type ChangeEvent,
   type HTMLAttributes,
   type JSX,
+  type ReactNode,
 } from 'react'
 import { Toolbar } from '../../components/toolbar'
 import styles from './CodeEditor.module.css'
@@ -35,6 +36,8 @@ export interface CodeEditorProps extends HTMLAttributes<HTMLDivElement> {
   readonly showLineNumbers?: boolean
   /** Fixed editor height; the editor keeps a minimum height without it. */
   readonly height?: number | string
+  /** Extra actions rendered at the end of the toolbar (e.g. a Run button). */
+  readonly actions?: ReactNode
 }
 
 function resolveLanguage(
@@ -64,6 +67,7 @@ export function CodeEditor({
   readOnly = false,
   showLineNumbers = true,
   height,
+  actions,
   className,
   style,
   ...divProps
@@ -110,19 +114,24 @@ export function CodeEditor({
           </span>
         }
         end={
-          onLanguageChange !== undefined ? (
-            <select
-              className={styles.languageSelect}
-              aria-label="Language"
-              value={activeLanguage.id}
-              onChange={handleLanguageChange}
-            >
-              {listLanguages().map((definition) => (
-                <option key={definition.id} value={definition.id}>
-                  {definition.label}
-                </option>
-              ))}
-            </select>
+          actions !== undefined || onLanguageChange !== undefined ? (
+            <span className={styles.toolbarEnd}>
+              {actions}
+              {onLanguageChange !== undefined ? (
+                <select
+                  className={styles.languageSelect}
+                  aria-label="Language"
+                  value={activeLanguage.id}
+                  onChange={handleLanguageChange}
+                >
+                  {listLanguages().map((definition) => (
+                    <option key={definition.id} value={definition.id}>
+                      {definition.label}
+                    </option>
+                  ))}
+                </select>
+              ) : undefined}
+            </span>
           ) : undefined
         }
       />
