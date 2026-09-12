@@ -2,7 +2,7 @@
 
 All notable changes to `@orizz-rs/ui` are documented here.
 
-## [Unreleased]
+## [0.3.0] - 2026-09-12
 
 ### Added
 
