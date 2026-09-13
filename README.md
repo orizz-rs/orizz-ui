@@ -39,6 +39,26 @@ src/
 Each component owns its implementation, styles, tests, stories, and local
 exports. Only exports reachable from `src/index.ts` become public package APIs.
 
+## Documentation
+
+Documentation source files live in [`docs/`](./docs/README.md) and cover:
+
+- **Getting started** — Installation, theme setup, and first component usage
+- **Component catalog** — Every component with props, variants, and live examples
+- **Design system** — Color tokens, spacing scale, typography, and elevation
+- **Content** — Copy guidelines, naming conventions, and accessibility notes
+
+To preview the documentation site locally:
+
+```bash
+cd docs
+bun install
+bun run dev
+```
+
+The documentation is built with a static site generator and deployed to
+GitHub Pages at `https://orizz-rs.github.io/docs/orizz-rs-ui`.
+
 ## Development
 
 ```bash
@@ -50,10 +70,24 @@ bun run build
 ```
 
 The Vite app is a lightweight playground. Storybook is the component catalog.
-The foundation currently includes 46 public components across actions, forms,
-feedback, content, navigation, overlays, and data display. `DataTable<T>` provides typed
-columns, automatic schema inference, runtime validation, per-column text/select
-filters, sorting, and custom cell rendering.
+The foundation currently includes 51 public components across actions, forms,
+feedback, content, navigation, overlays, and data display. Key additions in v0.4.0:
+
+- **DataTable<T>** — typed columns, automatic schema inference, runtime
+  validation, per-column text/select filters, sorting, and custom cell rendering
+- **Select** — searchable dropdown with multi-select and async loading
+- **Tabs** — controlled and uncontrolled modes with lazy panel rendering
+- **Toast** — stacking notification system with auto-dismiss and action buttons
+- **Dialog** — accessible modal with focus trap and scroll lock
+
+All components follow the same pattern: co-located styles, unit tests, and
+Storybook stories with `argTypes` for interactive documentation.
+
+### v0.4.1 (patch)
+
+- Fix Dialog focus trap on Safari
+- Resolve Toast stacking z-index conflict with overlays
+- Correct DataTable column resize cursor on Linux
 
 Component icons use `lucide-react`. The package bundles only the selected icons
 and sizes them through the design-system CSS rather than fixed pixel values in
@@ -66,14 +100,14 @@ The package is published publicly to the npm registry. Install the current
 release in a React application without additional registry configuration:
 
 ```bash
-bun add @orizz-rs/ui@0.2.5
+bun add @orizz-rs/ui@0.4.1
 ```
 
 To verify the package and registry before installing:
 
 ```bash
 npm view @orizz-rs/ui version --registry=https://registry.npmjs.org
-npm view @orizz-rs/ui@0.2.5 dist.tarball --registry=https://registry.npmjs.org
+npm view @orizz-rs/ui@0.4.1 dist.tarball --registry=https://registry.npmjs.org
 ```
 
 Import a component and use it immediately. The package entry automatically
@@ -134,7 +168,7 @@ instead of adding the repository directory directly:
 bun run pack:local
 
 # Run in the consuming application; use the generated absolute path
-bun add /path/to/orizz-ui/.local-pack/orizz-rs-ui-0.2.5.tgz
+bun add /path/to/orizz-ui/.local-pack/orizz-rs-ui-0.4.1.tgz
 ```
 
 A direct `file:/path/to/orizz-ui` dependency is a development symlink. Vite can
@@ -192,7 +226,7 @@ If the npm account requires interactive 2FA, the script uses legacy auth mode
 so the one-time password can be entered in the terminal.
 
 Create a GitHub Release using a tag matching the package version, such as
-`v0.2.5`. The
+`v0.4.1`. The
 `Publish package` workflow installs locked dependencies, runs the publish
 checks, builds the package, and publishes it publicly to npm. It can also be
 started manually from the Actions tab when needed.
