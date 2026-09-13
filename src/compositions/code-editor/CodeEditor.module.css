@@ -159,8 +159,13 @@
   caret-color: var(--editor-token-plain);
 }
 
+/*
+ * Selection must stay translucent: the visible glyphs live in the highlight
+ * layer beneath this transparent textarea, so an opaque selection background
+ * would paint over them and hide the selected code.
+ */
 .input::selection {
-  background: var(--orizz-color-brand-subtle);
+  background: var(--orizz-color-focus);
   color: transparent;
 }
 
