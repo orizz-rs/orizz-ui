@@ -2,7 +2,7 @@
 
 All notable changes to `@orizz-rs/ui` are documented here.
 
-## [Unreleased]
+## [0.3.1] - 2026-09-13
 
 ### Added
 
@@ -13,6 +13,12 @@ All notable changes to `@orizz-rs/ui` are documented here.
   contract, pure `tokenizeCode` engine, registry with `registerLanguage` and
   file-extension detection, plus built-in definitions for TypeScript,
   JavaScript, JSON, Python, Rust, SQL, and plain text.
+
+### Fixed
+
+- Text selection in `CodeEditor` no longer hides the highlighted code: the
+  selection background now uses the translucent focus token instead of an
+  opaque surface color that painted over the highlight layer.
 
 ## [0.2.5] - 2026-08-22
 
