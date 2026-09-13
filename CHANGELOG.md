@@ -2,7 +2,11 @@
 
 All notable changes to `@orizz-rs/ui` are documented here.
 
-## [0.3.0] - 2026-09-12
+## [0.4.0] - 2026-09-13
+
+Unified release of the previously separate `0.3.x` tracks (code editor and
+database client), so every feature below ships together from the package root
+for the first time.
 
 ### Added
 
@@ -33,6 +37,12 @@ All notable changes to `@orizz-rs/ui` are documented here.
   - `ConnectionForm` collects connection details in a themed dialog with
     engine-aware default ports, per-field validation, SSL toggle, and
     `onTest`/`onConnect` callbacks.
+
+### Fixed
+
+- Text selection in `CodeEditor` no longer hides the highlighted code: the
+  selection background now uses the translucent focus token instead of an
+  opaque surface color that painted over the highlight layer.
 
 ## [0.2.5] - 2026-08-22
 
